@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:title="@string/home" />
+        <item android:title="@string/notifications">
+            <menu>
+                <group android:checkableBehavior="none">
+                    <item
+                        android:id="@+id/nav_new_release"
+                        android:checkable="false"
+                        android:title="@string/new_releases"
+                        app:actionLayout="@layout/layout_switch" />
+                </group>
+            </menu>
+        </item>
+        <item
+            android:id="@+id/nav_term_of_use"
+            android:title="@string/terms_of_use" />
+        <item
+            android:id="@+id/nav_open_source_license"
+            android:title="@string/open_source_license" />
+        <item
+            android:id="@+id/nav_app_version"
+            android:title="@string/app_version" />
+    </group>
+</menu>
