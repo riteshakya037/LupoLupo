@@ -3,6 +3,8 @@ package com.blues.lupolupo.views.activities;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -13,6 +15,7 @@ import com.blues.lupolupo.R;
 import com.blues.lupolupo.preseneters.MainPresenter;
 import com.blues.lupolupo.preseneters.MainPresenterImpl;
 import com.blues.lupolupo.views.MainView;
+import com.blues.lupolupo.views.fragments.DashFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,6 +45,10 @@ public class MainActivity extends AppCompatActivity implements MainView {
         ButterKnife.bind(this);
 
         mMainPresenter.initializeViews();
+        if (savedInstanceState == null) {
+            //  fragmentTransaction(TimelinePageFragment.newInstance(), timelineFragment);
+            fragmentTransaction(DashFragment.newInstance());
+        }
     }
 
     @Override
@@ -88,5 +95,14 @@ public class MainActivity extends AppCompatActivity implements MainView {
         if (mToolbar != null) {
             setSupportActionBar(mToolbar);
         }
+    }
+
+    public void fragmentTransaction(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.slideinleft, R.anim.slideoutright)
+                .replace(R.id.content_main, fragment, fragment.getClass().getSimpleName())
+                .commit();
+        //close navigation menu if fragment change
     }
 }
