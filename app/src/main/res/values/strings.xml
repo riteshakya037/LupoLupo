@@ -1,11 +1,9 @@
 <resources>
     <string name="app_name">Lupolupo</string>
-    <string name="title_activity_main">MainActivity</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_settings">Settings</string>
     <string name="home">Home</string>
     <string name="notifications">Notifications</string>
     <string name="new_releases">New Releases</string>
@@ -14,7 +12,7 @@
     <string name="app_version">App Version</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="fetching_from_server">Fetching from Server</string>
     <string name="please_wait">Please Wait…</string>
+    <string name="animation_name">LineScaleIndicator</string>
 </resources>

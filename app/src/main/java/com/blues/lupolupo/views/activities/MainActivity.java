@@ -3,8 +3,6 @@ package com.blues.lupolupo.views.activities;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -24,17 +22,20 @@ public class MainActivity extends AppCompatActivity implements MainView {
     private static final String TAG = MainActivity.class.getSimpleName();
 
     private MainPresenter mMainPresenter;
+    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
 
+    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
 
+    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.nav_view)
     NavigationView navigationView;
 
 
-    ActionBarDrawerToggle mDrawerToggle;
+    private ActionBarDrawerToggle mDrawerToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
         mMainPresenter.initializeViews();
         if (savedInstanceState == null) {
             //  fragmentTransaction(TimelinePageFragment.newInstance(), timelineFragment);
-            fragmentTransaction(DashFragment.newInstance());
+            mMainPresenter.fragmentTransaction(DashFragment.newInstance());
         }
     }
 
@@ -97,12 +98,4 @@ public class MainActivity extends AppCompatActivity implements MainView {
         }
     }
 
-    public void fragmentTransaction(Fragment fragment) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .setCustomAnimations(R.anim.slideinleft, R.anim.slideoutright)
-                .replace(R.id.content_main, fragment, fragment.getClass().getSimpleName())
-                .commit();
-        //close navigation menu if fragment change
-    }
 }

@@ -1,6 +1,9 @@
 package com.blues.lupolupo.preseneters;
 
-import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.blues.lupolupo.R;
@@ -23,15 +26,19 @@ public class MainPresenterImpl implements MainPresenter {
         mMainView.initializeDrawerLayout();
     }
 
-    @Override
-    public void initializeMainLayout(Intent argument) {
-
+    public void fragmentTransaction(Fragment fragment) {
+        FragmentManager fragmentManager = ((AppCompatActivity) mMainView.getActivity()).getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.slideinleft, R.anim.slideoutright)
+                .replace(mMainView.getMainLayoutId(), fragment, fragment.getClass().getSimpleName())
+                .commit();
+        //close navigation menu if fragment change
     }
 
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         mMainView.closeDrawerLayout();

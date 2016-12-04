@@ -1,5 +1,6 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -7,12 +8,25 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/dashViewRecycler"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbarStyle="outsideInset"
-        android:visibility="gone" />
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include layout="@layout/item_large_preview" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/dashViewRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbarStyle="outsideInset" />
+        </LinearLayout>
+    </ScrollView>
+
 
     <RelativeLayout
         android:id="@+id/emptyLoadingView"
@@ -23,7 +37,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            tools:ignore="UselessParent">
 
             <com.wang.avi.AVLoadingIndicatorView
                 android:id="@+id/emptyLoadingAnimator"
@@ -33,7 +48,7 @@
                 android:layout_gravity="center"
                 android:visibility="visible"
                 app:indicatorColor="@android:color/background_light"
-                app:indicatorName="LineScaleIndicator" />
+                app:indicatorName="@string/animation_name" />
 
             <TextView
                 android:layout_width="match_parent"
