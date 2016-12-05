@@ -53,7 +53,6 @@ public class RatioRelativeLayout extends RelativeLayout {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int originalWidth = MeasureSpec.getSize(widthMeasureSpec);
         int originalHeight = MeasureSpec.getSize(heightMeasureSpec);
-        System.out.println("widthMeasureSpec = " + widthMeasureSpec);
         if (fixedAttribute == FixedAttribute.WIDTH) {
             int calculatedHeight = (int) (originalWidth * (verticalRatio / horizontalRatio));
             super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(calculatedHeight, MeasureSpec.EXACTLY));

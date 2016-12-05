@@ -3,6 +3,7 @@
     package="com.blues.lupolupo">
 
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".common.LupolupoAPIApplication"
         android:icon="@mipmap/ic_launcher"
@@ -24,6 +25,15 @@
             android:name=".views.activities.MainActivity"
             android:label=""
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".views.activities.ComicActivity"
+            android:label=""
+            android:parentActivityName=".views.activities.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.blues.lupolupo.views.activities.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

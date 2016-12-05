@@ -1,4 +1,6 @@
-package com.blues.lupolupo.model;
+package com.blues.lupolupo.model.dtos;
+
+import com.blues.lupolupo.model.Comic;
 
 import java.util.LinkedList;
 import java.util.List;

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="100dp"
+    android:clipChildren="false"
+    android:orientation="vertical">
+
+    <com.blues.lupolupo.views.custom.RatioRelativeLayout
+        android:id="@+id/imageHolder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        app:fixed_attribute="HEIGHT"
+        app:horizontal_ratio="1"
+        app:vertical_ratio="1">
+
+        <com.wang.avi.AVLoadingIndicatorView
+            android:id="@+id/emptyLoadingAnimator"
+            style="@style/AVLoadingIndicatorView.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="visible"
+            app:indicatorColor="@android:color/background_light"
+            app:indicatorName="@string/animation_name" />
+
+        <ImageView
+            android:id="@+id/episodeImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_splash" />
+    </com.blues.lupolupo.views.custom.RatioRelativeLayout>
+
+    <TextView
+        android:id="@+id/txt_episode_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_toEndOf="@id/imageHolder"
+        android:layout_toRightOf="@id/imageHolder"
+        android:padding="8dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+    <TextView
+        android:id="@+id/txt_"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/txt_episode_title"
+        android:layout_toEndOf="@id/imageHolder"
+        android:layout_toRightOf="@id/imageHolder"
+        android:paddingLeft="8dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+    <TextView
+        android:id="@+id/txt_episode_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:padding="8dp"
+        android:text="@string/episode_no"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+    <com.like.LikeButton
+        android:id="@+id/button_like"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/txt_like_count"
+        android:layout_toEndOf="@+id/imageHolder"
+        android:layout_toRightOf="@+id/imageHolder"
+        android:padding="8dp"
+        app:icon_size="24dp"
+        app:icon_type="star" />
+
+    <TextView
+        android:id="@+id/txt_like_count"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:layout_below="@+id/txt_episode_id"
+        android:layout_toRightOf="@id/button_like"
+        android:gravity="center" />
+
+
+</RelativeLayout>

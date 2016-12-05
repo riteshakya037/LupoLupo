@@ -58,11 +58,14 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile 'com.squareup.okhttp3:logging-interceptor:3.5.0'
+    compile 'com.squareup.retrofit2:converter-scalars:2.1.0'
 
     //Image loading framework
     compile 'com.github.bumptech.glide:glide:3.7.0'
 
     compile 'com.parse.bolts:bolts-tasks:1.4.0'
 
+    // Like Button library
+    compile 'com.github.jd-alexander:LikeButton:0.2.0'
     testCompile 'junit:junit:4.12'
 }

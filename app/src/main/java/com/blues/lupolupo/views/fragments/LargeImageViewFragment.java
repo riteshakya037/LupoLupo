@@ -1,5 +1,6 @@
 package com.blues.lupolupo.views.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import com.blues.lupolupo.R;
 import com.blues.lupolupo.common.LupolupoAPIApplication;
 import com.blues.lupolupo.model.Comic;
+import com.blues.lupolupo.views.activities.ComicActivity;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
@@ -18,6 +20,7 @@ import com.wang.avi.AVLoadingIndicatorView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * @author Ritesh Shakya
@@ -49,6 +52,13 @@ public class LargeImageViewFragment extends Fragment {
         comicData = getArguments().getParcelable(KEY_COMIC_BUNDLE);
     }
 
+    @OnClick(R.id.imageView)
+    void comicDetails() {
+        Intent intent = new Intent(getActivity(), ComicActivity.class);
+        intent.putExtra(ComicActivity.INTENT_COMIC, comicData);
+        startActivity(intent);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -56,7 +66,6 @@ public class LargeImageViewFragment extends Fragment {
         ButterKnife.bind(this, rootView);
         Glide.with(LupolupoAPIApplication.get())
                 .load("http://lupolupo.com/images/" + comicData.id + "/" + comicData.comic_big_image)
-                .centerCrop()
                 .crossFade()
                 .listener(new RequestListener<String, GlideDrawable>() {
                     @Override

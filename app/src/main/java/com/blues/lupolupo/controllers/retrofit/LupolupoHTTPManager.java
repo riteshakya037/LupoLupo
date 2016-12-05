@@ -3,7 +3,9 @@ package com.blues.lupolupo.controllers.retrofit;
 import android.util.Log;
 
 import com.blues.lupolupo.model.Comic;
-import com.blues.lupolupo.model.GetComicDto;
+import com.blues.lupolupo.model.Episode;
+import com.blues.lupolupo.model.dtos.GetComicDto;
+import com.blues.lupolupo.model.dtos.GetEpisodeDto;
 
 import java.util.List;
 
@@ -16,6 +18,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 /**
  * @author Ritesh Shakya
@@ -46,6 +49,7 @@ public class LupolupoHTTPManager {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(PROD_ENDPOINT)
                 .client(client)
+                .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -62,6 +66,22 @@ public class LupolupoHTTPManager {
 
             @Override
             public void onFailure(Call<GetComicDto> call, Throwable t) {
+                source.setError(null);
+            }
+        });
+        return source.getTask();
+    }
+
+    public Task<List<Episode>> getEpisodes(String comic_id) {
+        final TaskCompletionSource<List<Episode>> source = new TaskCompletionSource<>();
+        getHttpAdaptor().getEpisode(comic_id).enqueue(new Callback<GetEpisodeDto>() {
+            @Override
+            public void onResponse(Call<GetEpisodeDto> call, Response<GetEpisodeDto> response) {
+                source.setResult(response.body().episodes);
+            }
+
+            @Override
+            public void onFailure(Call<GetEpisodeDto> call, Throwable t) {
                 source.setError(null);
             }
         });

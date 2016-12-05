@@ -69,8 +69,10 @@ public class DashFragment extends Fragment implements DashView, DashMapper {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         dashPresenter.initializeViews();
-        dashPresenter.initializeAdaptor();
-        dashPresenter.initializeData();
+        if (savedInstanceState == null) {
+            dashPresenter.initializeAdaptor();
+            dashPresenter.initializeData();
+        }
     }
 
     @Override
