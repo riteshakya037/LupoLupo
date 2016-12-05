@@ -2,7 +2,9 @@ package com.blues.lupolupo.views.holders;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.blues.lupolupo.R;
@@ -11,7 +13,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-import com.like.LikeButton;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import butterknife.BindView;
@@ -23,6 +24,10 @@ import butterknife.ButterKnife;
 public class EpisodeHolder extends RecyclerView.ViewHolder {
 
     @SuppressWarnings("WeakerAccess")
+    @BindView(R.id.root_layout)
+    public RelativeLayout rootLayout;
+
+    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.txt_episode_title)
     public TextView episodeTitle;
 
@@ -32,7 +37,7 @@ public class EpisodeHolder extends RecyclerView.ViewHolder {
 
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.button_like)
-    public LikeButton button_like;
+    public ImageButton button_like;
 
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.txt_episode_id)

@@ -34,6 +34,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.blues.lupolupo.views.activities.MainActivity" />
         </activity>
+        <activity
+            android:name=".views.activities.EpisodeActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_episode"
+            android:parentActivityName=".views.activities.ComicActivity"
+            android:theme="@style/FullscreenTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.blues.lupolupo.views.activities.ComicActivity" />
+        </activity>
     </application>
 
 </manifest>

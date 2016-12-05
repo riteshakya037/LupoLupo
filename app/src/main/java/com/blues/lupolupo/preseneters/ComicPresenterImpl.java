@@ -38,7 +38,7 @@ public class ComicPresenterImpl implements ComicPresenter {
 
     @Override
     public void initializeAdaptor() {
-        comicEpisodeAdaptor = new ComicEpisodeAdapter();
+        comicEpisodeAdaptor = new ComicEpisodeAdapter(mView.getActivity());
         mMapper.registerAdapter(comicEpisodeAdaptor);
     }
 
@@ -51,8 +51,10 @@ public class ComicPresenterImpl implements ComicPresenter {
         LupolupoHTTPManager.getInstance().getEpisodes(comicData.id).onSuccess(new Continuation<List<Episode>, Void>() {
             @Override
             public Void then(Task<List<Episode>> task) throws Exception {
-                mView.hideEmptyRelativeLayout();
-                comicEpisodeAdaptor.setData(task.getResult());
+                if (task.getResult() != null && task.getResult().size() != 0) {
+                    mView.hideEmptyRelativeLayout();
+                    comicEpisodeAdaptor.setData(task.getResult());
+                }
                 return null;
             }
         });

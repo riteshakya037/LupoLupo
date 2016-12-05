@@ -39,9 +39,11 @@ public class DashPresenterImpl implements DashPresenter {
         LupolupoHTTPManager.getInstance().getComics().onSuccess(new Continuation<List<Comic>, Void>() {
             @Override
             public Void then(Task<List<Comic>> task) throws Exception {
-                mView.hideEmptyRelativeLayout();
-                mDashAdapter.setData(task.getResult());
-                mDashPageAdapter.setData(task.getResult());
+                if (task.getResult() != null && task.getResult().size() != 0) {
+                    mView.hideEmptyRelativeLayout();
+                    mDashAdapter.setData(task.getResult());
+                    mDashPageAdapter.setData(task.getResult());
+                }
                 return null;
             }
         });
