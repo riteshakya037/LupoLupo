@@ -29,4 +29,8 @@ interface LupolupoAPI {
     @FormUrlEncoded
     @POST("api/getPanels")
     Call<GetPanelDto> getPanel(@Field("episode_id") String episode_id);
+
+    @FormUrlEncoded
+    @POST("api/Like_unlike")
+    Call<String> postLikeUnlike(@Field("episode_id")String episode_id,@Field("status") String status);
 }

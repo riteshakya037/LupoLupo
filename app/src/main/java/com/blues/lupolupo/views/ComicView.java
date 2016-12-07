@@ -12,7 +12,5 @@ import com.blues.lupolupo.views.bases.BaseToolbarView;
  */
 public interface ComicView extends BaseContextView, BaseEmptyRelativeLayoutView, BaseRecyclerView, BaseToolbarView {
 
-    void setCoverImageLoading(int visibility);
-
     ImageView getCoverImageHolder();
 }

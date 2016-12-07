@@ -11,5 +11,6 @@ public interface MainView extends BaseContextView, BaseToolbarView {
 
     void closeDrawerLayout();
 
+    @SuppressWarnings("SameReturnValue")
     int getMainLayoutId();
 }

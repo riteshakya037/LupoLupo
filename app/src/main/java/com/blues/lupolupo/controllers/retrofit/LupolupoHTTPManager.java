@@ -3,6 +3,8 @@ package com.blues.lupolupo.controllers.retrofit;
 import android.util.Log;
 
 import com.blues.lupolupo.BuildConfig;
+import com.blues.lupolupo.common.LikePref;
+import com.blues.lupolupo.common.LupolupoAPIApplication;
 import com.blues.lupolupo.model.Comic;
 import com.blues.lupolupo.model.Episode;
 import com.blues.lupolupo.model.Panel;
@@ -107,5 +109,18 @@ public class LupolupoHTTPManager {
             }
         });
         return source.getTask();
+    }
+
+    public void postLikeUnlike(final String episode_id, final boolean status) {
+        getHttpAdaptor().postLikeUnlike(episode_id, status ? "liked" : "unliked").enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                LikePref.with(LupolupoAPIApplication.get()).save(episode_id, status);
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+            }
+        });
     }
 }

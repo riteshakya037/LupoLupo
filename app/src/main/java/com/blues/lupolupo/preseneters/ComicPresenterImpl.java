@@ -33,13 +33,12 @@ import static com.blues.lupolupo.views.activities.ComicActivity.INTENT_COMIC;
  * @author Ritesh Shakya
  */
 public class ComicPresenterImpl implements ComicPresenter {
-    public static final String CHILD = "images";
-    public static final String IMAGE_NAME = "image.png";
+    private static final String CHILD = "images";
+    private static final String IMAGE_NAME = "image.png";
     private final ComicView mView;
-    private ComicMapper mMapper;
+    private final ComicMapper mMapper;
     private Comic comicData;
     private ComicEpisodeAdapter comicEpisodeAdaptor;
-    private String url;
 
     public ComicPresenterImpl(ComicView comicView, ComicMapper comicMapper) {
         mView = comicView;
@@ -73,7 +72,6 @@ public class ComicPresenterImpl implements ComicPresenter {
 
     @Override
     public void loadImage(String url) {
-        this.url = url;
         Glide.with(LupolupoAPIApplication.get())
                 .load(url)
                 .asBitmap()
@@ -86,6 +84,7 @@ public class ComicPresenterImpl implements ComicPresenter {
                 });
     }
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     private void saveImage(Bitmap bitmap) {
         try {
             File cachePath = new File(mView.getActivity().getCacheDir(), CHILD);

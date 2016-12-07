@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
     @BindView(R.id.nav_view)
     NavigationView navigationView;
 
+    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.container_frame)
     View containerFrame;
 
@@ -118,6 +119,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
         }
     }
 
+    @SuppressWarnings("unused")
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onTitleEvent(TitleEvent event) {
         titleText.setText(event.getTitleText());

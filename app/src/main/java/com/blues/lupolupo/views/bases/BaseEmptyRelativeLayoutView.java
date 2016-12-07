@@ -8,5 +8,6 @@ public interface BaseEmptyRelativeLayoutView {
 
     void hideEmptyRelativeLayout();
 
+    @SuppressWarnings("unused")
     void showEmptyRelativeLayout();
 }

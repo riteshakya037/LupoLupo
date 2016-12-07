@@ -39,6 +39,7 @@ public class EpisodeActivity extends AppCompatActivity implements EpisodeView, E
 
     public static final String INTENT_EPISODE = "episode_intent";
 
+    @SuppressWarnings("FieldCanBeLocal")
     private EpisodePresenter mPresenter;
 
     @Override

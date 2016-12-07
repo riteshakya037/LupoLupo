@@ -123,10 +123,6 @@ public class ComicActivity extends AppCompatActivity implements ComicView, Comic
     }
 
     @Override
-    public void setCoverImageLoading(int visibility) {
-    }
-
-    @Override
     public ImageView getCoverImageHolder() {
         return coverImage;
     }
