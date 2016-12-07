@@ -49,6 +49,7 @@ public class EpisodeHolder extends RecyclerView.ViewHolder {
     void onLikeDislike() {
         liked = !liked;
         setLikeDrawable();
+        increaseCount();
         LupolupoHTTPManager.getInstance().postLikeUnlike(episodeId, liked);
     }
 
@@ -100,14 +101,21 @@ public class EpisodeHolder extends RecyclerView.ViewHolder {
         setLikeDrawable();
     }
 
-    private void setLikeDrawable() {
+    private void increaseCount() {
         int count = Integer.valueOf(txtEpisodeLikeCount.getText().toString());
         if (liked) {
-            button_like.setImageDrawable(ContextCompat.getDrawable(LupolupoAPIApplication.get(), R.drawable.ic_heart_fill));
             txtEpisodeLikeCount.setText(String.valueOf(++count));
         } else {
-            button_like.setImageDrawable(ContextCompat.getDrawable(LupolupoAPIApplication.get(), R.drawable.ic_heart_empty));
             txtEpisodeLikeCount.setText(String.valueOf(--count));
+        }
+    }
+
+
+    private void setLikeDrawable() {
+        if (liked) {
+            button_like.setImageDrawable(ContextCompat.getDrawable(LupolupoAPIApplication.get(), R.drawable.ic_heart_fill));
+        } else {
+            button_like.setImageDrawable(ContextCompat.getDrawable(LupolupoAPIApplication.get(), R.drawable.ic_heart_empty));
         }
     }
 }
