@@ -2,10 +2,13 @@ package com.blues.lupolupo.controllers.retrofit;
 
 import android.util.Log;
 
+import com.blues.lupolupo.BuildConfig;
 import com.blues.lupolupo.model.Comic;
 import com.blues.lupolupo.model.Episode;
+import com.blues.lupolupo.model.Panel;
 import com.blues.lupolupo.model.dtos.GetComicDto;
 import com.blues.lupolupo.model.dtos.GetEpisodeDto;
+import com.blues.lupolupo.model.dtos.GetPanelDto;
 
 import java.util.List;
 
@@ -42,7 +45,9 @@ public class LupolupoHTTPManager {
 
     private LupolupoAPI getHttpAdaptor() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        if (BuildConfig.FLAVOR.equals("staging")) {
+            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        }
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
         Log.e("End point", PROD_ENDPOINT);
 
@@ -82,6 +87,22 @@ public class LupolupoHTTPManager {
 
             @Override
             public void onFailure(Call<GetEpisodeDto> call, Throwable t) {
+                source.setError(null);
+            }
+        });
+        return source.getTask();
+    }
+
+    public Task<List<Panel>> getPanel(String episode_id) {
+        final TaskCompletionSource<List<Panel>> source = new TaskCompletionSource<>();
+        getHttpAdaptor().getPanel(episode_id).enqueue(new Callback<GetPanelDto>() {
+            @Override
+            public void onResponse(Call<GetPanelDto> call, Response<GetPanelDto> response) {
+                source.setResult(response.body().panels);
+            }
+
+            @Override
+            public void onFailure(Call<GetPanelDto> call, Throwable t) {
                 source.setError(null);
             }
         });

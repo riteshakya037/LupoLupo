@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -48,7 +49,7 @@ public class ComicActivity extends AppCompatActivity implements ComicView, Comic
 
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.emptyLoadingView)
-    ImageView emptyLoadingView;
+    View emptyLoadingView;
 
     private ComicPresenter mPresenter;
 
@@ -71,6 +72,18 @@ public class ComicActivity extends AppCompatActivity implements ComicView, Comic
         return (super.onCreateOptionsMenu(menu));
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            // This ID represents the Home or Up button.
+            onBackPressed();
+            return true;
+        } else if (id == R.id.action_share) {
+            mPresenter.share();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     public Activity getActivity() {

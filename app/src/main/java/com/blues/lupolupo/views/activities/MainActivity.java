@@ -35,8 +35,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
     NavigationView navigationView;
 
 
-    private ActionBarDrawerToggle mDrawerToggle;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
     @Override
     public void initializeDrawerLayout() {
         if (mDrawerLayout != null) {
-            mDrawerToggle = new ActionBarDrawerToggle(
+            ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(
                     this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
             mDrawerLayout.addDrawerListener(mDrawerToggle);
             mDrawerToggle.syncState();

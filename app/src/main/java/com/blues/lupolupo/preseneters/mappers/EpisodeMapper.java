@@ -7,4 +7,6 @@ import android.support.v4.app.FragmentStatePagerAdapter;
  */
 public interface EpisodeMapper {
     void registerAdapter(FragmentStatePagerAdapter adapter);
+
+    void setTitle(String episode_name);
 }

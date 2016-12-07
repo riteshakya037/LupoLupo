@@ -51,7 +51,7 @@ public class DashPresenterImpl implements DashPresenter {
 
     @Override
     public void initializeAdaptor() {
-        mDashAdapter = new DashAdapter();
+        mDashAdapter = new DashAdapter(mView.getActivity());
         mMapper.registerAdapter(mDashAdapter);
 
         mDashPageAdapter = new DashLargePagerAdapter(mView.getFragmentManager());

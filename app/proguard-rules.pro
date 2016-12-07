@@ -15,6 +15,7 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+-dontwarn okio.**
 
 -keep class com.wang.avi.** { *; }
 -keep class com.wang.avi.indicators.** { *; }
@@ -29,3 +30,5 @@
 -keepattributes Signature
 # Retain declared checked exceptions for use by a Proxy instance.
 -keepattributes Exceptions
+-keep class com.blues.lupolupo.model.** { *; }
+

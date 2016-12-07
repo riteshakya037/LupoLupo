@@ -15,11 +15,37 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
+        <LinearLayout
             android:id="@+id/emptyLoadingView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/background_splash" />
+            android:layout_centerInParent="true"
+            android:contentDescription="@string/empty"
+            android:orientation="vertical"
+            android:src="@drawable/background_splash">
+
+            <ImageView
+                android:layout_width="128dp"
+                android:layout_height="128dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="64dp"
+                android:contentDescription="@string/empty"
+                android:src="@drawable/ic_empty_list" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/no_episodes_found"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/please_try_again_later"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+        </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/episodeRecycler"

@@ -3,6 +3,7 @@ package com.blues.lupolupo.controllers.retrofit;
 import com.blues.lupolupo.model.UserInfo;
 import com.blues.lupolupo.model.dtos.GetComicDto;
 import com.blues.lupolupo.model.dtos.GetEpisodeDto;
+import com.blues.lupolupo.model.dtos.GetPanelDto;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -24,4 +25,8 @@ interface LupolupoAPI {
     @FormUrlEncoded
     @POST("api/getEpisodes")
     Call<GetEpisodeDto> getEpisode(@Field("comic_id") String comic_id);
+
+    @FormUrlEncoded
+    @POST("api/getPanels")
+    Call<GetPanelDto> getPanel(@Field("episode_id") String episode_id);
 }

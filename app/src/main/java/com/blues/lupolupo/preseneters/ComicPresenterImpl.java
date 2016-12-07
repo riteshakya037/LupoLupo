@@ -1,8 +1,12 @@
 package com.blues.lupolupo.preseneters;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.support.v4.content.FileProvider;
 import android.support.v7.widget.LinearLayoutManager;
-import android.view.View;
 
+import com.blues.lupolupo.R;
 import com.blues.lupolupo.common.LupolupoAPIApplication;
 import com.blues.lupolupo.controllers.retrofit.LupolupoHTTPManager;
 import com.blues.lupolupo.model.Comic;
@@ -11,10 +15,13 @@ import com.blues.lupolupo.preseneters.mappers.ComicMapper;
 import com.blues.lupolupo.views.ComicView;
 import com.blues.lupolupo.views.adaptors.ComicEpisodeAdapter;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 import bolts.Continuation;
@@ -26,10 +33,13 @@ import static com.blues.lupolupo.views.activities.ComicActivity.INTENT_COMIC;
  * @author Ritesh Shakya
  */
 public class ComicPresenterImpl implements ComicPresenter {
-    private ComicView mView;
+    public static final String CHILD = "images";
+    public static final String IMAGE_NAME = "image.png";
+    private final ComicView mView;
     private ComicMapper mMapper;
     private Comic comicData;
     private ComicEpisodeAdapter comicEpisodeAdaptor;
+    private String url;
 
     public ComicPresenterImpl(ComicView comicView, ComicMapper comicMapper) {
         mView = comicView;
@@ -63,23 +73,47 @@ public class ComicPresenterImpl implements ComicPresenter {
 
     @Override
     public void loadImage(String url) {
+        this.url = url;
         Glide.with(LupolupoAPIApplication.get())
                 .load(url)
-                .crossFade()
-                .listener(new RequestListener<String, GlideDrawable>() {
+                .asBitmap()
+                .into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
                     @Override
-                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-                        return false;
+                    public void onResourceReady(Bitmap resource, GlideAnimation glideAnimation) {
+                        mView.getCoverImageHolder().setImageBitmap(resource);
+                        saveImage(resource);
                     }
-
-                    @Override
-                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                        mView.setCoverImageLoading(View.GONE);
-                        return false;
-                    }
-                })
-                .into(mView.getCoverImageHolder());
+                });
     }
+
+    private void saveImage(Bitmap bitmap) {
+        try {
+            File cachePath = new File(mView.getActivity().getCacheDir(), CHILD);
+            cachePath.mkdirs();
+            FileOutputStream stream = new FileOutputStream(cachePath + "/" + IMAGE_NAME);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            stream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void share() {
+        File imagePath = new File(mView.getActivity().getCacheDir(), CHILD);
+        File newFile = new File(imagePath, IMAGE_NAME);
+        Uri contentUri = FileProvider.getUriForFile(mView.getActivity(), "com.blues.lupolupo.file_provider", newFile);
+        if (contentUri != null) {
+            Intent shareIntent = new Intent();
+            shareIntent.setAction(Intent.ACTION_SEND);
+            shareIntent.putExtra(Intent.EXTRA_TEXT, comicData.comic_name);
+            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
+            shareIntent.setType(mView.getActivity().getContentResolver().getType(contentUri));
+            mView.getActivity().startActivity(Intent.createChooser(shareIntent, mView.getActivity().getResources().getText(R.string.send_to)));
+        }
+    }
+
 
     @Override
     public void initializeViews() {

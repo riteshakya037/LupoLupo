@@ -8,13 +8,13 @@ import android.os.Parcelable;
  */
 @SuppressWarnings("WeakerAccess")
 public class Episode implements Parcelable {
-    public String id;
-    public String comic_id;
-    public String episode_name;
-    public String episode_image;
-    public String likes;
-    public String comic_name;
-    public String created_date;
+    public final String id;
+    public final String comic_id;
+    public final String episode_name;
+    public final String episode_image;
+    public final String likes;
+    public final String comic_name;
+    public final String created_date;
 
     private Episode(Parcel in) {
         id = in.readString();

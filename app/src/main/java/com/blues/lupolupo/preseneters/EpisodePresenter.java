@@ -7,8 +7,10 @@ import com.blues.lupolupo.preseneters.bases.BasePresenter;
 /**
  * @author Ritesh Shakya
  */
-public interface ComicPresenter extends BasePresenter, BaseDataPresenter, BaseAdapterPresenter {
-    void loadImage(String url);
+public interface EpisodePresenter extends BasePresenter, BaseDataPresenter, BaseAdapterPresenter {
+    void delayedHide(int i);
 
-    void share();
+    void toggle();
+
+    void initializeEpisode();
 }

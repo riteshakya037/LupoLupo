@@ -21,7 +21,7 @@ import java.util.List;
  */
 public class ComicEpisodeAdapter extends RecyclerView.Adapter<EpisodeHolder> {
     private List<Episode> data;
-    private Activity activity;
+    private final Activity activity;
 
 
     public ComicEpisodeAdapter(Activity activity) {

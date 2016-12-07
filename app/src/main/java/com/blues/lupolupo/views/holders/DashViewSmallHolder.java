@@ -22,7 +22,7 @@ import butterknife.ButterKnife;
 public class DashViewSmallHolder extends RecyclerView.ViewHolder {
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.coverImage)
-    ImageView coverImage;
+    public ImageView coverImage;
 
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.emptyLoadingAnimator)

@@ -19,9 +19,11 @@
     <string name="subscribe">Subscribe</string>
     <string name="episode_no">#%1$d</string>
 
-    <string name="title_activity_fullscreen">FullscreenActivity</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
-
-    <string name="title_activity_episode">EpisodeActivity</string>
+    <string name="empty">Empty</string>
+    <string name="cover_image">coverImage</string>
+    <string name="like_button">Like Button</string>
+    <string name="share">Share</string>
+    <string name="please_try_again_later">Please try again Later</string>
+    <string name="no_episodes_found">No Episodes Found</string>
+    <string name="send_to">Share</string>
 </resources>

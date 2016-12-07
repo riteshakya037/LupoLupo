@@ -1,183 +1,179 @@
 package com.blues.lupolupo.views.activities;
 
 import android.annotation.SuppressLint;
-import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.v4.app.NavUtils;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.blues.lupolupo.R;
+import com.blues.lupolupo.preseneters.EpisodePresenter;
+import com.blues.lupolupo.preseneters.EpisodePresenterImpl;
+import com.blues.lupolupo.preseneters.mappers.EpisodeMapper;
+import com.blues.lupolupo.views.EpisodeView;
 
-/**
- * An example full-screen activity that shows and hides the system UI (i.e.
- * status bar and navigation/system bar) with user interaction.
- */
-public class EpisodeActivity extends Activity {
-    /**
-     * Whether or not the system UI should be auto-hidden after
-     * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
-     */
-    private static final boolean AUTO_HIDE = true;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
-    /**
-     * If {@link #AUTO_HIDE} is set, the number of milliseconds to wait after
-     * user interaction before hiding the system UI.
-     */
-    private static final int AUTO_HIDE_DELAY_MILLIS = 3000;
+public class EpisodeActivity extends AppCompatActivity implements EpisodeView, EpisodeMapper {
+    @SuppressWarnings("WeakerAccess")
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
 
-    /**
-     * Some older devices needs a small delay between UI widget updates
-     * and a change of the status and navigation bar.
-     */
-    private static final int UI_ANIMATION_DELAY = 300;
+    @SuppressWarnings("WeakerAccess")
+    @BindView(R.id.fullscreen_content)
+    ViewGroup mContentView;
+
+    @SuppressWarnings("WeakerAccess")
+    @BindView(R.id.fullscreen_content_controls)
+    View mControlsView;
+
+    @SuppressWarnings("WeakerAccess")
+    @BindView(R.id.panelPager)
+    ViewPager mViewPager;
+
+    @SuppressWarnings("WeakerAccess")
+    @BindView(R.id.emptyLoadingView)
+    RelativeLayout emptyLoadingView;
+
+    @SuppressWarnings("WeakerAccess")
+    @BindView(R.id.toolbar_title)
+    TextView toolbarTitle;
+
+    @SuppressWarnings("WeakerAccess")
+    @BindView(R.id.root_layout)
+    ViewGroup root_layout;
+
     public static final String INTENT_EPISODE = "episode_intent";
-    private final Handler mHideHandler = new Handler();
-    private View mContentView;
-    private final Runnable mHidePart2Runnable = new Runnable() {
-        @SuppressLint("InlinedApi")
-        @Override
-        public void run() {
-            // Delayed removal of status and navigation bar
 
-            // Note that some of these constants are new as of API 16 (Jelly Bean)
-            // and API 19 (KitKat). It is safe to use them, as they are inlined
-            // at compile-time and do nothing on earlier devices.
-            mContentView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
-                    | View.SYSTEM_UI_FLAG_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
-        }
-    };
-    private View mControlsView;
-    private final Runnable mShowPart2Runnable = new Runnable() {
-        @Override
-        public void run() {
-            // Delayed display of UI elements
-            ActionBar actionBar = getActionBar();
-            if (actionBar != null) {
-                actionBar.show();
-            }
-            mControlsView.setVisibility(View.VISIBLE);
-        }
-    };
-    private boolean mVisible;
-    private final Runnable mHideRunnable = new Runnable() {
-        @Override
-        public void run() {
-            hide();
-        }
-    };
-    /**
-     * Touch listener to use for in-layout UI controls to delay hiding the
-     * system UI. This is to prevent the jarring behavior of controls going away
-     * while interacting with activity UI.
-     */
-    private final View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener() {
-        @Override
-        public boolean onTouch(View view, MotionEvent motionEvent) {
-            if (AUTO_HIDE) {
-                delayedHide(AUTO_HIDE_DELAY_MILLIS);
-            }
-            return false;
-        }
-    };
+    private EpisodePresenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_episode);
-        ActionBar actionBar = getActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
-
-        mVisible = true;
-        mControlsView = findViewById(R.id.fullscreen_content_controls);
-        mContentView = findViewById(R.id.fullscreen_content);
-
-
-        // Set up the user interaction to manually show or hide the system UI.
-        mContentView.setOnClickListener(new View.OnClickListener() {
+        ButterKnife.bind(this);
+        mPresenter = new EpisodePresenterImpl(this, this);
+        mPresenter.initializeEpisode();
+        mPresenter.initializeViews();
+        mPresenter.initializeAdaptor();
+        mPresenter.initializeData();
+        root_layout.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View view) {
-                toggle();
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                return false;
             }
         });
-
-        // Upon interacting with UI controls, delay any scheduled hide()
-        // operations to prevent the jarring behavior of controls going away
-        // while interacting with the UI.
-        findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
     }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-
-        // Trigger the initial hide() shortly after the activity has been
-        // created, to briefly hint to the user that UI controls
-        // are available.
-        delayedHide(100);
+        mPresenter.delayedHide(100);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
-            // This ID represents the Home or Up button.
-            NavUtils.navigateUpFromSameTask(this);
+            onBackPressed();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void toggle() {
-        if (mVisible) {
-            hide();
-        } else {
-            show();
-        }
+    @Override
+    public void registerClickListener(View.OnClickListener onClickListener) {
+        mContentView.setOnClickListener(onClickListener);
     }
 
-    private void hide() {
-        // Hide UI first
-        ActionBar actionBar = getActionBar();
+    @Override
+    public void registerTouchListener(View.OnTouchListener onTouchListener) {
+        mContentView.setOnTouchListener(onTouchListener);
+    }
+
+
+    @Override
+    public void showControls() {
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.show();
+        }
+        mControlsView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideControls() {
+        ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.hide();
         }
         mControlsView.setVisibility(View.GONE);
-        mVisible = false;
+    }
 
-        // Schedule a runnable to remove the status and navigation bar after a delay
-        mHideHandler.removeCallbacks(mShowPart2Runnable);
-        mHideHandler.postDelayed(mHidePart2Runnable, UI_ANIMATION_DELAY);
+    @Override
+    public void showContent() {
+        mContentView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
     }
 
     @SuppressLint("InlinedApi")
-    private void show() {
-        // Show the system bar
-        mContentView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
-        mVisible = true;
-
-        // Schedule a runnable to display UI elements after a delay
-        mHideHandler.removeCallbacks(mHidePart2Runnable);
-        mHideHandler.postDelayed(mShowPart2Runnable, UI_ANIMATION_DELAY);
+    @Override
+    public void hideContent() {
+        mContentView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
     }
 
-    /**
-     * Schedules a call to hide() in [delay] milliseconds, canceling any
-     * previously scheduled calls.
-     */
-    private void delayedHide(int delayMillis) {
-        mHideHandler.removeCallbacks(mHideRunnable);
-        mHideHandler.postDelayed(mHideRunnable, delayMillis);
+    @Override
+    public void registerAdapter(FragmentStatePagerAdapter adapter) {
+        if (mViewPager != null) {
+            mViewPager.setAdapter(adapter);
+        }
+    }
+
+    @Override
+    public void setTitle(String episode_name) {
+        toolbarTitle.setText(episode_name);
+    }
+
+    @Override
+    public Activity getActivity() {
+        return this;
+    }
+
+    @Override
+    public void initializeToolbar() {
+        setSupportActionBar(mToolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
+    @Override
+    public void hideEmptyRelativeLayout() {
+        if (emptyLoadingView != null) {
+            emptyLoadingView.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void showEmptyRelativeLayout() {
+        if (emptyLoadingView != null) {
+            emptyLoadingView.setVisibility(View.VISIBLE);
+        }
     }
 }
