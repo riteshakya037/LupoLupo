@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:focusable="false"
     android:layout_height="match_parent"
+    android:focusable="false"
     tools:context=".views.fragments.LargeImageViewFragment">
 
     <com.wang.avi.AVLoadingIndicatorView
@@ -22,6 +22,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:contentDescription="@string/app_name"
-        android:scaleType="fitCenter"
+        android:scaleType="fitXY"
         android:src="@drawable/ic_splash" />
 </RelativeLayout>

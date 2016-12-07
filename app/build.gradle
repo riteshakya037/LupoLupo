@@ -68,7 +68,10 @@ dependencies {
     //Image loading framework
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.parse.bolts:bolts-tasks:1.4.0'
-    // Like Button library
-    compile 'com.github.jd-alexander:LikeButton:0.2.0'
+    // Button library
+    compile 'com.github.medyo:fancybuttons:1.8.2'
+
+    compile 'org.greenrobot:eventbus:3.0.0'
+
     testCompile 'junit:junit:4.12'
 }

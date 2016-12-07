@@ -1,17 +1,13 @@
 package com.blues.lupolupo.views.activities;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -30,16 +26,8 @@ public class EpisodeActivity extends AppCompatActivity implements EpisodeView, E
     Toolbar mToolbar;
 
     @SuppressWarnings("WeakerAccess")
-    @BindView(R.id.fullscreen_content)
-    ViewGroup mContentView;
-
-    @SuppressWarnings("WeakerAccess")
-    @BindView(R.id.fullscreen_content_controls)
-    View mControlsView;
-
-    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.panelPager)
-    ViewPager mViewPager;
+    RecyclerView mRecyclerView;
 
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.emptyLoadingView)
@@ -48,10 +36,6 @@ public class EpisodeActivity extends AppCompatActivity implements EpisodeView, E
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
-
-    @SuppressWarnings("WeakerAccess")
-    @BindView(R.id.root_layout)
-    ViewGroup root_layout;
 
     public static final String INTENT_EPISODE = "episode_intent";
 
@@ -67,18 +51,6 @@ public class EpisodeActivity extends AppCompatActivity implements EpisodeView, E
         mPresenter.initializeViews();
         mPresenter.initializeAdaptor();
         mPresenter.initializeData();
-        root_layout.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                return false;
-            }
-        });
-    }
-
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        mPresenter.delayedHide(100);
     }
 
     @Override
@@ -92,55 +64,16 @@ public class EpisodeActivity extends AppCompatActivity implements EpisodeView, E
     }
 
     @Override
-    public void registerClickListener(View.OnClickListener onClickListener) {
-        mContentView.setOnClickListener(onClickListener);
-    }
-
-    @Override
-    public void registerTouchListener(View.OnTouchListener onTouchListener) {
-        mContentView.setOnTouchListener(onTouchListener);
-    }
-
-
-    @Override
-    public void showControls() {
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.show();
+    public void registerAdapter(RecyclerView.Adapter adapter) {
+        if (mRecyclerView != null) {
+            mRecyclerView.setAdapter(adapter);
         }
-        mControlsView.setVisibility(View.VISIBLE);
     }
 
     @Override
-    public void hideControls() {
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.hide();
-        }
-        mControlsView.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void showContent() {
-        mContentView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
-    }
-
-    @SuppressLint("InlinedApi")
-    @Override
-    public void hideContent() {
-        mContentView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
-                | View.SYSTEM_UI_FLAG_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
-    }
-
-    @Override
-    public void registerAdapter(FragmentStatePagerAdapter adapter) {
-        if (mViewPager != null) {
-            mViewPager.setAdapter(adapter);
+    public void initializeRecyclerLayoutManager(RecyclerView.LayoutManager layoutManager) {
+        if (mRecyclerView != null) {
+            mRecyclerView.setLayoutManager(layoutManager);
         }
     }
 

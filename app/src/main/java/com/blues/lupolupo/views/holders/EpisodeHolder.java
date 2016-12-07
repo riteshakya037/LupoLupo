@@ -32,8 +32,8 @@ public class EpisodeHolder extends RecyclerView.ViewHolder {
     public TextView episodeTitle;
 
     @SuppressWarnings("WeakerAccess")
-    @BindView(R.id.txt_)// TODO: 12/4/2016
-    public TextView txt_;
+    @BindView(R.id.txt_date)
+    public TextView episodeDate;
 
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.button_like)

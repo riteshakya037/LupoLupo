@@ -41,7 +41,8 @@ public class MainPresenterImpl implements MainPresenter {
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        mMainView.closeDrawerLayout();
+        if (id != R.id.nav_new_release)
+            mMainView.closeDrawerLayout();
 
         return true;
     }

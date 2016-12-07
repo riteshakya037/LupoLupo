@@ -1,12 +1,12 @@
 package com.blues.lupolupo.preseneters.mappers;
 
-import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v7.widget.RecyclerView;
 
 /**
  * @author Ritesh Shakya
  */
 public interface EpisodeMapper {
-    void registerAdapter(FragmentStatePagerAdapter adapter);
+    void registerAdapter(RecyclerView.Adapter adapter);
 
     void setTitle(String episode_name);
 }

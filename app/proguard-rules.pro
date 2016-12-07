@@ -31,4 +31,9 @@
 # Retain declared checked exceptions for use by a Proxy instance.
 -keepattributes Exceptions
 -keep class com.blues.lupolupo.model.** { *; }
+-keepattributes *Annotation*
+-keepclassmembers class ** {
+    @org.greenrobot.eventbus.Subscribe <methods>;
+}
+-keep enum org.greenrobot.eventbus.ThreadMode { *; }
 

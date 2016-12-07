@@ -3,6 +3,7 @@ package com.blues.lupolupo.views.holders;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.blues.lupolupo.R;
 import com.blues.lupolupo.common.LupolupoAPIApplication;
@@ -25,8 +26,8 @@ public class DashViewSmallHolder extends RecyclerView.ViewHolder {
     public ImageView coverImage;
 
     @SuppressWarnings("WeakerAccess")
-    @BindView(R.id.emptyLoadingAnimator)
-    AVLoadingIndicatorView emptyLoadingAnimator;
+    @BindView(R.id.txt_comic_title)
+    public TextView comicTitle;
 
     public DashViewSmallHolder(View itemView) {
         super(itemView);
@@ -45,7 +46,6 @@ public class DashViewSmallHolder extends RecyclerView.ViewHolder {
 
                     @Override
                     public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                        emptyLoadingAnimator.setVisibility(View.GONE);
                         return false;
                     }
                 })

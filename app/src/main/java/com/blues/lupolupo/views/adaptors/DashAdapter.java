@@ -38,6 +38,7 @@ public class DashAdapter extends RecyclerView.Adapter<DashViewSmallHolder> {
     @Override
     public void onBindViewHolder(final DashViewSmallHolder holder, int position) {
         final Comic currentComic = data.get(position);
+        holder.comicTitle.setText(currentComic.comic_name);
         holder.loadImage("http://lupolupo.com/images/" + currentComic.id + "/" + currentComic.comic_big_image);
         holder.coverImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,5 +58,9 @@ public class DashAdapter extends RecyclerView.Adapter<DashViewSmallHolder> {
     public void setData(List<Comic> data) {
         this.data = data;
         this.notifyDataSetChanged();
+    }
+
+    public List<Comic> getData() {
+        return data;
     }
 }

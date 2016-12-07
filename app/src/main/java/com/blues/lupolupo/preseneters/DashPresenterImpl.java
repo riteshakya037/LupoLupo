@@ -4,10 +4,13 @@ import android.support.v7.widget.GridLayoutManager;
 
 import com.blues.lupolupo.controllers.retrofit.LupolupoHTTPManager;
 import com.blues.lupolupo.model.Comic;
+import com.blues.lupolupo.preseneters.events.TitleEvent;
 import com.blues.lupolupo.preseneters.mappers.DashMapper;
 import com.blues.lupolupo.views.DashView;
 import com.blues.lupolupo.views.adaptors.DashAdapter;
 import com.blues.lupolupo.views.adaptors.DashLargePagerAdapter;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -56,5 +59,10 @@ public class DashPresenterImpl implements DashPresenter {
 
         mDashPageAdapter = new DashLargePagerAdapter(mView.getFragmentManager());
         mMapper.registerAdapter(mDashPageAdapter);
+    }
+
+    @Override
+    public void setPage(int position) {
+        EventBus.getDefault().post(new TitleEvent(mDashAdapter.getData().get(position).comic_name));
     }
 }

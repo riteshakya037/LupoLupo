@@ -8,9 +8,6 @@ import com.blues.lupolupo.preseneters.bases.BasePresenter;
  * @author Ritesh Shakya
  */
 public interface EpisodePresenter extends BasePresenter, BaseDataPresenter, BaseAdapterPresenter {
-    void delayedHide(int i);
-
-    void toggle();
 
     void initializeEpisode();
 }

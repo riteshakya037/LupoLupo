@@ -8,4 +8,5 @@ import com.blues.lupolupo.preseneters.bases.BasePresenter;
  * @author Ritesh Shakya
  */
 public interface DashPresenter extends BasePresenter, BaseDataPresenter, BaseAdapterPresenter {
+    void setPage(int position);
 }

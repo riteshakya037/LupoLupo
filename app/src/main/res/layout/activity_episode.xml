@@ -1,60 +1,51 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/root_layout"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.blues.lupolupo.views.activities.EpisodeActivity"
-    tools:ignore="MergeRootFrame">
+    android:fitsSystemWindows="true"
+    tools:context="com.blues.lupolupo.views.activities.EpisodeActivity">
 
     <RelativeLayout
-        android:id="@+id/fullscreen_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clickable="true"
         android:gravity="center"
-        android:keepScreenOn="true">
+        android:keepScreenOn="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <include layout="@layout/loading_layout" />
 
-        <android.support.v4.view.ViewPager
+        <android.support.v7.widget.RecyclerView
             android:id="@+id/panelPager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clickable="false" />
+            android:layout_height="match_parent" />
     </RelativeLayout>
 
-    <FrameLayout
+
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
+        android:layout_height="wrap_content"
+        android:theme="@style/AppThemeLight.AppBarOverlay">
 
-        <LinearLayout
-            android:id="@+id/fullscreen_content_controls"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top"
-            android:background="@android:color/transparent"
-            android:orientation="horizontal"
-            tools:ignore="UselessParent">
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppThemeLight.PopupOverlay">
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:popupTheme="@style/AppTheme.PopupOverlay">
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/app_name"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+        </android.support.v7.widget.Toolbar>
 
-                <TextView
-                    android:id="@+id/toolbar_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="@string/app_name"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
-            </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
 
-        </LinearLayout>
 
-    </FrameLayout>
-
-</FrameLayout>
+</android.support.design.widget.CoordinatorLayout>

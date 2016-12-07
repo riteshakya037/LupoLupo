@@ -32,7 +32,7 @@ public class DashLargePagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         return LargeImageViewFragment.newInstance(mData.get(position));
     }
-
+    
     public void setData(List<Comic> result) {
         mData = result;
         this.notifyDataSetChanged();

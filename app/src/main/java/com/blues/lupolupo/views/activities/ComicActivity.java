@@ -18,7 +18,6 @@ import com.blues.lupolupo.preseneters.ComicPresenter;
 import com.blues.lupolupo.preseneters.ComicPresenterImpl;
 import com.blues.lupolupo.preseneters.mappers.ComicMapper;
 import com.blues.lupolupo.views.ComicView;
-import com.wang.avi.AVLoadingIndicatorView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,10 +37,6 @@ public class ComicActivity extends AppCompatActivity implements ComicView, Comic
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.txt_comic_title)
     TextView comicTitle;
-
-    @SuppressWarnings("WeakerAccess")
-    @BindView(R.id.emptyLoadingAnimator)
-    AVLoadingIndicatorView emptyLoadingAnimator;
 
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.episodeRecycler)
@@ -129,7 +124,6 @@ public class ComicActivity extends AppCompatActivity implements ComicView, Comic
 
     @Override
     public void setCoverImageLoading(int visibility) {
-        emptyLoadingAnimator.setVisibility(visibility);
     }
 
     @Override

@@ -25,7 +25,7 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DashFragment extends Fragment implements DashView, DashMapper {
+public class DashFragment extends Fragment implements DashView, DashMapper, ViewPager.OnPageChangeListener {
     private static final String TAG = DashFragment.class.getSimpleName();
 
     private DashPresenter dashPresenter;
@@ -111,6 +111,7 @@ public class DashFragment extends Fragment implements DashView, DashMapper {
     public void registerAdapter(FragmentStatePagerAdapter adapter) {
         if (mViewPager != null) {
             mViewPager.setAdapter(adapter);
+            mViewPager.addOnPageChangeListener(this);
         }
     }
 
@@ -121,4 +122,17 @@ public class DashFragment extends Fragment implements DashView, DashMapper {
         }
     }
 
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        dashPresenter.setPage(position);
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+    }
 }
