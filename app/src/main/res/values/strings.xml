@@ -12,9 +12,6 @@
     <string name="app_version">App Version</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="fetching_from_server">Fetching from Server</string>
-    <string name="please_wait">Please Wait…</string>
-    <string name="animation_name">LineScaleIndicator</string>
 
     <string name="subscribe">+ Subscribe</string>
     <string name="episode_no">#%1$d</string>

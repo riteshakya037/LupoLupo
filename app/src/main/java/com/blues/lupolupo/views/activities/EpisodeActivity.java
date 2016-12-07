@@ -7,8 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.blues.lupolupo.R;
@@ -21,24 +19,16 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class EpisodeActivity extends AppCompatActivity implements EpisodeView, EpisodeMapper {
+    public static final String INTENT_EPISODE = "episode_intent";
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
-
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.panelPager)
     RecyclerView mRecyclerView;
-
-    @SuppressWarnings("WeakerAccess")
-    @BindView(R.id.emptyLoadingView)
-    RelativeLayout emptyLoadingView;
-
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
-
-    public static final String INTENT_EPISODE = "episode_intent";
-
     @SuppressWarnings("FieldCanBeLocal")
     private EpisodePresenter mPresenter;
 
@@ -97,17 +87,4 @@ public class EpisodeActivity extends AppCompatActivity implements EpisodeView, E
         }
     }
 
-    @Override
-    public void hideEmptyRelativeLayout() {
-        if (emptyLoadingView != null) {
-            emptyLoadingView.setVisibility(View.GONE);
-        }
-    }
-
-    @Override
-    public void showEmptyRelativeLayout() {
-        if (emptyLoadingView != null) {
-            emptyLoadingView.setVisibility(View.VISIBLE);
-        }
-    }
 }

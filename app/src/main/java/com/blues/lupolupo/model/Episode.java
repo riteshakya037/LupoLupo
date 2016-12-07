@@ -8,6 +8,17 @@ import android.os.Parcelable;
  */
 @SuppressWarnings("WeakerAccess")
 public class Episode implements Parcelable {
+    public static final Creator<Episode> CREATOR = new Creator<Episode>() {
+        @Override
+        public Episode createFromParcel(Parcel in) {
+            return new Episode(in);
+        }
+
+        @Override
+        public Episode[] newArray(int size) {
+            return new Episode[size];
+        }
+    };
     public final String id;
     public final String comic_id;
     public final String episode_name;
@@ -25,18 +36,6 @@ public class Episode implements Parcelable {
         comic_name = in.readString();
         created_date = in.readString();
     }
-
-    public static final Creator<Episode> CREATOR = new Creator<Episode>() {
-        @Override
-        public Episode createFromParcel(Parcel in) {
-            return new Episode(in);
-        }
-
-        @Override
-        public Episode[] newArray(int size) {
-            return new Episode[size];
-        }
-    };
 
     @Override
     public int describeContents() {

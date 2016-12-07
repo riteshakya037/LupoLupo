@@ -2,8 +2,7 @@ package com.blues.lupolupo.preseneters;
 
 import android.support.v7.widget.GridLayoutManager;
 
-import com.blues.lupolupo.controllers.retrofit.LupolupoHTTPManager;
-import com.blues.lupolupo.model.Comic;
+import com.blues.lupolupo.model.loaders.AppLoader;
 import com.blues.lupolupo.preseneters.events.TitleEvent;
 import com.blues.lupolupo.preseneters.mappers.DashMapper;
 import com.blues.lupolupo.views.DashView;
@@ -11,11 +10,6 @@ import com.blues.lupolupo.views.adaptors.DashAdapter;
 import com.blues.lupolupo.views.adaptors.DashLargePagerAdapter;
 
 import org.greenrobot.eventbus.EventBus;
-
-import java.util.List;
-
-import bolts.Continuation;
-import bolts.Task;
 
 /**
  * @author Ritesh Shakya
@@ -39,17 +33,10 @@ public class DashPresenterImpl implements DashPresenter {
 
     @Override
     public void initializeData() {
-        LupolupoHTTPManager.getInstance().getComics().onSuccess(new Continuation<List<Comic>, Void>() {
-            @Override
-            public Void then(Task<List<Comic>> task) throws Exception {
-                if (task.getResult() != null && task.getResult().size() != 0) {
-                    mView.hideEmptyRelativeLayout();
-                    mDashAdapter.setData(task.getResult());
-                    mDashPageAdapter.setData(task.getResult());
-                }
-                return null;
-            }
-        });
+        if (AppLoader.getInstance().getComics().size() != 0) {
+            mDashAdapter.setData(AppLoader.getInstance().getComics());
+            mDashPageAdapter.setData(AppLoader.getInstance().getComics());
+        }
     }
 
     @Override

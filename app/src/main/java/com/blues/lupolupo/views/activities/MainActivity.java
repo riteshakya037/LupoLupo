@@ -27,28 +27,22 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements MainView {
     private static final String TAG = MainActivity.class.getSimpleName();
-
-    private MainPresenter mMainPresenter;
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
-
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
-
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.toolbar_title)
     TextView titleText;
-
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.nav_view)
     NavigationView navigationView;
-
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.container_frame)
     View containerFrame;
-
+    private MainPresenter mMainPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

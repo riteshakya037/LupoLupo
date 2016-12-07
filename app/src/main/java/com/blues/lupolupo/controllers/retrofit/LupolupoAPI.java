@@ -32,5 +32,5 @@ interface LupolupoAPI {
 
     @FormUrlEncoded
     @POST("api/Like_unlike")
-    Call<String> postLikeUnlike(@Field("episode_id")String episode_id,@Field("status") String status);
+    Call<String> postLikeUnlike(@Field("episode_id") String episode_id, @Field("status") String status);
 }

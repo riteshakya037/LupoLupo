@@ -12,11 +12,8 @@ import com.blues.lupolupo.R;
 import com.blues.lupolupo.common.LupolupoAPIApplication;
 import com.blues.lupolupo.model.Comic;
 import com.blues.lupolupo.views.activities.ComicActivity;
+import com.blues.lupolupo.views.activities.SplashActivity;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
-import com.wang.avi.AVLoadingIndicatorView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,10 +28,6 @@ public class LargeImageViewFragment extends Fragment {
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.imageView)
     ImageView imageView;
-
-    @SuppressWarnings("WeakerAccess")
-    @BindView(R.id.emptyLoadingAnimator)
-    AVLoadingIndicatorView emptyLoadingAnimator;
 
     private Comic comicData;
 
@@ -54,7 +47,7 @@ public class LargeImageViewFragment extends Fragment {
 
     @OnClick(R.id.imageView)
     void comicDetails() {
-        Intent intent = new Intent(getActivity(), ComicActivity.class);
+        Intent intent = new Intent(getActivity(), SplashActivity.class);
         intent.putExtra(ComicActivity.INTENT_COMIC, comicData);
         startActivity(intent);
     }
@@ -67,18 +60,6 @@ public class LargeImageViewFragment extends Fragment {
         Glide.with(LupolupoAPIApplication.get())
                 .load("http://lupolupo.com/images/" + comicData.id + "/" + comicData.comic_big_image)
                 .crossFade()
-                .listener(new RequestListener<String, GlideDrawable>() {
-                    @Override
-                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                        emptyLoadingAnimator.setVisibility(View.GONE);
-                        return false;
-                    }
-                })
                 .into(imageView);
         return rootView;
     }

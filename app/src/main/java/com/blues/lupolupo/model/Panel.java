@@ -8,18 +8,6 @@ import android.os.Parcelable;
  */
 @SuppressWarnings("WeakerAccess")
 public class Panel implements Parcelable {
-    public final String id;
-    public final String panel_image;
-    public final String episode_id;
-    public final String created;
-
-    private Panel(Parcel in) {
-        id = in.readString();
-        panel_image = in.readString();
-        episode_id = in.readString();
-        created = in.readString();
-    }
-
     public static final Creator<Panel> CREATOR = new Creator<Panel>() {
         @Override
         public Panel createFromParcel(Parcel in) {
@@ -31,6 +19,17 @@ public class Panel implements Parcelable {
             return new Panel[size];
         }
     };
+    public final String id;
+    public final String panel_image;
+    public final String episode_id;
+    public final String created;
+
+    private Panel(Parcel in) {
+        id = in.readString();
+        panel_image = in.readString();
+        episode_id = in.readString();
+        created = in.readString();
+    }
 
     @Override
     public int describeContents() {

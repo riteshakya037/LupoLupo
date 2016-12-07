@@ -11,6 +11,8 @@ import com.blues.lupolupo.R;
 import com.blues.lupolupo.common.LupolupoAPIApplication;
 import com.blues.lupolupo.model.Episode;
 import com.blues.lupolupo.views.activities.EpisodeActivity;
+import com.blues.lupolupo.views.activities.SplashActivity;
+import com.blues.lupolupo.views.bases.BaseEmptyRelativeLayoutView;
 import com.blues.lupolupo.views.holders.EpisodeHolder;
 
 import java.util.LinkedList;
@@ -20,12 +22,14 @@ import java.util.List;
  * @author Ritesh Shakya
  */
 public class ComicEpisodeAdapter extends RecyclerView.Adapter<EpisodeHolder> {
-    private List<Episode> data;
     private final Activity activity;
+    private List<Episode> data;
+    private final BaseEmptyRelativeLayoutView listener;
 
 
-    public ComicEpisodeAdapter(Activity activity) {
+    public ComicEpisodeAdapter(Activity activity, BaseEmptyRelativeLayoutView listener) {
         this.activity = activity;
+        this.listener = listener;
         data = new LinkedList<>();
     }
 
@@ -49,7 +53,7 @@ public class ComicEpisodeAdapter extends RecyclerView.Adapter<EpisodeHolder> {
         holder.rootLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(activity, EpisodeActivity.class);
+                Intent intent = new Intent(activity, SplashActivity.class);
                 intent.putExtra(EpisodeActivity.INTENT_EPISODE, currentEpisode);
                 activity.startActivity(intent);
             }
@@ -63,6 +67,11 @@ public class ComicEpisodeAdapter extends RecyclerView.Adapter<EpisodeHolder> {
 
     public void setData(List<Episode> data) {
         this.data = data;
+        if (data.isEmpty()) {
+            listener.showEmptyRelativeLayout();
+        } else {
+            listener.hideEmptyRelativeLayout();
+        }
         this.notifyDataSetChanged();
     }
 }

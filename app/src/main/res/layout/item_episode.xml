@@ -20,16 +20,6 @@
         app:horizontal_ratio="1"
         app:vertical_ratio="1">
 
-        <com.wang.avi.AVLoadingIndicatorView
-            android:id="@+id/emptyLoadingAnimator"
-            style="@style/AVLoadingIndicatorView.Small"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:visibility="visible"
-            app:indicatorColor="@android:color/background_light"
-            app:indicatorName="@string/animation_name" />
-
         <ImageView
             android:id="@+id/episodeImage"
             android:layout_width="match_parent"

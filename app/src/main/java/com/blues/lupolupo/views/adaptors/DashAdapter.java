@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import com.blues.lupolupo.R;
 import com.blues.lupolupo.model.Comic;
 import com.blues.lupolupo.views.activities.ComicActivity;
+import com.blues.lupolupo.views.activities.SplashActivity;
 import com.blues.lupolupo.views.holders.DashViewSmallHolder;
 
 import java.util.LinkedList;
@@ -19,8 +20,8 @@ import java.util.List;
  * @author Ritesh Shakya
  */
 public class DashAdapter extends RecyclerView.Adapter<DashViewSmallHolder> {
-    private List<Comic> data;
     private final Context context;
+    private List<Comic> data;
 
     public DashAdapter(Context context) {
         this.context = context;
@@ -43,7 +44,7 @@ public class DashAdapter extends RecyclerView.Adapter<DashViewSmallHolder> {
         holder.coverImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, ComicActivity.class);
+                Intent intent = new Intent(context, SplashActivity.class);
                 intent.putExtra(ComicActivity.INTENT_COMIC, currentComic);
                 context.startActivity(intent);
             }
@@ -55,12 +56,12 @@ public class DashAdapter extends RecyclerView.Adapter<DashViewSmallHolder> {
         return data.size();
     }
 
+    public List<Comic> getData() {
+        return data;
+    }
+
     public void setData(List<Comic> data) {
         this.data = data;
         this.notifyDataSetChanged();
-    }
-
-    public List<Comic> getData() {
-        return data;
     }
 }

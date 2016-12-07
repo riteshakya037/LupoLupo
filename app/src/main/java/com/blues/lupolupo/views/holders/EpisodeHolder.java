@@ -13,10 +13,6 @@ import com.blues.lupolupo.common.LikePref;
 import com.blues.lupolupo.common.LupolupoAPIApplication;
 import com.blues.lupolupo.controllers.retrofit.LupolupoHTTPManager;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
-import com.wang.avi.AVLoadingIndicatorView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,8 +38,22 @@ public class EpisodeHolder extends RecyclerView.ViewHolder {
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.button_like)
     public ImageButton button_like;
-
+    @SuppressWarnings("WeakerAccess")
+    @BindView(R.id.txt_episode_id)
+    public TextView txtEpisodeId;
+    @SuppressWarnings("WeakerAccess")
+    @BindView(R.id.txt_like_count)
+    public TextView txtEpisodeLikeCount;
+    @SuppressWarnings("WeakerAccess")
+    @BindView(R.id.episodeImage)
+    ImageView episodeImage;
     private boolean liked = false;
+    private String episodeId;
+
+    public EpisodeHolder(View itemView) {
+        super(itemView);
+        ButterKnife.bind(this, itemView);
+    }
 
     @OnClick(R.id.button_like)
     void onLikeDislike() {
@@ -53,45 +63,10 @@ public class EpisodeHolder extends RecyclerView.ViewHolder {
         LupolupoHTTPManager.getInstance().postLikeUnlike(episodeId, liked);
     }
 
-    @SuppressWarnings("WeakerAccess")
-    @BindView(R.id.txt_episode_id)
-    public TextView txtEpisodeId;
-
-    @SuppressWarnings("WeakerAccess")
-    @BindView(R.id.txt_like_count)
-    public TextView txtEpisodeLikeCount;
-
-    @SuppressWarnings("WeakerAccess")
-    @BindView(R.id.episodeImage)
-    ImageView episodeImage;
-
-    @SuppressWarnings("WeakerAccess")
-    @BindView(R.id.emptyLoadingAnimator)
-    AVLoadingIndicatorView emptyLoadingAnimator;
-
-    private String episodeId;
-
-    public EpisodeHolder(View itemView) {
-        super(itemView);
-        ButterKnife.bind(this, itemView);
-    }
-
     public void setEpisodeImage(String url) {
         Glide.with(LupolupoAPIApplication.get())
                 .load(url)
                 .crossFade()
-                .listener(new RequestListener<String, GlideDrawable>() {
-                    @Override
-                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                        emptyLoadingAnimator.setVisibility(View.GONE);
-                        return false;
-                    }
-                })
                 .into(episodeImage);
     }
 

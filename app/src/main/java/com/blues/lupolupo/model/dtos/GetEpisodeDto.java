@@ -9,6 +9,6 @@ import java.util.List;
  * @author Ritesh Shakya
  */
 public class GetEpisodeDto {
-    public String success;
     public final List<Episode> episodes = new LinkedList<>();
+    public String success;
 }

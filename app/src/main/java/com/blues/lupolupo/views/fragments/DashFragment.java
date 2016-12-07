@@ -11,7 +11,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 
 import com.blues.lupolupo.R;
 import com.blues.lupolupo.preseneters.DashPresenter;
@@ -27,27 +26,24 @@ import butterknife.ButterKnife;
  */
 public class DashFragment extends Fragment implements DashView, DashMapper, ViewPager.OnPageChangeListener {
     private static final String TAG = DashFragment.class.getSimpleName();
-
-    private DashPresenter dashPresenter;
-
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.coverPager)
     ViewPager mViewPager;
-
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.tabDots)
     TabLayout mTabLayout;
-
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.dashViewRecycler)
     RecyclerView dashViewRecycler;
+    private DashPresenter dashPresenter;
 
-    @SuppressWarnings("WeakerAccess")
-    @BindView(R.id.emptyLoadingView)
-    RelativeLayout emptyLoadingView;
 
     public DashFragment() {
         // Required empty public constructor
+    }
+
+    public static Fragment newInstance() {
+        return new DashFragment();
     }
 
     @Override
@@ -76,20 +72,6 @@ public class DashFragment extends Fragment implements DashView, DashMapper, View
     }
 
     @Override
-    public void hideEmptyRelativeLayout() {
-        if (emptyLoadingView != null) {
-            emptyLoadingView.setVisibility(View.GONE);
-        }
-    }
-
-    @Override
-    public void showEmptyRelativeLayout() {
-        if (emptyLoadingView != null) {
-            emptyLoadingView.setVisibility(View.VISIBLE);
-        }
-    }
-
-    @Override
     public void registerAdapter(RecyclerView.Adapter<?> adapter) {
         if (dashViewRecycler != null) {
             dashViewRecycler.setAdapter(adapter);
@@ -101,10 +83,6 @@ public class DashFragment extends Fragment implements DashView, DashMapper, View
         if (dashViewRecycler != null) {
             dashViewRecycler.setLayoutManager(layoutManager);
         }
-    }
-
-    public static Fragment newInstance() {
-        return new DashFragment();
     }
 
     @Override

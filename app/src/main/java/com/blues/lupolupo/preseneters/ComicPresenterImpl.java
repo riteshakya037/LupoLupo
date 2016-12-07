@@ -8,12 +8,12 @@ import android.support.v7.widget.LinearLayoutManager;
 
 import com.blues.lupolupo.R;
 import com.blues.lupolupo.common.LupolupoAPIApplication;
-import com.blues.lupolupo.controllers.retrofit.LupolupoHTTPManager;
 import com.blues.lupolupo.model.Comic;
-import com.blues.lupolupo.model.Episode;
+import com.blues.lupolupo.model.loaders.ComicLoader;
 import com.blues.lupolupo.preseneters.mappers.ComicMapper;
 import com.blues.lupolupo.views.ComicView;
 import com.blues.lupolupo.views.adaptors.ComicEpisodeAdapter;
+import com.blues.lupolupo.views.bases.BaseEmptyRelativeLayoutView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -22,17 +22,11 @@ import com.bumptech.glide.request.target.Target;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.List;
-
-import bolts.Continuation;
-import bolts.Task;
-
-import static com.blues.lupolupo.views.activities.ComicActivity.INTENT_COMIC;
 
 /**
  * @author Ritesh Shakya
  */
-public class ComicPresenterImpl implements ComicPresenter {
+public class ComicPresenterImpl implements ComicPresenter, BaseEmptyRelativeLayoutView {
     private static final String CHILD = "images";
     private static final String IMAGE_NAME = "image.png";
     private final ComicView mView;
@@ -47,27 +41,15 @@ public class ComicPresenterImpl implements ComicPresenter {
 
     @Override
     public void initializeAdaptor() {
-        comicEpisodeAdaptor = new ComicEpisodeAdapter(mView.getActivity());
+        comicEpisodeAdaptor = new ComicEpisodeAdapter(mView.getActivity(), this);
         mMapper.registerAdapter(comicEpisodeAdaptor);
     }
 
     @Override
     public void initializeData() {
-        if (mView.getActivity().getIntent() != null) {
-            comicData = mView.getActivity().getIntent().getParcelableExtra(INTENT_COMIC);
-        }
+        comicData = ComicLoader.getInstance().getComicData();
         mMapper.setHeader(comicData);
-        LupolupoHTTPManager.getInstance().getEpisodes(comicData.id).onSuccess(new Continuation<List<Episode>, Void>() {
-            @Override
-            public Void then(Task<List<Episode>> task) throws Exception {
-                if (task.getResult() != null && task.getResult().size() != 0) {
-                    mView.hideEmptyRelativeLayout();
-                    comicEpisodeAdaptor.setData(task.getResult());
-                }
-                return null;
-            }
-        });
-
+        comicEpisodeAdaptor.setData(ComicLoader.getInstance().getEpisodeList());
     }
 
     @Override
@@ -118,5 +100,15 @@ public class ComicPresenterImpl implements ComicPresenter {
     public void initializeViews() {
         mView.initializeToolbar();
         mView.initializeRecyclerLayoutManager(new LinearLayoutManager(mView.getActivity()));
+    }
+
+    @Override
+    public void hideEmptyRelativeLayout() {
+        mView.hideEmptyRelativeLayout();
+    }
+
+    @Override
+    public void showEmptyRelativeLayout() {
+        mView.showEmptyRelativeLayout();
     }
 }

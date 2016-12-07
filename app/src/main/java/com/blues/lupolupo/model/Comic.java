@@ -8,6 +8,17 @@ import android.os.Parcelable;
  */
 @SuppressWarnings("WeakerAccess")
 public class Comic implements Parcelable {
+    public static final Creator<Comic> CREATOR = new Creator<Comic>() {
+        @Override
+        public Comic createFromParcel(Parcel in) {
+            return new Comic(in);
+        }
+
+        @Override
+        public Comic[] newArray(int size) {
+            return new Comic[size];
+        }
+    };
     public final String id;
     public final String comic_name;
     public final String comic_abbreviation;
@@ -23,18 +34,6 @@ public class Comic implements Parcelable {
         comic_big_image = in.readString();
         created = in.readString();
     }
-
-    public static final Creator<Comic> CREATOR = new Creator<Comic>() {
-        @Override
-        public Comic createFromParcel(Parcel in) {
-            return new Comic(in);
-        }
-
-        @Override
-        public Comic[] newArray(int size) {
-            return new Comic[size];
-        }
-    };
 
     @Override
     public int describeContents() {

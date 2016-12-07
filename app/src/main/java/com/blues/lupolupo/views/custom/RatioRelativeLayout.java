@@ -27,16 +27,6 @@ public class RatioRelativeLayout extends RelativeLayout {
         init(attrs);
     }
 
-    private void init(AttributeSet attrs) {
-        TypedArray typedArray = getContext().obtainStyledAttributes(
-                attrs,
-                R.styleable.RatioRelativeLayout);
-        fixedAttribute = FixedAttribute.fromId(typedArray.getInt(R.styleable.RatioRelativeLayout_fixed_attribute, 0));
-        horizontalRatio = typedArray.getFloat(R.styleable.RatioRelativeLayout_horizontal_ratio, 1);
-        verticalRatio = typedArray.getFloat(R.styleable.RatioRelativeLayout_vertical_ratio, 1);
-        typedArray.recycle();
-    }
-
     public RatioRelativeLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(attrs);
@@ -48,6 +38,15 @@ public class RatioRelativeLayout extends RelativeLayout {
         init(attrs);
     }
 
+    private void init(AttributeSet attrs) {
+        TypedArray typedArray = getContext().obtainStyledAttributes(
+                attrs,
+                R.styleable.RatioRelativeLayout);
+        fixedAttribute = FixedAttribute.fromId(typedArray.getInt(R.styleable.RatioRelativeLayout_fixed_attribute, 0));
+        horizontalRatio = typedArray.getFloat(R.styleable.RatioRelativeLayout_horizontal_ratio, 1);
+        verticalRatio = typedArray.getFloat(R.styleable.RatioRelativeLayout_vertical_ratio, 1);
+        typedArray.recycle();
+    }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
