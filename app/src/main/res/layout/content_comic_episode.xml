@@ -11,7 +11,7 @@
         android:layout_height="4dp"
         android:background="@drawable/toolbar_drop_shadow" />
 
-    <com.blues.lupolupo.views.custom.RatioRelativeLayout
+    <com.lupolupo.android.views.custom.RatioRelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="?colorPrimary"
@@ -36,7 +36,7 @@
             android:padding="8dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="?colorPrimary" />
-    </com.blues.lupolupo.views.custom.RatioRelativeLayout>
+    </com.lupolupo.android.views.custom.RatioRelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"

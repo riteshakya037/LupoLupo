@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.blues.lupolupo">
+    package="com.lupolupo.android">
 
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
-        android:name=".common.LupolupoAPIApplication"
+        android:name="com.lupolupo.android.common.LupolupoAPIApplication"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:screenOrientation="portrait"
@@ -15,7 +15,7 @@
         android:theme="@style/AppTheme">
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.blues.lupolupo.file_provider"
+            android:authorities="com.lupolupo.android.file_provider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
@@ -24,7 +24,7 @@
         </provider>
 
         <activity
-            android:name=".views.activities.SplashActivity"
+            android:name="com.lupolupo.android.views.activities.SplashActivity"
             android:label="@string/app_name"
             android:theme="@style/SplashTheme">
             <intent-filter>
@@ -34,27 +34,27 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".views.activities.MainActivity"
+            android:name="com.lupolupo.android.views.activities.MainActivity"
             android:label=""
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".views.activities.ComicActivity"
+            android:name="com.lupolupo.android.views.activities.ComicActivity"
             android:label=""
-            android:parentActivityName=".views.activities.MainActivity"
+            android:parentActivityName="com.lupolupo.android.views.activities.MainActivity"
             android:theme="@style/AppThemeLight.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.blues.lupolupo.views.activities.MainActivity" />
+                android:value="com.lupolupo.android.views.activities.MainActivity" />
         </activity>
         <activity
-            android:name=".views.activities.EpisodeActivity"
+            android:name="com.lupolupo.android.views.activities.EpisodeActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label=""
-            android:parentActivityName=".views.activities.ComicActivity"
+            android:parentActivityName="com.lupolupo.android.views.activities.ComicActivity"
             android:theme="@style/FullscreenTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.blues.lupolupo.views.activities.ComicActivity" />
+                android:value="com.lupolupo.android.views.activities.ComicActivity" />
         </activity>
     </application>
 

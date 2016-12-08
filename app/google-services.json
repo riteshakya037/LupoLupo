@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "32793821488",
+    "firebase_url": "https://lupo-151904.firebaseio.com",
+    "project_id": "lupo-151904",
+    "storage_bucket": "lupo-151904.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:32793821488:android:3d8be86e2107d82f",
+        "android_client_info": {
+          "package_name": "com.lupolupo.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "32793821488-ke9rq5v0hehu8m6p6udcs12dsps0sb31.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-pKaRtu4L4J-0GGOj3Jhfsnm95AEutuU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

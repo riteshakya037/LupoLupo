@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.blues.lupolupo.views.activities.EpisodeActivity">
+    tools:context="com.lupolupo.android.views.activities.EpisodeActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
