@@ -1,5 +1,16 @@
 package com.blues.lupolupo.model;
 
+import android.content.Context;
+import android.net.wifi.WifiManager;
+import android.os.Build;
+import android.telephony.TelephonyManager;
+import android.text.format.Formatter;
+
+import com.blues.lupolupo.common.GPSTracker;
+import com.blues.lupolupo.common.LupolupoAPIApplication;
+
+import static android.content.Context.WIFI_SERVICE;
+
 /**
  * @author Ritesh Shakya
  */
@@ -11,4 +22,55 @@ public class UserInfo {
     public String deviceID;
     public String carrier;
     public String deviceType;
+    private GPSTracker gpsTracker = new GPSTracker(LupolupoAPIApplication.get());
+
+    public void getInfo() {
+        if (gpsTracker.canGetLocation()) {
+            latitude = String.valueOf(gpsTracker.getLatitude());
+            longitude = String.valueOf(gpsTracker.getLongitude());
+        }
+        publicIP = getIp();
+        deviceModel = getDeviceModel();
+        deviceID = getDeviceToken();
+        carrier = getCarrier();
+        deviceType = "android";
+    }
+
+    private String getDeviceToken() {
+        return null; //// TODO: 12/7/2016
+    }
+
+    private String getCarrier() {
+        TelephonyManager manager = (TelephonyManager) LupolupoAPIApplication.get().getSystemService(Context.TELEPHONY_SERVICE);
+        return manager.getNetworkOperatorName();
+    }
+
+
+    private String getDeviceModel() {
+        String manufacturer = Build.MANUFACTURER;
+        String model = Build.MODEL;
+        if (model.startsWith(manufacturer)) {
+            return model.toUpperCase();
+        } else {
+            return manufacturer.toUpperCase() + " " + model;
+        }
+    }
+
+    private String getIp() {
+        WifiManager wm = (WifiManager) LupolupoAPIApplication.get().getSystemService(WIFI_SERVICE);
+        return Formatter.formatIpAddress(wm.getConnectionInfo().getIpAddress());
+    }
+
+    @Override
+    public String toString() {
+        return "UserInfo{" +
+                "latitude='" + latitude + '\'' +
+                ", longitude='" + longitude + '\'' +
+                ", publicIP='" + publicIP + '\'' +
+                ", deviceModel='" + deviceModel + '\'' +
+                ", deviceID='" + deviceID + '\'' +
+                ", carrier='" + carrier + '\'' +
+                ", deviceType='" + deviceType + '\'' +
+                '}';
+    }
 }

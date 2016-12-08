@@ -8,6 +8,7 @@ import com.blues.lupolupo.common.LupolupoAPIApplication;
 import com.blues.lupolupo.model.Comic;
 import com.blues.lupolupo.model.Episode;
 import com.blues.lupolupo.model.Panel;
+import com.blues.lupolupo.model.UserInfo;
 import com.blues.lupolupo.model.dtos.GetComicDto;
 import com.blues.lupolupo.model.dtos.GetEpisodeDto;
 import com.blues.lupolupo.model.dtos.GetPanelDto;
@@ -122,5 +123,25 @@ public class LupolupoHTTPManager {
             public void onFailure(Call<String> call, Throwable t) {
             }
         });
+    }
+
+    public Task<String> saveInfo(UserInfo info) {
+        final TaskCompletionSource<String> source = new TaskCompletionSource<>();
+        getHttpAdaptor().saveInfo(info.latitude, info.longitude, info.publicIP, info.deviceModel, info.deviceID, info.carrier, info.deviceType).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                source.setResult(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                try {
+                    throw t;
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                }
+            }
+        });
+        return source.getTask();
     }
 }

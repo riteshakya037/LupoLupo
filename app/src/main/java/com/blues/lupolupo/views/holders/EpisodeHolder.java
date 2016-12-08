@@ -12,7 +12,7 @@ import com.blues.lupolupo.R;
 import com.blues.lupolupo.common.LikePref;
 import com.blues.lupolupo.common.LupolupoAPIApplication;
 import com.blues.lupolupo.controllers.retrofit.LupolupoHTTPManager;
-import com.bumptech.glide.Glide;
+import com.blues.lupolupo.model.loaders.GlideLoader;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -64,10 +64,7 @@ public class EpisodeHolder extends RecyclerView.ViewHolder {
     }
 
     public void setEpisodeImage(String url) {
-        Glide.with(LupolupoAPIApplication.get())
-                .load(url)
-                .crossFade()
-                .into(episodeImage);
+        GlideLoader.load(url, episodeImage);
     }
 
     public void setEpisodeId(String episodeId) {

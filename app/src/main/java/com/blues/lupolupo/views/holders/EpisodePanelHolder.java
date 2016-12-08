@@ -5,8 +5,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.blues.lupolupo.R;
-import com.blues.lupolupo.common.LupolupoAPIApplication;
-import com.bumptech.glide.Glide;
+import com.blues.lupolupo.model.loaders.GlideLoader;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,9 +25,6 @@ public class EpisodePanelHolder extends RecyclerView.ViewHolder {
     }
 
     public void loadPanelImage(String url) {
-        Glide.with(LupolupoAPIApplication.get())
-                .load(url)
-                .crossFade()
-                .into(panelImage);
+        GlideLoader.load(url, panelImage);
     }
 }

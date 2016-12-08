@@ -6,11 +6,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.blues.lupolupo.R;
-import com.blues.lupolupo.common.LupolupoAPIApplication;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
+import com.blues.lupolupo.model.loaders.GlideLoader;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,20 +30,6 @@ public class DashViewSmallHolder extends RecyclerView.ViewHolder {
     }
 
     public void loadImage(String url) {
-        Glide.with(LupolupoAPIApplication.get())
-                .load(url)
-                .crossFade()
-                .listener(new RequestListener<String, GlideDrawable>() {
-                    @Override
-                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                        return false;
-                    }
-                })
-                .into(coverImage);
+        GlideLoader.load(url, coverImage);
     }
 }

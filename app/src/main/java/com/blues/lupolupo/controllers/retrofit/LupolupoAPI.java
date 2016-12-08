@@ -1,6 +1,5 @@
 package com.blues.lupolupo.controllers.retrofit;
 
-import com.blues.lupolupo.model.UserInfo;
 import com.blues.lupolupo.model.dtos.GetComicDto;
 import com.blues.lupolupo.model.dtos.GetEpisodeDto;
 import com.blues.lupolupo.model.dtos.GetPanelDto;
@@ -19,9 +18,6 @@ interface LupolupoAPI {
     @POST("api/getComics")
     Call<GetComicDto> getComics();
 
-    @POST("api/saveInfo")
-    Call<Object> saveInfo(UserInfo user);
-
     @FormUrlEncoded
     @POST("api/getEpisodes")
     Call<GetEpisodeDto> getEpisode(@Field("comic_id") String comic_id);
@@ -33,4 +29,8 @@ interface LupolupoAPI {
     @FormUrlEncoded
     @POST("api/Like_unlike")
     Call<String> postLikeUnlike(@Field("episode_id") String episode_id, @Field("status") String status);
+
+    @FormUrlEncoded
+    @POST("api/saveInfo")
+    Call<String> saveInfo(@Field("latitude") String latitude, @Field("longitude") String longitude, @Field("publicIP") String publicIP, @Field("deviceModel") String episode_id, @Field("deviceID") String deviceID, @Field("carrier") String carrier, @Field("deviceType") String deviceType);
 }

@@ -9,11 +9,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.blues.lupolupo.R;
-import com.blues.lupolupo.common.LupolupoAPIApplication;
 import com.blues.lupolupo.model.Comic;
+import com.blues.lupolupo.model.loaders.GlideLoader;
 import com.blues.lupolupo.views.activities.ComicActivity;
 import com.blues.lupolupo.views.activities.SplashActivity;
-import com.bumptech.glide.Glide;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -57,10 +56,7 @@ public class LargeImageViewFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_large_image, container, false);
         ButterKnife.bind(this, rootView);
-        Glide.with(LupolupoAPIApplication.get())
-                .load("http://lupolupo.com/images/" + comicData.id + "/" + comicData.comic_big_image)
-                .crossFade()
-                .into(imageView);
+        GlideLoader.load("http://lupolupo.com/images/" + comicData.id + "/" + comicData.comic_big_image, imageView);
         return rootView;
     }
 }

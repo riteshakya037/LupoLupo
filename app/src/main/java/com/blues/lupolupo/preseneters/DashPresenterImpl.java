@@ -36,6 +36,7 @@ public class DashPresenterImpl implements DashPresenter {
         if (AppLoader.getInstance().getComics().size() != 0) {
             mDashAdapter.setData(AppLoader.getInstance().getComics());
             mDashPageAdapter.setData(AppLoader.getInstance().getComics());
+            setPage(0);
         }
     }
 
