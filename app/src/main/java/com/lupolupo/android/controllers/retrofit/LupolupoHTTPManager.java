@@ -49,9 +49,7 @@ public class LupolupoHTTPManager {
 
     private LupolupoAPI getHttpAdaptor() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        if (BuildConfig.FLAVOR.equals("staging")) {
             interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        }
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
         Log.e("End point", PROD_ENDPOINT);
 

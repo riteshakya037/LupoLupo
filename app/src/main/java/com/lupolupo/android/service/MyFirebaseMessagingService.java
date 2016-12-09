@@ -7,6 +7,8 @@ import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.lupolupo.android.common.LupolupoAPIApplication;
+import com.lupolupo.android.common.NotificationPref;
 import com.lupolupo.android.common.NotificationUtils;
 import com.lupolupo.android.views.activities.SplashActivity;
 
@@ -25,23 +27,25 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-        Log.e(TAG, "From: " + remoteMessage.getFrom());
+        if (NotificationPref.with(LupolupoAPIApplication.get()).getBoolean()) {
+            Log.e(TAG, "From: " + remoteMessage.getFrom());
 
-        // Check if message contains a notification payload.
-        if (remoteMessage.getNotification() != null) {
-            Log.e(TAG, "Notification Body: " + remoteMessage.getNotification().getBody());
-            handleNotification(remoteMessage.getNotification().getBody(), remoteMessage.getNotification().getTitle());
-        }
+            // Check if message contains a notification payload.
+            if (remoteMessage.getNotification() != null) {
+                Log.e(TAG, "Notification Body: " + remoteMessage.getNotification().getBody());
+                handleNotification(remoteMessage.getNotification().getBody(), remoteMessage.getNotification().getTitle());
+            }
 
-        // Check if message contains a data payload.
-        if (remoteMessage.getData().size() > 0) {
-            Log.e(TAG, "Data Payload: " + remoteMessage.getData().toString());
+            // Check if message contains a data payload.
+            if (remoteMessage.getData().size() > 0) {
+                Log.e(TAG, "Data Payload: " + remoteMessage.getData().toString());
 
-            try {
-                JSONObject json = new JSONObject(remoteMessage.getData().toString());
-                handleDataMessage(json);
-            } catch (Exception e) {
-                Log.e(TAG, "Exception: " + e.getMessage());
+                try {
+                    JSONObject json = new JSONObject(remoteMessage.getData().toString());
+                    handleDataMessage(json);
+                } catch (Exception e) {
+                    Log.e(TAG, "Exception: " + e.getMessage());
+                }
             }
         }
     }

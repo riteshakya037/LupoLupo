@@ -3,6 +3,7 @@ package com.lupolupo.android.common;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 /**
  * @author Ritesh Shakya
@@ -34,6 +35,7 @@ public class FirstRunPrefPref {
     }
 
     public void save(boolean value) {
+        Log.i(TAG, "save: " + value);
         editor.putBoolean(key, value).apply();
     }
 

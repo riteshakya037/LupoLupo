@@ -25,7 +25,7 @@ public class ExampleUnitTest {
         // Method to send Notifications from server to client end.
         String AUTH_KEY_FCM = "AIzaSyByF2Ax3YJq5l6U5yXrkicR-xqR98PBFK0";
         String API_URL_FCM = "https://fcm.googleapis.com/fcm/send";
-        String userDeviceIdKey = "fVzjAg1nIHA:APA91bEYqNPgGwdKDV1oB456HnEJeFMeMHP2v94B4B4_s71ojKVFobl52QXC1KnOUGnZkldI5AhMkXGvBw1_5SAb1six4BvfDvg7twGuBwYtErk0wtewuCM5snoTsb65-tSFJzB4fmpc";
+        String userDeviceIdKey = "fLZ3r7p-Qho:APA91bE9fyO4xZpn0jDeqj7cJRw3pv-Wggpp7Xq2DcGGDc7dDkK_FK3wCOy3IMLwfPTcP0x1ZurrNEg2l2N62unDei2o7gP8cnyrAx6frTYA9sG7GpcKSnzdPcFFgqcWCQi0NMLvAdDP";
 
         URL url = new URL(API_URL_FCM);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();

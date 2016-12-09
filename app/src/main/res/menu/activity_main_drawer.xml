@@ -21,14 +21,20 @@
     </group>
     <group>
 
-        <item android:title="@string/terms_of_use" />
+        <item
+            android:id="@+id/nav_term_of_use"
+            android:title="@string/terms_of_use" />
     </group>
     <group>
 
-        <item android:title="@string/open_source_license" />
+        <item
+            android:id="@+id/nav_open_source"
+            android:title="@string/open_source_license" />
     </group>
     <group>
 
-        <item android:title="@string/app_version" />
+        <item
+            android:id="@+id/nav_app_version"
+            android:title="@string/app_version" />
     </group>
 </menu>

@@ -7,11 +7,17 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.View;
+import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.lupolupo.android.R;
+import com.lupolupo.android.common.LupolupoAPIApplication;
+import com.lupolupo.android.common.NotificationPref;
 import com.lupolupo.android.preseneters.MainPresenter;
 import com.lupolupo.android.preseneters.MainPresenterImpl;
 import com.lupolupo.android.preseneters.events.TitleEvent;
@@ -86,6 +92,15 @@ public class MainActivity extends AppCompatActivity implements MainView {
             mDrawerToggle.syncState();
             navigationView.setNavigationItemSelectedListener(mMainPresenter);
             navigationView.setCheckedItem(R.id.nav_home);
+            Menu menu = navigationView.getMenu();
+            LinearLayout linearLayout = (LinearLayout) menu.findItem(R.id.nav_new_release).getActionView();
+            final SwitchCompat switchView = (SwitchCompat) linearLayout.findViewById(R.id.notification_switch);
+            switchView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    NotificationPref.with(LupolupoAPIApplication.get()).save(b);
+                }
+            });
         }
     }
 

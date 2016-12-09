@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
-    tools:context=".views.activities.MainActivity">
+    android:background="@color/cardview_light_background"
+    android:orientation="vertical">
 
-    <android.support.v7.widget.SwitchCompat
-        android:id="@+id/notification_switch"
+    <TextView
+        style="@style/TextAppearance.AppCompat.Medium.Inverse"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="" />
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="Term of Use" />
 
 </LinearLayout>
