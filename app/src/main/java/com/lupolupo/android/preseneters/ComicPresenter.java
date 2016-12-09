@@ -11,4 +11,6 @@ public interface ComicPresenter extends BasePresenter, BaseDataPresenter, BaseAd
     void loadImage(String url);
 
     void share();
+
+    void subscribe();
 }

@@ -3,6 +3,7 @@ package com.lupolupo.android.controllers.retrofit;
 import android.util.Log;
 
 import com.lupolupo.android.BuildConfig;
+import com.lupolupo.android.common.FCMPref;
 import com.lupolupo.android.common.LikePref;
 import com.lupolupo.android.common.LupolupoAPIApplication;
 import com.lupolupo.android.model.Comic;
@@ -135,11 +136,23 @@ public class LupolupoHTTPManager {
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                try {
-                    throw t;
-                } catch (Throwable throwable) {
-                    throwable.printStackTrace();
-                }
+
+            }
+        });
+        return source.getTask();
+    }
+
+    public Task<String> subscribe(String comicID) {
+        final TaskCompletionSource<String> source = new TaskCompletionSource<>();
+        getHttpAdaptor().subscribe(comicID, FCMPref.newInsance().getToken(), "android").enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                source.setResult(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
             }
         });
         return source.getTask();

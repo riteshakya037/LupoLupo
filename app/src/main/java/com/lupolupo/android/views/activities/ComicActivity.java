@@ -21,6 +21,7 @@ import com.lupolupo.android.views.ComicView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 public class ComicActivity extends AppCompatActivity implements ComicView, ComicMapper {
@@ -45,6 +46,11 @@ public class ComicActivity extends AppCompatActivity implements ComicView, Comic
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.emptyLoadingView)
     View emptyLoadingView;
+
+    @OnClick(R.id.button_subscribe)
+    void onSubscribe() {
+        mPresenter.subscribe();
+    }
 
     private ComicPresenter mPresenter;
 

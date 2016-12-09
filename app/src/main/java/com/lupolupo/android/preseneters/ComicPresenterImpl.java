@@ -5,23 +5,28 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.v4.content.FileProvider;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
 import com.lupolupo.android.R;
 import com.lupolupo.android.common.LupolupoAPIApplication;
+import com.lupolupo.android.controllers.retrofit.LupolupoHTTPManager;
 import com.lupolupo.android.model.Comic;
 import com.lupolupo.android.model.loaders.ComicLoader;
 import com.lupolupo.android.preseneters.mappers.ComicMapper;
 import com.lupolupo.android.views.ComicView;
 import com.lupolupo.android.views.adaptors.ComicEpisodeAdapter;
 import com.lupolupo.android.views.bases.BaseEmptyRelativeLayoutView;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.target.Target;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+
+import bolts.Continuation;
+import bolts.Task;
 
 /**
  * @author Ritesh Shakya
@@ -29,6 +34,7 @@ import java.io.IOException;
 public class ComicPresenterImpl implements ComicPresenter, BaseEmptyRelativeLayoutView {
     private static final String CHILD = "images";
     private static final String IMAGE_NAME = "image.png";
+    private static final String TAG = ComicPresenterImpl.class.getSimpleName();
     private final ComicView mView;
     private final ComicMapper mMapper;
     private Comic comicData;
@@ -93,6 +99,17 @@ public class ComicPresenterImpl implements ComicPresenter, BaseEmptyRelativeLayo
             shareIntent.setType(mView.getActivity().getContentResolver().getType(contentUri));
             mView.getActivity().startActivity(Intent.createChooser(shareIntent, mView.getActivity().getResources().getText(R.string.send_to)));
         }
+    }
+
+    @Override
+    public void subscribe() {
+        LupolupoHTTPManager.getInstance().subscribe(comicData.id).onSuccess(new Continuation<String, Task<Void>>() {
+            @Override
+            public Task<Void> then(Task<String> results) throws Exception {
+                Log.i(TAG, "subscribe: " + results.getResult());
+                return null;
+            }
+        });
     }
 
 

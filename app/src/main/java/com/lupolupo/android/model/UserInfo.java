@@ -6,6 +6,7 @@ import android.os.Build;
 import android.telephony.TelephonyManager;
 import android.text.format.Formatter;
 
+import com.lupolupo.android.common.FCMPref;
 import com.lupolupo.android.common.GPSTracker;
 import com.lupolupo.android.common.LupolupoAPIApplication;
 
@@ -37,7 +38,7 @@ public class UserInfo {
     }
 
     private String getDeviceToken() {
-        return null; //// TODO: 12/7/2016
+        return FCMPref.newInsance().getToken();
     }
 
     private String getCarrier() {
