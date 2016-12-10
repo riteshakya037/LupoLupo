@@ -59,7 +59,7 @@ public class GPSTracker extends Service implements LocationListener {
             } else {
                 this.canGetLocation = true;
                 if (isNetworkEnabled) {
-                    if (Build.VERSION.SDK_INT > 22 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    if (Build.VERSION.SDK_INT > 22 && ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                         return null;
                     }
                     locationManager.requestLocationUpdates(
@@ -102,7 +102,7 @@ public class GPSTracker extends Service implements LocationListener {
 
     public void stopUsingGPS() {
         if (locationManager != null) {
-            if (Build.VERSION.SDK_INT > 22 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            if (Build.VERSION.SDK_INT > 22 && ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 return;
             }
             locationManager.removeUpdates(GPSTracker.this);

@@ -7,18 +7,18 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
 import com.lupolupo.android.R;
+import com.lupolupo.android.views.activities.bases.PortraitActivity;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class SendLog extends AppCompatActivity implements View.OnClickListener {
+public class SendLog extends PortraitActivity implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

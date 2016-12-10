@@ -5,7 +5,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.v4.content.FileProvider;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
@@ -55,7 +55,12 @@ public class ComicPresenterImpl implements ComicPresenter, BaseEmptyRelativeLayo
     public void initializeData() {
         comicData = ComicLoader.getInstance().getComicData();
         mMapper.setHeader(comicData);
-        comicEpisodeAdaptor.setData(ComicLoader.getInstance().getEpisodeList());
+        if (ComicLoader.getInstance().getEpisodeList().size() == 0) {
+            mView.showEmptyDialog();
+        } else {
+            comicEpisodeAdaptor.setData(ComicLoader.getInstance().getEpisodeList());
+        }
+
     }
 
     @Override
@@ -89,7 +94,7 @@ public class ComicPresenterImpl implements ComicPresenter, BaseEmptyRelativeLayo
     public void share() {
         File imagePath = new File(mView.getActivity().getCacheDir(), CHILD);
         File newFile = new File(imagePath, IMAGE_NAME);
-        Uri contentUri = FileProvider.getUriForFile(mView.getActivity(), "com.blues.lupolupo.file_provider", newFile);
+        Uri contentUri = FileProvider.getUriForFile(mView.getActivity(), "com.lupolupo.android.file_provider", newFile);
         if (contentUri != null) {
             Intent shareIntent = new Intent();
             shareIntent.setAction(Intent.ACTION_SEND);
@@ -106,7 +111,7 @@ public class ComicPresenterImpl implements ComicPresenter, BaseEmptyRelativeLayo
         LupolupoHTTPManager.getInstance().subscribe(comicData.id).onSuccess(new Continuation<String, Task<Void>>() {
             @Override
             public Task<Void> then(Task<String> results) throws Exception {
-                Log.i(TAG, "subscribe: " + results.getResult());
+                Toast.makeText(mView.getActivity(), results.getResult(), Toast.LENGTH_SHORT).show();
                 return null;
             }
         });

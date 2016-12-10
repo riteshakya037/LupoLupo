@@ -2,7 +2,6 @@ package com.lupolupo.android.views.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -13,18 +12,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.lupolupo.android.R;
+import com.lupolupo.android.common.DialogUtils;
 import com.lupolupo.android.model.Comic;
 import com.lupolupo.android.preseneters.ComicPresenter;
 import com.lupolupo.android.preseneters.ComicPresenterImpl;
 import com.lupolupo.android.preseneters.mappers.ComicMapper;
 import com.lupolupo.android.views.ComicView;
+import com.lupolupo.android.views.activities.bases.PortraitActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class ComicActivity extends AppCompatActivity implements ComicView, ComicMapper {
+public class ComicActivity extends PortraitActivity implements ComicView, ComicMapper {
 
     public static final String INTENT_COMIC = "comic_intent";
     @SuppressWarnings("WeakerAccess")
@@ -137,5 +138,10 @@ public class ComicActivity extends AppCompatActivity implements ComicView, Comic
     public void setHeader(Comic comicData) {
         mPresenter.loadImage("http://lupolupo.com/images/" + comicData.id + "/" + comicData.comic_big_image);
         comicTitle.setText(comicData.comic_name);
+    }
+
+    @Override
+    public void showEmptyDialog() {
+        DialogUtils.showDialog(this, "Information", "There are no episodes.");
     }
 }

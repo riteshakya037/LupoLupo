@@ -13,7 +13,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -29,6 +28,7 @@ import com.lupolupo.android.model.UserInfo;
 import com.lupolupo.android.model.loaders.AppLoader;
 import com.lupolupo.android.model.loaders.ComicLoader;
 import com.lupolupo.android.model.loaders.EpisodeLoader;
+import com.lupolupo.android.views.activities.bases.PortraitActivity;
 
 import bolts.Continuation;
 import bolts.Task;
@@ -37,7 +37,7 @@ import bolts.TaskCompletionSource;
 import static com.lupolupo.android.views.activities.ComicActivity.INTENT_COMIC;
 import static com.lupolupo.android.views.activities.EpisodeActivity.INTENT_EPISODE;
 
-public class SplashActivity extends AppCompatActivity {
+public class SplashActivity extends PortraitActivity {
 
     private static final String TAG = SplashActivity.class.getSimpleName();
     private static final int REQUEST_ACCESS_FINE_LOCATION = 111;
@@ -152,15 +152,20 @@ public class SplashActivity extends AppCompatActivity {
     private Task<Void> saveInfo() {
         final TaskCompletionSource<Void> tcs = new TaskCompletionSource<>();
         UserInfo info = new UserInfo();
-        info.getInfo();
         if (BuildConfig.FLAVOR.equals("staging")) {
             tcs.setResult(null);
         } else {
-            LupolupoHTTPManager.getInstance().saveInfo(info).continueWith(new Continuation<String, Void>() {
+            info.getInfo().onSuccess(new Continuation<UserInfo, Object>() {
                 @Override
-                public Void then(Task<String> task) throws Exception {
-                    Log.i(TAG, "saveInfo: " + task.getResult());
-                    tcs.setResult(null);
+                public Object then(Task<UserInfo> task) throws Exception {
+                    LupolupoHTTPManager.getInstance().saveInfo(task.getResult()).continueWith(new Continuation<String, Void>() {
+                        @Override
+                        public Void then(Task<String> task) throws Exception {
+                            Log.i(TAG, "saveInfo: " + task.getResult());
+                            tcs.setResult(null);
+                            return null;
+                        }
+                    });
                     return null;
                 }
             });

@@ -6,7 +6,6 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -22,6 +21,7 @@ import com.lupolupo.android.preseneters.MainPresenter;
 import com.lupolupo.android.preseneters.MainPresenterImpl;
 import com.lupolupo.android.preseneters.events.TitleEvent;
 import com.lupolupo.android.views.MainView;
+import com.lupolupo.android.views.activities.bases.PortraitActivity;
 import com.lupolupo.android.views.fragments.DashFragment;
 
 import org.greenrobot.eventbus.EventBus;
@@ -31,7 +31,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements MainView {
+public class MainActivity extends PortraitActivity implements MainView {
     private static final String TAG = MainActivity.class.getSimpleName();
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.toolbar)

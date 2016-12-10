@@ -44,6 +44,10 @@ public class EpisodePresenterImpl implements EpisodePresenter {
 
     @Override
     public void initializeData() {
-        mPanelAdapter.setData(EpisodeLoader.getInstance().getPanelList());
+        if (EpisodeLoader.getInstance().getPanelList().size() == 0) {
+            mView.showEmptyDialog();
+        } else {
+            mPanelAdapter.setData(EpisodeLoader.getInstance().getPanelList());
+        }
     }
 }
