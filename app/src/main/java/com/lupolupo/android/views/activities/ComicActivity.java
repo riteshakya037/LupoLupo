@@ -2,12 +2,13 @@ package com.lupolupo.android.views.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,6 +24,7 @@ import com.lupolupo.android.views.activities.bases.PortraitActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import mehdi.sakout.fancybuttons.FancyButton;
 
 
 public class ComicActivity extends PortraitActivity implements ComicView, ComicMapper {
@@ -45,11 +47,12 @@ public class ComicActivity extends PortraitActivity implements ComicView, ComicM
     RecyclerView mRecycler;
 
     @SuppressWarnings("WeakerAccess")
-    @BindView(R.id.emptyLoadingView)
-    View emptyLoadingView;
+    @BindView(R.id.button_subscribe)
+    FancyButton buttonSubscribe;
 
     @OnClick(R.id.button_subscribe)
     void onSubscribe() {
+        toggleSubButton(false);
         mPresenter.subscribe();
     }
 
@@ -116,22 +119,21 @@ public class ComicActivity extends PortraitActivity implements ComicView, ComicM
     }
 
     @Override
-    public void hideEmptyRelativeLayout() {
-        if (emptyLoadingView != null) {
-            emptyLoadingView.setVisibility(View.GONE);
-        }
-    }
-
-    @Override
-    public void showEmptyRelativeLayout() {
-        if (emptyLoadingView != null) {
-            emptyLoadingView.setVisibility(View.VISIBLE);
-        }
-    }
-
-    @Override
     public ImageView getCoverImageHolder() {
         return coverImage;
+    }
+
+    @Override
+    public void toggleSubButton(boolean isEnabled) {
+        buttonSubscribe.setBackgroundColor(ContextCompat.getColor(this, isEnabled ? android.R.color.transparent : R.color.colorAccentLight));
+        buttonSubscribe.setTextColor(ContextCompat.getColor(this, isEnabled ? R.color.colorAccentLight : R.color.cardview_light_background));
+        buttonSubscribe.setEnabled(isEnabled);
+    }
+
+    public int getThemeAccentColor() {
+        final TypedValue value = new TypedValue();
+        getActivity().getTheme().resolveAttribute(R.attr.colorAccent, value, true);
+        return value.data;
     }
 
     @Override

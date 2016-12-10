@@ -3,11 +3,12 @@ package com.lupolupo.android.model.loaders;
 import android.graphics.Bitmap;
 import android.widget.ImageView;
 
-import com.lupolupo.android.common.LupolupoAPIApplication;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.lupolupo.android.R;
+import com.lupolupo.android.common.LupolupoAPIApplication;
 
 import bolts.Task;
 import bolts.TaskCompletionSource;
@@ -35,6 +36,7 @@ public class GlideLoader {
         Glide.with(LupolupoAPIApplication.get())
                 .load(url)
                 .crossFade()
+                .placeholder(R.drawable.background_empty)
                 .thumbnail(.5f)
                 .into(coverImage);
     }

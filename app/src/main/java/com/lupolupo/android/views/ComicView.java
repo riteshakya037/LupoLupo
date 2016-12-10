@@ -11,7 +11,9 @@ import com.lupolupo.android.views.bases.BaseToolbarView;
 /**
  * @author Ritesh Shakya
  */
-public interface ComicView extends BaseContextView, BaseEmptyRelativeLayoutView, BaseRecyclerView, BaseToolbarView ,BaseEmptyDialogView {
+public interface ComicView extends BaseContextView, BaseRecyclerView, BaseToolbarView ,BaseEmptyDialogView {
 
     ImageView getCoverImageHolder();
+
+    void toggleSubButton(boolean isEnabled);
 }

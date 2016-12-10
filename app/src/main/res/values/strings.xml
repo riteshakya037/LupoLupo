@@ -6,7 +6,7 @@
 
     <string name="home">Home</string>
     <string name="notifications">Notifications</string>
-    <string name="new_releases">\tNew Releases</string>
+    <string name="new_releases">\t\t\tNew Releases</string>
     <string name="terms_of_use">Terms of Use</string>
     <string name="open_source_license">Open Source License</string>
     <string name="app_version">App Version</string>

@@ -24,12 +24,10 @@ import java.util.List;
 public class ComicEpisodeAdapter extends RecyclerView.Adapter<EpisodeHolder> {
     private final Activity activity;
     private List<Episode> data;
-    private final BaseEmptyRelativeLayoutView listener;
 
 
-    public ComicEpisodeAdapter(Activity activity, BaseEmptyRelativeLayoutView listener) {
+    public ComicEpisodeAdapter(Activity activity) {
         this.activity = activity;
-        this.listener = listener;
         data = new LinkedList<>();
     }
 
@@ -67,11 +65,6 @@ public class ComicEpisodeAdapter extends RecyclerView.Adapter<EpisodeHolder> {
 
     public void setData(List<Episode> data) {
         this.data = data;
-        if (data.isEmpty()) {
-            listener.showEmptyRelativeLayout();
-        } else {
-            listener.hideEmptyRelativeLayout();
-        }
         this.notifyDataSetChanged();
     }
 }

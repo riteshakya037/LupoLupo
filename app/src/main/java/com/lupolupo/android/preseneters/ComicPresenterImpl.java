@@ -19,7 +19,6 @@ import com.lupolupo.android.model.loaders.ComicLoader;
 import com.lupolupo.android.preseneters.mappers.ComicMapper;
 import com.lupolupo.android.views.ComicView;
 import com.lupolupo.android.views.adaptors.ComicEpisodeAdapter;
-import com.lupolupo.android.views.bases.BaseEmptyRelativeLayoutView;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -31,7 +30,7 @@ import bolts.Task;
 /**
  * @author Ritesh Shakya
  */
-public class ComicPresenterImpl implements ComicPresenter, BaseEmptyRelativeLayoutView {
+public class ComicPresenterImpl implements ComicPresenter {
     private static final String CHILD = "images";
     private static final String IMAGE_NAME = "image.png";
     private static final String TAG = ComicPresenterImpl.class.getSimpleName();
@@ -47,7 +46,7 @@ public class ComicPresenterImpl implements ComicPresenter, BaseEmptyRelativeLayo
 
     @Override
     public void initializeAdaptor() {
-        comicEpisodeAdaptor = new ComicEpisodeAdapter(mView.getActivity(), this);
+        comicEpisodeAdaptor = new ComicEpisodeAdapter(mView.getActivity());
         mMapper.registerAdapter(comicEpisodeAdaptor);
     }
 
@@ -68,6 +67,7 @@ public class ComicPresenterImpl implements ComicPresenter, BaseEmptyRelativeLayo
         Glide.with(LupolupoAPIApplication.get())
                 .load(url)
                 .asBitmap()
+                .placeholder(R.drawable.background_empty)
                 .into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
                     @Override
                     public void onResourceReady(Bitmap resource, GlideAnimation glideAnimation) {
@@ -111,6 +111,7 @@ public class ComicPresenterImpl implements ComicPresenter, BaseEmptyRelativeLayo
         LupolupoHTTPManager.getInstance().subscribe(comicData.id).onSuccess(new Continuation<String, Task<Void>>() {
             @Override
             public Task<Void> then(Task<String> results) throws Exception {
+                mView.toggleSubButton(true);
                 Toast.makeText(mView.getActivity(), results.getResult(), Toast.LENGTH_SHORT).show();
                 return null;
             }
@@ -124,13 +125,4 @@ public class ComicPresenterImpl implements ComicPresenter, BaseEmptyRelativeLayo
         mView.initializeRecyclerLayoutManager(new LinearLayoutManager(mView.getActivity()));
     }
 
-    @Override
-    public void hideEmptyRelativeLayout() {
-        mView.hideEmptyRelativeLayout();
-    }
-
-    @Override
-    public void showEmptyRelativeLayout() {
-        mView.showEmptyRelativeLayout();
-    }
 }
