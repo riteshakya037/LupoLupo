@@ -90,11 +90,7 @@ public class UserInfo {
 
             @Override
             public void onFailure(Call<FreegeoipDto> call, Throwable t) {
-                try {
-                    throw t;
-                } catch (Throwable throwable) {
-                    throwable.printStackTrace();
-                }
+                source.setError(null);
             }
         });
         return source.getTask();
