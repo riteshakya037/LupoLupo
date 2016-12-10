@@ -27,7 +27,7 @@ public class UserInfo {
     public String publicIP;
     public String deviceModel;
     public String deviceID;
-    public String carrier = "Unknown Carrier";
+    public String carrier;
     public String deviceType;
     private GPSTracker gpsTracker = new GPSTracker(LupolupoAPIApplication.get());
 
@@ -61,7 +61,11 @@ public class UserInfo {
 
     private String getCarrier() {
         TelephonyManager manager = (TelephonyManager) LupolupoAPIApplication.get().getSystemService(Context.TELEPHONY_SERVICE);
-        return manager.getNetworkOperatorName();
+
+        String carrier = manager.getNetworkOperatorName();
+        if (carrier.equalsIgnoreCase("") || carrier.equalsIgnoreCase("android"))
+            return "Unknown Carrier";
+        else return carrier;
     }
 
 
