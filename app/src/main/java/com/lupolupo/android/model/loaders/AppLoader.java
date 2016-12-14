@@ -33,8 +33,8 @@ public class AppLoader {
                 if (results.getResult() != null && results.getResult().size() != 0) {
                     comicList = results.getResult();
                     for (final Comic comic : results.getResult()) {
-                        tasks.add(GlideLoader.getImage("images/" + comic.id + "/" + comic.comic_big_image));
-                        tasks.add(GlideLoader.getImage("images/" + comic.id + "/" + comic.comic_image));
+                        tasks.add(GlideLoader.getImage("images/" + comic.id + "/" , comic.comic_big_image));
+                        tasks.add(GlideLoader.getImage("images/" + comic.id + "/" , comic.comic_image));
                     }
                 }
                 return Task.whenAll(tasks);

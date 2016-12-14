@@ -35,8 +35,8 @@ public class EpisodeLoader {
                 ArrayList<Task<Void>> tasks = new ArrayList<>();
                 if (results.getResult() != null && results.getResult().size() != 0) {
                     panelList = results.getResult();
-                    for (final Panel panel : results.getResult()) {
-                        tasks.add(GlideLoader.getImage("images/" + episodeData.comic_id + "/" + panel.episode_id + "/" + panel.panel_image));
+                    for (final Panel panel : results.getResult().subList(0, results.getResult().size() < 5 ? results.getResult().size() : 5)) {
+                        tasks.add(GlideLoader.getImage("images/" + episodeData.comic_id + "/" + panel.episode_id + "/", panel.panel_image));
                     }
                 }
                 return Task.whenAll(tasks);

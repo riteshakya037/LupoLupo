@@ -35,9 +35,9 @@ public class ComicLoader {
                 ArrayList<Task<Void>> tasks = new ArrayList<>();
                 if (results.getResult() != null && results.getResult().size() != 0) {
                     episodeList = results.getResult();
-                    tasks.add(GlideLoader.getImage("/images/" + comicData.id + "/" +comicData.comic_big_image));
+                    tasks.add(GlideLoader.getImage("/images/" + comicData.id + "/", comicData.comic_big_image));
                     for (final Episode episode : results.getResult()) {
-                        tasks.add(GlideLoader.getImage("images/" + episode.comic_id + "/" + episode.id + "/"+ episode.episode_image));
+                        tasks.add(GlideLoader.getImage("images/" + episode.comic_id + "/" + episode.id + "/", episode.episode_image));
                     }
                 }
                 return Task.whenAll(tasks);
