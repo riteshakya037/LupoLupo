@@ -138,7 +138,7 @@ public class ComicActivity extends PortraitActivity implements ComicView, ComicM
 
     @Override
     public void setHeader(Comic comicData) {
-        mPresenter.loadImage("http://lupolupo.com/images/" + comicData.id + "/" + comicData.comic_big_image);
+        mPresenter.loadImage("images/" + comicData.id + "/" + comicData.comic_big_image);
         comicTitle.setText(comicData.comic_name);
     }
 

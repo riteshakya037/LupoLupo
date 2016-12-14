@@ -24,17 +24,17 @@ public class AppLoader {
         return _instance;
     }
 
-    public Task<Task<Void>> startLoading() {
+    public Task<Void> startLoading() {
         this.comicList = new LinkedList<>();
-        return LupolupoHTTPManager.getInstance().getComics().onSuccess(new Continuation<List<Comic>, Task<Void>>() {
+        return LupolupoHTTPManager.getInstance().getComics().onSuccessTask(new Continuation<List<Comic>, Task<Void>>() {
             @Override
             public Task<Void> then(Task<List<Comic>> results) throws Exception {
                 ArrayList<Task<Void>> tasks = new ArrayList<>();
                 if (results.getResult() != null && results.getResult().size() != 0) {
                     comicList = results.getResult();
                     for (final Comic comic : results.getResult()) {
-                        tasks.add(GlideLoader.getImage("http://lupolupo.com/images/" + comic.id + "/" + comic.comic_big_image));
-                        tasks.add(GlideLoader.getImage("http://lupolupo.com/images/" + comic.id + "/" + comic.comic_image));
+                        tasks.add(GlideLoader.getImage("images/" + comic.id + "/" + comic.comic_big_image));
+                        tasks.add(GlideLoader.getImage("images/" + comic.id + "/" + comic.comic_image));
                     }
                 }
                 return Task.whenAll(tasks);

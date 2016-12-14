@@ -58,9 +58,9 @@ public class SplashActivity extends PortraitActivity {
         };
         checkPlayServices();
         if (getIntent().hasExtra(INTENT_COMIC)) {
-            ComicLoader.getInstance().startLoading((Comic) getIntent().getParcelableExtra(INTENT_COMIC)).onSuccess(new Continuation<Task<Void>, Void>() {
+            ComicLoader.getInstance().startLoading((Comic) getIntent().getParcelableExtra(INTENT_COMIC)).onSuccess(new Continuation<Void, Void>() {
                 @Override
-                public Void then(Task<Task<Void>> task) throws Exception {
+                public Void then(Task<Void> task) throws Exception {
                     Intent intent = new Intent(SplashActivity.this, ComicActivity.class);
                     startActivity(intent);
                     finish();
@@ -68,9 +68,9 @@ public class SplashActivity extends PortraitActivity {
                 }
             });
         } else if (getIntent().hasExtra(INTENT_EPISODE)) {
-            EpisodeLoader.getInstance().startLoading((Episode) getIntent().getParcelableExtra(INTENT_EPISODE)).onSuccess(new Continuation<Task<Void>, Void>() {
+            EpisodeLoader.getInstance().startLoading((Episode) getIntent().getParcelableExtra(INTENT_EPISODE)).onSuccess(new Continuation<Void, Void>() {
                 @Override
-                public Void then(Task<Task<Void>> task) throws Exception {
+                public Void then(Task<Void> task) throws Exception {
                     Intent intent = new Intent(SplashActivity.this, EpisodeActivity.class);
                     startActivity(intent);
                     finish();
@@ -110,14 +110,14 @@ public class SplashActivity extends PortraitActivity {
     }
 
     private void startMain() {
-        AppLoader.getInstance().startLoading().onSuccess(new Continuation<Task<Void>, Task<Void>>() {
+        AppLoader.getInstance().startLoading().continueWithTask(new Continuation<Void, Task<Void>>() {
             @Override
-            public Task<Void> then(Task<Task<Void>> task) throws Exception {
+            public Task<Void> then(Task<Void> task) throws Exception {
                 return saveInfo();
             }
-        }).onSuccess(new Continuation<Task<Void>, Void>() {
+        }).onSuccess(new Continuation<Void, Void>() {
             @Override
-            public Void then(Task<Task<Void>> task) throws Exception {
+            public Void then(Task<Void> task) throws Exception {
                 Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();

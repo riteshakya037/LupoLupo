@@ -60,8 +60,9 @@ public class MainActivity extends PortraitActivity implements MainView {
 
         mMainPresenter.initializeViews();
         if (savedInstanceState == null) {
-            //  fragmentTransaction(TimelinePageFragment.newInstance(), timelineFragment);
-            mMainPresenter.fragmentTransaction(DashFragment.newInstance());
+            getSupportFragmentManager().beginTransaction()
+                    .replace(getMainLayoutId(), DashFragment.newInstance())
+                    .commit();
         }
     }
 

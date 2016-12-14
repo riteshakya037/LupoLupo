@@ -34,7 +34,7 @@ public class EpisodeAdapter extends RecyclerView.Adapter<EpisodePanelHolder> {
     @Override
     public void onBindViewHolder(EpisodePanelHolder holder, int position) {
         Panel panelData = mData.get(position);
-        holder.loadPanelImage("http://lupolupo.com/images/" + comic_id + "/" + panelData.episode_id + "/" + panelData.panel_image);
+        holder.loadPanelImage("images/" + comic_id + "/" + panelData.episode_id + "/" + panelData.panel_image);
     }
 
     @Override

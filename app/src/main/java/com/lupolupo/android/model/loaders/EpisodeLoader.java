@@ -26,17 +26,17 @@ public class EpisodeLoader {
         return _instance;
     }
 
-    public Task<Task<Void>> startLoading(Episode episode) {
+    public Task<Void> startLoading(Episode episode) {
         this.episodeData = episode;
         this.panelList = new LinkedList<>();
-        return LupolupoHTTPManager.getInstance().getPanel(episode.id).onSuccess(new Continuation<List<Panel>, Task<Void>>() {
+        return LupolupoHTTPManager.getInstance().getPanel(episode.id).onSuccessTask(new Continuation<List<Panel>, Task<Void>>() {
             @Override
             public Task<Void> then(Task<List<Panel>> results) throws Exception {
                 ArrayList<Task<Void>> tasks = new ArrayList<>();
                 if (results.getResult() != null && results.getResult().size() != 0) {
                     panelList = results.getResult();
                     for (final Panel panel : results.getResult()) {
-                        tasks.add(GlideLoader.getImage("http://lupolupo.com/images/" + episodeData.comic_id + "/" + panel.episode_id + "/" + panel.panel_image));
+                        tasks.add(GlideLoader.getImage("images/" + episodeData.comic_id + "/" + panel.episode_id + "/" + panel.panel_image));
                     }
                 }
                 return Task.whenAll(tasks);

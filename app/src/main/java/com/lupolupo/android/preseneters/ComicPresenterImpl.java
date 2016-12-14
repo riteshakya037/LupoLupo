@@ -7,15 +7,11 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.widget.LinearLayoutManager;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.target.Target;
 import com.lupolupo.android.R;
-import com.lupolupo.android.common.LupolupoAPIApplication;
 import com.lupolupo.android.controllers.retrofit.LupolupoHTTPManager;
 import com.lupolupo.android.model.Comic;
 import com.lupolupo.android.model.loaders.ComicLoader;
+import com.lupolupo.android.model.loaders.GlideLoader;
 import com.lupolupo.android.preseneters.mappers.ComicMapper;
 import com.lupolupo.android.views.ComicView;
 import com.lupolupo.android.views.adaptors.ComicEpisodeAdapter;
@@ -64,17 +60,8 @@ public class ComicPresenterImpl implements ComicPresenter {
 
     @Override
     public void loadImage(String url) {
-        Glide.with(LupolupoAPIApplication.get())
-                .load(url)
-                .asBitmap()
-                .placeholder(R.drawable.background_empty)
-                .into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
-                    @Override
-                    public void onResourceReady(Bitmap resource, GlideAnimation glideAnimation) {
-                        mView.getCoverImageHolder().setImageBitmap(resource);
-                        saveImage(resource);
-                    }
-                });
+        GlideLoader.load(url, mView.getCoverImageHolder());
+        saveImage(GlideLoader.getBitmap(url));
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")

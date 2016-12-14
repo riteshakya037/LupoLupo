@@ -7,8 +7,10 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
-import com.lupolupo.android.R;
+import com.bumptech.glide.request.target.Target;
 import com.lupolupo.android.common.LupolupoAPIApplication;
+
+import java.util.HashMap;
 
 import bolts.Task;
 import bolts.TaskCompletionSource;
@@ -17,27 +19,39 @@ import bolts.TaskCompletionSource;
  * @author Ritesh Shakya
  */
 public class GlideLoader {
-    static Task<Void> getImage(String coverURL) {
+    private static HashMap<String, Bitmap> bitmapHashMap = new HashMap<>();
+
+    static Task<Void> getImage(final String url) {
         final TaskCompletionSource<Void> tcs = new TaskCompletionSource<>();
-        Glide.with(LupolupoAPIApplication.get())
-                .load(coverURL)
-                .asBitmap()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(new SimpleTarget<Bitmap>() {
-                    @Override
-                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                        tcs.setResult(null);
-                    }
-                });
+        if (bitmapHashMap.containsKey(url)) {
+            tcs.setResult(null);
+        } else {
+            Glide.with(LupolupoAPIApplication.get())
+                    .load("http://lupolupo.com/" + url)
+                    .asBitmap()
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
+                        @Override
+                        public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                            saveImage(resource, url);
+                            tcs.setResult(null);
+                        }
+                    });
+        }
         return tcs.getTask();
     }
 
     public static void load(String url, ImageView coverImage) {
-        Glide.with(LupolupoAPIApplication.get())
-                .load(url)
-                .crossFade()
-                .placeholder(R.drawable.background_empty)
-                .thumbnail(.5f)
-                .into(coverImage);
+        if (bitmapHashMap.containsKey(url)) {
+            coverImage.setImageBitmap(bitmapHashMap.get(url));
+        }
+    }
+
+    private static void saveImage(Bitmap bitmap, String url) {
+        bitmapHashMap.put(url, bitmap);
+    }
+
+    public static Bitmap getBitmap(String url) {
+        return bitmapHashMap.get(url);
     }
 }

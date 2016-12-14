@@ -47,7 +47,7 @@ public class ComicEpisodeAdapter extends RecyclerView.Adapter<EpisodeHolder> {
         holder.txtEpisodeLikeCount.setText(currentEpisode.likes);
         holder.episodeDate.setText(currentEpisode.created_date);
         holder.setEpisodeId(currentEpisode.id);
-        holder.setEpisodeImage("http://lupolupo.com/images/" + currentEpisode.comic_id + "/" + currentEpisode.id + "/" + currentEpisode.episode_image);
+        holder.setEpisodeImage("images/" + currentEpisode.comic_id + "/" + currentEpisode.id + "/" + currentEpisode.episode_image);
         holder.rootLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

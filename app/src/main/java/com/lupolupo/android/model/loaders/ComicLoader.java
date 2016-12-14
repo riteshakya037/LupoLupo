@@ -26,18 +26,18 @@ public class ComicLoader {
         return _instance;
     }
 
-    public Task<Task<Void>> startLoading(final Comic comicData) {
+    public Task<Void> startLoading(final Comic comicData) {
         this.comicData = comicData;
         this.episodeList = new LinkedList<>();
-        return LupolupoHTTPManager.getInstance().getEpisodes(comicData.id).onSuccess(new Continuation<List<Episode>, Task<Void>>() {
+        return LupolupoHTTPManager.getInstance().getEpisodes(comicData.id).onSuccessTask(new Continuation<List<Episode>, Task<Void>>() {
             @Override
             public Task<Void> then(Task<List<Episode>> results) throws Exception {
                 ArrayList<Task<Void>> tasks = new ArrayList<>();
                 if (results.getResult() != null && results.getResult().size() != 0) {
                     episodeList = results.getResult();
-                    tasks.add(GlideLoader.getImage("http://lupolupo.com/images/" + comicData.id + "/" + comicData.comic_big_image));
+                    tasks.add(GlideLoader.getImage("/images/" + comicData.id + "/" +comicData.comic_big_image));
                     for (final Episode episode : results.getResult()) {
-                        tasks.add(GlideLoader.getImage("http://lupolupo.com/images/" + episode.comic_id + "/" + episode.id + "/" + episode.episode_image));
+                        tasks.add(GlideLoader.getImage("images/" + episode.comic_id + "/" + episode.id + "/"+ episode.episode_image));
                     }
                 }
                 return Task.whenAll(tasks);

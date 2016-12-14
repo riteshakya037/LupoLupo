@@ -56,7 +56,7 @@ public class LargeImageViewFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_large_image, container, false);
         ButterKnife.bind(this, rootView);
-        GlideLoader.load("http://lupolupo.com/images/" + comicData.id + "/" + comicData.comic_big_image, imageView);
+        GlideLoader.load("images/" + comicData.id + "/" + comicData.comic_big_image, imageView);
         return rootView;
     }
 }

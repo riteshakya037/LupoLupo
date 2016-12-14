@@ -29,7 +29,7 @@
             android:layout_alignParentTop="true"
             android:contentDescription="@string/episode_no"
             android:scaleType="fitXY"
-            android:src="@drawable/ic_splash" />
+            android:src="@drawable/background_empty" />
     </com.lupolupo.android.views.custom.RatioRelativeLayout>
 
     <TextView
