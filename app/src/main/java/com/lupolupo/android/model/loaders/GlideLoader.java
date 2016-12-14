@@ -2,6 +2,7 @@ package com.lupolupo.android.model.loaders;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -38,6 +39,12 @@ public class GlideLoader {
                         public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                             saveImage(resource, parentFolder, fileName);
                             tcs.setResult(null);
+                        }
+
+                        @Override
+                        public void onLoadFailed(Exception e, Drawable errorDrawable) {
+                            super.onLoadFailed(e, errorDrawable);
+                            tcs.setError(null);
                         }
                     });
         }
