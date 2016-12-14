@@ -33,7 +33,7 @@ public class GlideLoader {
             Glide.with(LupolupoAPIApplication.get())
                     .load("http://lupolupo.com/" + parentFolder + fileName)
                     .asBitmap()
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
                         @Override
                         public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
