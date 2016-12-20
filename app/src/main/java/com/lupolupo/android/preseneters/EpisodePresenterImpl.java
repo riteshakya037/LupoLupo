@@ -48,6 +48,7 @@ public class EpisodePresenterImpl implements EpisodePresenter {
             mView.showEmptyDialog();
         } else {
             mPanelAdapter.setData(EpisodeLoader.getInstance().getPanelList());
+            EpisodeLoader.getInstance().getRemaining();
         }
     }
 }

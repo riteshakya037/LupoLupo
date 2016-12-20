@@ -8,6 +8,7 @@ import com.lupolupo.android.model.Panel;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 import bolts.Continuation;
 import bolts.Task;
@@ -58,5 +59,17 @@ public class EpisodeLoader {
 
     public void setEpisodeData(Episode episodeData) {
         this.episodeData = episodeData;
+    }
+
+    public void getRemaining() {
+        Task.callInBackground(new Callable<Void>() {
+            @Override
+            public Void call() throws Exception {
+                for (Panel panel : panelList) {
+                    GlideLoader.getImage("images/" + episodeData.comic_id + "/" + panel.episode_id + "/", panel.panel_image);
+                }
+                return null;
+            }
+        });
     }
 }
