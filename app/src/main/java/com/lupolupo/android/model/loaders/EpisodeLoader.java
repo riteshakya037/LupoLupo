@@ -62,7 +62,7 @@ public class EpisodeLoader {
     }
 
     public void getRemaining() {
-        Task.callInBackground(new Callable<Void>() {
+        Task.call(new Callable<Void>() {
             @Override
             public Void call() throws Exception {
                 for (Panel panel : panelList) {
