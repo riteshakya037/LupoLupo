@@ -19,12 +19,12 @@ public class Comic implements Parcelable {
             return new Comic[size];
         }
     };
-    public final String id;
-    public final String comic_name;
-    public final String comic_abbreviation;
-    public final String comic_image;
-    public final String comic_big_image;
-    public final String created;
+    public String id;
+    public String comic_name;
+    public String comic_abbreviation;
+    public String comic_image;
+    public String comic_big_image;
+    public String created;
 
     private Comic(Parcel in) {
         id = in.readString();

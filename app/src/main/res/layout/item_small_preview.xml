@@ -31,6 +31,7 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
+            android:gravity="end"
             android:padding="8dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
     </com.lupolupo.android.views.custom.RatioRelativeLayout>

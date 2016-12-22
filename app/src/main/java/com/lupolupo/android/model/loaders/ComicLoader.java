@@ -1,6 +1,7 @@
 package com.lupolupo.android.model.loaders;
 
 
+import com.lupolupo.android.common.StringUtils;
 import com.lupolupo.android.controllers.retrofit.LupolupoHTTPManager;
 import com.lupolupo.android.model.Comic;
 import com.lupolupo.android.model.Episode;
@@ -37,6 +38,9 @@ public class ComicLoader {
                     episodeList = results.getResult();
                     tasks.add(GlideLoader.getImage("/images/" + comicData.id + "/", comicData.comic_big_image));
                     for (final Episode episode : results.getResult()) {
+                        episode.episode_image = StringUtils.replaceEncoded(episode.episode_name);
+                        episode.comic_name = StringUtils.replaceEncoded(episode.comic_name);
+
                         tasks.add(GlideLoader.getImage("images/" + episode.comic_id + "/" + episode.id + "/", episode.episode_image));
                     }
                 }

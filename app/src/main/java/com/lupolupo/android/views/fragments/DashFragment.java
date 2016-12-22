@@ -2,6 +2,7 @@ package com.lupolupo.android.views.fragments;
 
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -37,6 +38,21 @@ public class DashFragment extends Fragment implements DashView, DashMapper, View
     RecyclerView dashViewRecycler;
     private DashPresenter dashPresenter;
 
+    private int currentPage = 0;
+    private Handler handler;
+    private int delay = 5000;
+
+    Runnable runnable = new Runnable() {
+        public void run() {
+            if (mViewPager.getAdapter().getCount() == currentPage) {
+                currentPage = 0;
+            } else {
+                currentPage++;
+            }
+            mViewPager.setCurrentItem(currentPage);
+            handler.postDelayed(this, delay);
+        }
+    };
 
     public DashFragment() {
         // Required empty public constructor
@@ -69,6 +85,7 @@ public class DashFragment extends Fragment implements DashView, DashMapper, View
             dashPresenter.initializeAdaptor();
             dashPresenter.initializeData();
         }
+        handler = new Handler();
     }
 
     @Override
@@ -108,9 +125,26 @@ public class DashFragment extends Fragment implements DashView, DashMapper, View
     @Override
     public void onPageSelected(int position) {
         dashPresenter.setPage(position);
+        currentPage = position;
+        // Reset delay
+        handler.removeCallbacks(runnable);
+        handler.postDelayed(runnable, delay);
     }
 
     @Override
     public void onPageScrollStateChanged(int state) {
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        handler.postDelayed(runnable, delay);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        handler.removeCallbacks(runnable);
+    }
+
 }
