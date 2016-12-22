@@ -38,7 +38,7 @@ public class NotificationUtils {
     private static String TAG = NotificationUtils.class.getSimpleName();
     private static final int NOTIFICATION_ID = 100;
     private static final int NOTIFICATION_ID_BIG_IMAGE = 101;
-    private final int notification_icon = R.drawable.ic_splash;
+    private final int notification_icon = R.drawable.ic_stat_logo_splash_border;
     private Context mContext;
     private final int notification_icon_small = R.drawable.ic_stat_logo_splash_border;
 
