@@ -30,6 +30,13 @@ import com.lupolupo.android.model.loaders.ComicLoader;
 import com.lupolupo.android.model.loaders.EpisodeLoader;
 import com.lupolupo.android.views.activities.bases.PortraitActivity;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.concurrent.Callable;
+
 import bolts.Continuation;
 import bolts.Task;
 import bolts.TaskCompletionSource;
@@ -113,6 +120,11 @@ public class SplashActivity extends PortraitActivity {
         AppLoader.getInstance().startLoading().continueWithTask(new Continuation<Void, Task<Void>>() {
             @Override
             public Task<Void> then(Task<Void> task) throws Exception {
+                return getDownload();
+            }
+        }).continueWithTask(new Continuation<Void, Task<Void>>() {
+            @Override
+            public Task<Void> then(Task<Void> task) throws Exception {
                 return saveInfo();
             }
         }).onSuccess(new Continuation<Void, Void>() {
@@ -148,6 +160,50 @@ public class SplashActivity extends PortraitActivity {
         return true;
     }
 
+
+    private Task<Void> getDownload() throws IOException {
+        return Task.callInBackground(new Callable<Void>() {
+            @Override
+            public Void call() throws Exception {
+                long startTime = System.nanoTime();
+                long fileBytes = 0;
+                for (Comic comic : AppLoader.getInstance().getComics().subList(0, AppLoader.getInstance().getComics().size() < 5 ? AppLoader.getInstance().getComics().size() : 5)) {
+                    URL website = new URL("http://lupolupo.com/images/" + comic.id + "/" + comic.comic_big_image);
+
+
+                    InputStream input = website.openStream();
+
+                    File outputFile = new File(getCacheDir(), "output.jpg");
+                    outputFile.createNewFile();
+                    FileOutputStream output = new FileOutputStream(outputFile);
+                    byte[] buffer = new byte[4096];
+                    int bytesRead;
+                    while ((bytesRead = input.read(buffer)) != -1) {
+                        output.write(buffer, 0, bytesRead);
+                    }
+                    output.close();
+                    input.close();
+                    fileBytes += outputFile.length();
+                    outputFile.delete();
+
+                }
+                long endTime = System.nanoTime();
+
+
+                double downloadTimeSeconds = ((double) (endTime - startTime)) / 1000000000d;
+                final double bytesPerSecond = ((double) fileBytes) / downloadTimeSeconds;
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getBaseContext(), "bytesPerSecond " + bytesPerSecond / 1000, Toast.LENGTH_LONG).show();
+                    }
+                });
+                return null;
+            }
+        });
+
+    }
 
     private Task<Void> saveInfo() {
         final TaskCompletionSource<Void> tcs = new TaskCompletionSource<>();
