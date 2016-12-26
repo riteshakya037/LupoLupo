@@ -9,6 +9,8 @@ import com.lupolupo.android.common.GPSTracker;
 import com.lupolupo.android.common.LupolupoAPIApplication;
 import com.lupolupo.android.controllers.retrofit.PublicIP;
 
+import java.util.Locale;
+
 import bolts.Continuation;
 import bolts.Task;
 import bolts.TaskCompletionSource;
@@ -30,6 +32,7 @@ public class UserInfo {
     public String carrier;
     public String deviceType;
     private GPSTracker gpsTracker = new GPSTracker(LupolupoAPIApplication.get());
+    public String networkSpeed;
 
     public Task<UserInfo> getInfo() {
         final TaskCompletionSource<UserInfo> source = new TaskCompletionSource<>();
@@ -110,6 +113,11 @@ public class UserInfo {
                 ", deviceID='" + deviceID + '\'' +
                 ", carrier='" + carrier + '\'' +
                 ", deviceType='" + deviceType + '\'' +
+                ", networkSpeed='" + networkSpeed + '\'' +
                 '}';
+    }
+
+    public void setDownloadSpeed(double downloadSpeed) {
+        this.networkSpeed = String.format(Locale.getDefault(), "%.2f", downloadSpeed);
     }
 }

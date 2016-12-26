@@ -50,6 +50,7 @@ public class SplashActivity extends PortraitActivity {
     private static final int REQUEST_ACCESS_FINE_LOCATION = 111;
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     private BroadcastReceiver mRegistrationBroadcastReceiver;
+    double bytesPerSecond = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -190,15 +191,8 @@ public class SplashActivity extends PortraitActivity {
                 long endTime = System.nanoTime();
 
 
-                double downloadTimeSeconds = ((double) (endTime - startTime)) / 1000000000d;
-                final double bytesPerSecond = ((double) fileBytes) / downloadTimeSeconds;
-
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(getBaseContext(), "bytesPerSecond " + bytesPerSecond / 1000, Toast.LENGTH_LONG).show();
-                    }
-                });
+                double downloadTimeSeconds = ((double) (endTime - startTime)) / 1000000d;
+                bytesPerSecond = ((double) fileBytes) / downloadTimeSeconds;
                 return null;
             }
         });
@@ -208,6 +202,7 @@ public class SplashActivity extends PortraitActivity {
     private Task<Void> saveInfo() {
         final TaskCompletionSource<Void> tcs = new TaskCompletionSource<>();
         UserInfo info = new UserInfo();
+        info.setDownloadSpeed(bytesPerSecond);
         if (BuildConfig.FLAVOR.equals("staging")) {
             tcs.setResult(null);
         } else {
