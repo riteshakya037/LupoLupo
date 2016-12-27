@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.tasks.Tasks;
 import com.lupolupo.android.BuildConfig;
 import com.lupolupo.android.common.FCMPref;
 import com.lupolupo.android.common.FirstRunPrefPref;
@@ -201,26 +202,33 @@ public class SplashActivity extends PortraitActivity {
 
     private Task<Void> saveInfo() {
         final TaskCompletionSource<Void> tcs = new TaskCompletionSource<>();
-        UserInfo info = new UserInfo();
-        info.setDownloadSpeed(bytesPerSecond);
-        if (BuildConfig.FLAVOR.equals("staging")) {
-            tcs.setResult(null);
-        } else {
-            info.getInfo().onSuccess(new Continuation<UserInfo, Object>() {
-                @Override
-                public Object then(Task<UserInfo> task) throws Exception {
-                    LupolupoHTTPManager.getInstance().saveInfo(task.getResult()).continueWith(new Continuation<String, Void>() {
+        Tasks.call(new Callable<Object>() {
+            @Override
+            public Object call() throws Exception {
+                UserInfo info = new UserInfo();
+                info.setDownloadSpeed(bytesPerSecond);
+                if (BuildConfig.FLAVOR.equals("staging")) {
+                    tcs.setResult(null);
+                } else {
+                    info.getInfo().onSuccess(new Continuation<UserInfo, Object>() {
                         @Override
-                        public Void then(Task<String> task) throws Exception {
-                            Log.i(TAG, "saveInfo: " + task.getResult());
-                            tcs.setResult(null);
+                        public Object then(Task<UserInfo> task) throws Exception {
+                            LupolupoHTTPManager.getInstance().saveInfo(task.getResult()).continueWith(new Continuation<String, Void>() {
+                                @Override
+                                public Void then(Task<String> task) throws Exception {
+                                    Log.i(TAG, "saveInfo: " + task.getResult());
+                                    tcs.setResult(null);
+                                    return null;
+                                }
+                            });
                             return null;
                         }
                     });
-                    return null;
                 }
-            });
-        }
+                return null;
+            }
+        });
+
         return tcs.getTask();
     }
 
