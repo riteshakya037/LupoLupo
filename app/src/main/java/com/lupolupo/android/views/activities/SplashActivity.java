@@ -167,7 +167,7 @@ public class SplashActivity extends PortraitActivity {
         return Task.callInBackground(new Callable<Void>() {
             @Override
             public Void call() throws Exception {
-                long startTime = System.nanoTime();
+                long startTime = System.currentTimeMillis();
                 long fileBytes = 0;
                 for (Comic comic : AppLoader.getInstance().getComics().subList(0, AppLoader.getInstance().getComics().size() < 5 ? AppLoader.getInstance().getComics().size() : 5)) {
                     URL website = new URL("http://lupolupo.com/images/" + comic.id + "/" + comic.comic_big_image);
@@ -189,7 +189,7 @@ public class SplashActivity extends PortraitActivity {
                     outputFile.delete();
 
                 }
-                long endTime = System.nanoTime();
+                long endTime = System.currentTimeMillis();
 
 
                 double downloadTimeSeconds = ((double) (endTime - startTime)) / 1000d;
