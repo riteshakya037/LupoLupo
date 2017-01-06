@@ -59,7 +59,6 @@ public class EpisodeHolder extends RecyclerView.ViewHolder {
     void onLikeDislike() {
         liked = !liked;
         setLikeDrawable();
-        increaseCount();
         LupolupoHTTPManager.getInstance().postLikeUnlike(episodeId, liked);
     }
 
@@ -69,8 +68,6 @@ public class EpisodeHolder extends RecyclerView.ViewHolder {
 
     public void setEpisodeId(String episodeId) {
         this.episodeId = episodeId;
-        liked = LikePref.with(LupolupoAPIApplication.get()).getBoolean(episodeId, false);
-        setLikeDrawable();
     }
 
     private void increaseCount() {

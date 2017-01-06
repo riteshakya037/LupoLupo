@@ -4,16 +4,23 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SwitchCompat;
 import android.view.MenuItem;
-import android.widget.LinearLayout;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 
 import com.lupolupo.android.R;
+import com.lupolupo.android.model.enums.AppMode;
+import com.lupolupo.android.preseneters.events.ModeEvent;
 import com.lupolupo.android.views.MainView;
 import com.lupolupo.android.views.fragments.DashFragment;
 import com.lupolupo.android.views.fragments.OpenSourceFragment;
 import com.lupolupo.android.views.fragments.TermOfUseFragment;
 import com.lupolupo.android.views.fragments.VersionFragment;
+
+import org.greenrobot.eventbus.EventBus;
+
+import java.util.Arrays;
 
 /**
  * @author Ritesh Shakya
@@ -41,6 +48,25 @@ public class MainPresenterImpl implements MainPresenter {
         //close navigation menu if fragment change
     }
 
+
+    @Override
+    public void initializeMenuItem() {
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(mMainView.getActivity(),
+                R.layout.toolbar_spinner_item_actionbar, Arrays.asList(mMainView.getActivity().getResources().getStringArray(R.array.spinner_list_item_array)));
+        dataAdapter.setDropDownViewResource(R.layout.toolbar_spinner_item_dropdown);
+        mMainView.setAdapter(dataAdapter);
+        mMainView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                EventBus.getDefault().post(new ModeEvent(AppMode.match(i)));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override

@@ -10,8 +10,11 @@ import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.lupolupo.android.R;
@@ -48,6 +51,10 @@ public class MainActivity extends PortraitActivity implements MainView {
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.container_frame)
     View containerFrame;
+
+    @BindView(R.id.mode_spinner)
+    Spinner mSpinner;
+
     private MainPresenter mMainPresenter;
 
     @Override
@@ -59,6 +66,7 @@ public class MainActivity extends PortraitActivity implements MainView {
         ButterKnife.bind(this);
 
         mMainPresenter.initializeViews();
+        mMainPresenter.initializeMenuItem();
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .replace(getMainLayoutId(), DashFragment.newInstance())
@@ -115,6 +123,20 @@ public class MainActivity extends PortraitActivity implements MainView {
     @Override
     public int getMainLayoutId() {
         return R.id.content_main;
+    }
+
+    @Override
+    public void setAdapter(ArrayAdapter<String> dataAdapter) {
+        if (mSpinner != null) {
+            mSpinner.setAdapter(dataAdapter);
+        }
+    }
+
+    @Override
+    public void setOnItemSelectedListener(AdapterView.OnItemSelectedListener onItemSelectedListener) {
+        if (mSpinner != null) {
+            mSpinner.setOnItemSelectedListener(onItemSelectedListener);
+        }
     }
 
     @Override

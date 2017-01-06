@@ -16,8 +16,13 @@ import android.view.ViewGroup;
 import com.lupolupo.android.R;
 import com.lupolupo.android.preseneters.DashPresenter;
 import com.lupolupo.android.preseneters.DashPresenterImpl;
+import com.lupolupo.android.preseneters.events.ModeEvent;
 import com.lupolupo.android.preseneters.mappers.DashMapper;
 import com.lupolupo.android.views.DashView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -141,10 +146,28 @@ public class DashFragment extends Fragment implements DashView, DashMapper, View
         handler.postDelayed(runnable, delay);
     }
 
+    @SuppressWarnings("unused")
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onModeChange(ModeEvent event) {
+        System.out.println("event.getAppMode() = " + event.getAppMode());
+    }
+
+
     @Override
     public void onPause() {
         super.onPause();
         handler.removeCallbacks(runnable);
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
 }

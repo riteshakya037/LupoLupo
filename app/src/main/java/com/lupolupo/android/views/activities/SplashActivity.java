@@ -192,8 +192,8 @@ public class SplashActivity extends PortraitActivity {
                 long endTime = System.nanoTime();
 
 
-                double downloadTimeSeconds = ((double) (endTime - startTime)) / 1000000d;
-                bytesPerSecond = ((double) fileBytes) / downloadTimeSeconds;
+                double downloadTimeSeconds = ((double) (endTime - startTime)) / 1000d;
+                bytesPerSecond = ((double) fileBytes) / downloadTimeSeconds / 128;
                 return null;
             }
         });
