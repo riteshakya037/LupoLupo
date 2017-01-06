@@ -23,7 +23,7 @@ public enum AppMode {
         return AppMode.RECENT;
     }
 
-    private int getPosition() {
+    public int getPosition() {
         return position;
     }
 }

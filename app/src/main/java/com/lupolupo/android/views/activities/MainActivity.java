@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.lupolupo.android.R;
 import com.lupolupo.android.common.LupolupoAPIApplication;
 import com.lupolupo.android.common.NotificationPref;
+import com.lupolupo.android.model.loaders.AppLoader;
 import com.lupolupo.android.preseneters.MainPresenter;
 import com.lupolupo.android.preseneters.MainPresenterImpl;
 import com.lupolupo.android.preseneters.events.TitleEvent;
@@ -129,6 +130,7 @@ public class MainActivity extends PortraitActivity implements MainView {
     public void setAdapter(ArrayAdapter<String> dataAdapter) {
         if (mSpinner != null) {
             mSpinner.setAdapter(dataAdapter);
+            mSpinner.setSelection(AppLoader.getInstance().getMode().getPosition());
         }
     }
 

@@ -11,5 +11,7 @@ import com.lupolupo.android.views.bases.BaseRecyclerView;
 public interface DashView extends BaseContextView, BaseRecyclerView {
     void initializeBasePageView();
 
+    void toggleCoverPagerLayout(boolean isVisible);
+
     FragmentManager getFragmentManager();
 }

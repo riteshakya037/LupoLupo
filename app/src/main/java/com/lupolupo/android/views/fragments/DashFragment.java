@@ -14,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.lupolupo.android.R;
+import com.lupolupo.android.model.enums.AppMode;
+import com.lupolupo.android.model.loaders.AppLoader;
 import com.lupolupo.android.preseneters.DashPresenter;
 import com.lupolupo.android.preseneters.DashPresenterImpl;
 import com.lupolupo.android.preseneters.events.ModeEvent;
@@ -41,6 +43,11 @@ public class DashFragment extends Fragment implements DashView, DashMapper, View
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.dashViewRecycler)
     RecyclerView dashViewRecycler;
+    @SuppressWarnings("WeakerAccess")
+    @BindView(R.id.coverPagerHolder)
+    ViewGroup coverPagerHolder;
+
+
     private DashPresenter dashPresenter;
 
     private int currentPage = 0;
@@ -49,12 +56,14 @@ public class DashFragment extends Fragment implements DashView, DashMapper, View
 
     Runnable runnable = new Runnable() {
         public void run() {
-            if (mViewPager.getAdapter().getCount() == currentPage) {
-                currentPage = 0;
-            } else {
-                currentPage++;
+            if (mViewPager.getAdapter() != null) {
+                if (mViewPager.getAdapter().getCount() == currentPage) {
+                    currentPage = 0;
+                } else {
+                    currentPage++;
+                }
+                mViewPager.setCurrentItem(currentPage);
             }
-            mViewPager.setCurrentItem(currentPage);
             handler.postDelayed(this, delay);
         }
     };
@@ -116,6 +125,18 @@ public class DashFragment extends Fragment implements DashView, DashMapper, View
     }
 
     @Override
+    public void setCurrentPage(int position) {
+        if (mViewPager != null) {
+            mViewPager.setCurrentItem(position);
+        }
+    }
+
+    @Override
+    public void toggleCoverPagerLayout(boolean isVisible) {
+        coverPagerHolder.setVisibility(isVisible ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
     public void initializeBasePageView() {
         if (mTabLayout != null && mViewPager != null) {
             mTabLayout.setupWithViewPager(mViewPager, true);
@@ -149,7 +170,11 @@ public class DashFragment extends Fragment implements DashView, DashMapper, View
     @SuppressWarnings("unused")
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onModeChange(ModeEvent event) {
-        System.out.println("event.getAppMode() = " + event.getAppMode());
+        AppLoader.getInstance().setAppMode(event.getAppMode());
+        if (event.getAppMode() != AppMode.POPULAR) {
+            dashPresenter.initializeAdaptor();
+            dashPresenter.initializeData();
+        }
     }
 
 

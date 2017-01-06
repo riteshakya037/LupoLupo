@@ -25,6 +25,8 @@ public class Comic implements Parcelable {
     public String comic_image;
     public String comic_big_image;
     public String created;
+    public String checked;
+
 
     private Comic(Parcel in) {
         id = in.readString();
@@ -33,6 +35,7 @@ public class Comic implements Parcelable {
         comic_image = in.readString();
         comic_big_image = in.readString();
         created = in.readString();
+        checked = in.readString();
     }
 
     @Override
@@ -48,5 +51,10 @@ public class Comic implements Parcelable {
         parcel.writeString(comic_image);
         parcel.writeString(comic_big_image);
         parcel.writeString(created);
+        parcel.writeString(checked);
+    }
+
+    public boolean getChecked() {
+        return checked.equals("1");
     }
 }

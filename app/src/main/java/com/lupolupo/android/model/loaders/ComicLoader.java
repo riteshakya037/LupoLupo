@@ -5,8 +5,10 @@ import com.lupolupo.android.common.StringUtils;
 import com.lupolupo.android.controllers.retrofit.LupolupoHTTPManager;
 import com.lupolupo.android.model.Comic;
 import com.lupolupo.android.model.Episode;
+import com.lupolupo.android.model.enums.AppMode;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -55,6 +57,11 @@ public class ComicLoader {
     }
 
     public List<Episode> getEpisodeList() {
+        if (AppLoader.getInstance().getMode() == AppMode.POPULAR) {
+            List<Episode> tempList = new ArrayList<>(episodeList);
+            Collections.sort(tempList, new Episode.PopularComparator());
+            return tempList;
+        }
         return episodeList;
     }
 }

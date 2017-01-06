@@ -35,8 +35,14 @@ public class DashPresenterImpl implements DashPresenter {
     public void initializeData() {
         if (AppLoader.getInstance().getComics().size() != 0) {
             mDashAdapter.setData(AppLoader.getInstance().getComics());
-            mDashPageAdapter.setData(AppLoader.getInstance().getComics());
+        }
+        if (AppLoader.getInstance().getLargeComics().size() != 0) {
+            mDashPageAdapter.setData(AppLoader.getInstance().getLargeComics());
+            mMapper.setCurrentPage(0);
             setPage(0);
+            mView.toggleCoverPagerLayout(true);
+        } else {
+            mView.toggleCoverPagerLayout(false);
         }
     }
 

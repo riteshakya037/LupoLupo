@@ -3,6 +3,8 @@ package com.lupolupo.android.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Comparator;
+
 /**
  * @author Ritesh Shakya
  */
@@ -51,5 +53,13 @@ public class Episode implements Parcelable {
         parcel.writeString(likes);
         parcel.writeString(comic_name);
         parcel.writeString(created_date);
+    }
+
+    public static class PopularComparator implements Comparator<Episode> {
+
+        @Override
+        public int compare(Episode episode, Episode t1) {
+            return Integer.valueOf(t1.likes) - Integer.valueOf(episode.likes);
+        }
     }
 }

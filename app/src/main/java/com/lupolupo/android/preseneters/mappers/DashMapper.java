@@ -11,4 +11,6 @@ import com.lupolupo.android.preseneters.bases.BaseRecycleAdapterMapper;
 public interface DashMapper extends BaseRecycleAdapterMapper {
 
     void registerAdapter(FragmentStatePagerAdapter adapter);
+
+    void setCurrentPage(int position);
 }

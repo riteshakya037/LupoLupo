@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 
 import com.lupolupo.android.R;
 import com.lupolupo.android.model.Comic;
+import com.lupolupo.android.model.enums.AppMode;
+import com.lupolupo.android.model.loaders.AppLoader;
 import com.lupolupo.android.views.activities.ComicActivity;
 import com.lupolupo.android.views.activities.SplashActivity;
 import com.lupolupo.android.views.holders.DashViewSmallHolder;
@@ -49,6 +51,11 @@ public class DashAdapter extends RecyclerView.Adapter<DashViewSmallHolder> {
                 context.startActivity(intent);
             }
         });
+        if (AppLoader.getInstance().getMode() == AppMode.FEATURED && currentComic.getChecked()) {
+            holder.checkImage.setVisibility(View.VISIBLE);
+        } else {
+            holder.checkImage.setVisibility(View.GONE);
+        }
     }
 
     @Override

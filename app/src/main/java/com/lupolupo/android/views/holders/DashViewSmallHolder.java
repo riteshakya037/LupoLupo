@@ -24,6 +24,9 @@ public class DashViewSmallHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.txt_comic_title)
     public TextView comicTitle;
 
+    @BindView(R.id.checkImage)
+    public ImageView checkImage;
+
     public DashViewSmallHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
