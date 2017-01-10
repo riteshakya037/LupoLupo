@@ -3,6 +3,7 @@ package com.lupolupo.android.views.activities;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -19,7 +20,7 @@ import com.lupolupo.android.views.activities.bases.PortraitActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class EpisodeActivity extends PortraitActivity implements EpisodeView, EpisodeMapper {
+public class EpisodeActivity extends AppCompatActivity implements EpisodeView, EpisodeMapper {
     public static final String INTENT_EPISODE = "episode_intent";
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.toolbar)

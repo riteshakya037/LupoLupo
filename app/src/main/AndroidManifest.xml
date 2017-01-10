@@ -15,7 +15,6 @@
         android:name="com.lupolupo.android.common.LupolupoAPIApplication"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <provider
@@ -31,6 +30,7 @@
         <activity
             android:name="com.lupolupo.android.views.activities.SplashActivity"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -41,11 +41,13 @@
         <activity
             android:name="com.lupolupo.android.views.activities.MainActivity"
             android:label=""
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="com.lupolupo.android.views.activities.ComicActivity"
             android:label=""
             android:parentActivityName="com.lupolupo.android.views.activities.MainActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppThemeLight.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -53,7 +55,6 @@
         </activity>
         <activity
             android:name="com.lupolupo.android.views.activities.EpisodeActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
             android:label=""
             android:parentActivityName="com.lupolupo.android.views.activities.ComicActivity"
             android:theme="@style/FullscreenTheme">

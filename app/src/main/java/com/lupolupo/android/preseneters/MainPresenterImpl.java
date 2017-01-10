@@ -13,8 +13,10 @@ import com.lupolupo.android.R;
 import com.lupolupo.android.model.enums.AppMode;
 import com.lupolupo.android.preseneters.events.ModeEvent;
 import com.lupolupo.android.views.MainView;
+import com.lupolupo.android.views.fragments.AboutUsFragment;
 import com.lupolupo.android.views.fragments.DashFragment;
 import com.lupolupo.android.views.fragments.OpenSourceFragment;
+import com.lupolupo.android.views.fragments.PrivacyPolicyFragment;
 import com.lupolupo.android.views.fragments.TermOfUseFragment;
 import com.lupolupo.android.views.fragments.VersionFragment;
 
@@ -89,6 +91,15 @@ public class MainPresenterImpl implements MainPresenter {
                 fragmentTransaction(VersionFragment.newInstance());
                 break;
             case R.id.nav_new_release:
+                break;
+            case R.id.nav_privacy_policy:
+                fragmentTransaction(PrivacyPolicyFragment.newInstance());
+                break;
+            case R.id.nav_about_us:
+                fragmentTransaction(AboutUsFragment.newInstance());
+                break;
+            case R.id.nav_contact_us:
+                fragmentTransaction(AboutUsFragment.newInstance());
                 break;
             default:
                 fragmentTransaction(DashFragment.newInstance());
