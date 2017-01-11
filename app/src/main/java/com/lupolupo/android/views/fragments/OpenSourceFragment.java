@@ -9,13 +9,14 @@ import android.view.ViewGroup;
 
 import com.lupolupo.android.R;
 import com.lupolupo.android.preseneters.events.TitleEvent;
+import com.lupolupo.android.views.fragments.bases.BaseFragment;
 
 import org.greenrobot.eventbus.EventBus;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class OpenSourceFragment extends Fragment {
+public class OpenSourceFragment extends BaseFragment {
 
 
     public OpenSourceFragment() {

@@ -1,16 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/cardview_light_background"
+
     android:orientation="vertical">
 
-    <TextView
-        style="@style/TextAppearance.AppCompat.Medium.Inverse"
+    <LinearLayout
+        android:id="@+id/fragment_about_us.bottom_panel"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:text="About Us" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal"
+        android:padding="8dp">
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/fragment_about_us.terms_and_condition"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:foreground="?selectableItemBackground"
+            android:gravity="center"
+            android:text="@string/terms_of_use"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/fragment_about_us.contact_us"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:foreground="?selectableItemBackground"
+            android:gravity="center"
+            android:text="@string/contact_us"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/fragment_about_us.privacy_policy"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:foreground="?selectableItemBackground"
+            android:gravity="center"
+            android:text="@string/privacy_policy"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/fragment_about_us.bottom_panel"
+        android:layout_alignParentTop="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/TextAppearance.AppCompat.Medium.Inverse"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="16dp"
+                android:text="@string/about_us_text" />
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

@@ -13,6 +13,4 @@ public interface MainPresenter extends NavigationView.OnNavigationItemSelectedLi
 
     @Override
     boolean onNavigationItemSelected(@NonNull MenuItem item);
-
-    void fragmentTransaction(Fragment fragment);
 }

@@ -8,14 +8,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.lupolupo.android.R;
+import com.lupolupo.android.preseneters.events.FragmentEvent;
 import com.lupolupo.android.preseneters.events.TitleEvent;
+import com.lupolupo.android.views.fragments.bases.BackBaseFragment;
 
 import org.greenrobot.eventbus.EventBus;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ContactUsFragment extends Fragment {
+public class ContactUsFragment extends BackBaseFragment {
 
 
     public ContactUsFragment() {
@@ -35,4 +37,8 @@ public class ContactUsFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_contact_us, container, false);
     }
 
+    @Override
+    public void onBackPressed() {
+        EventBus.getDefault().post(new FragmentEvent(AboutUsFragment.newInstance(), true));
+    }
 }

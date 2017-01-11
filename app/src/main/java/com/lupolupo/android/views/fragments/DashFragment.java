@@ -1,6 +1,7 @@
 package com.lupolupo.android.views.fragments;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -19,6 +20,7 @@ import com.lupolupo.android.model.loaders.AppLoader;
 import com.lupolupo.android.preseneters.DashPresenter;
 import com.lupolupo.android.preseneters.DashPresenterImpl;
 import com.lupolupo.android.preseneters.events.ModeEvent;
+import com.lupolupo.android.preseneters.events.SpinnerVisibilityEvent;
 import com.lupolupo.android.preseneters.mappers.DashMapper;
 import com.lupolupo.android.views.DashView;
 
@@ -177,6 +179,11 @@ public class DashFragment extends Fragment implements DashView, DashMapper, View
         }
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        EventBus.getDefault().post(new SpinnerVisibilityEvent(true));
+    }
 
     @Override
     public void onPause() {

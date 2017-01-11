@@ -8,14 +8,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.lupolupo.android.R;
+import com.lupolupo.android.preseneters.events.FragmentEvent;
 import com.lupolupo.android.preseneters.events.TitleEvent;
+import com.lupolupo.android.views.fragments.bases.BackBaseFragment;
 
 import org.greenrobot.eventbus.EventBus;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PrivacyPolicyFragment extends Fragment {
+public class PrivacyPolicyFragment extends BackBaseFragment {
 
 
     public PrivacyPolicyFragment() {
@@ -35,4 +37,8 @@ public class PrivacyPolicyFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_privacy_policy, container, false);
     }
 
+    @Override
+    public void onBackPressed() {
+        EventBus.getDefault().post(new FragmentEvent(AboutUsFragment.newInstance(), true));
+    }
 }

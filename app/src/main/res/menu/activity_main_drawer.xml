@@ -22,32 +22,8 @@
     <group>
 
         <item
-            android:id="@+id/nav_term_of_use"
-            android:title="@string/terms_of_use" />
-    </group>
-    <group>
-
-        <item
-            android:id="@+id/nav_privacy_policy"
-            android:title="@string/privacy_policy" />
-    </group>
-    <group>
-
-        <item
-            android:id="@+id/nav_contact_us"
-            android:title="@string/contact_us" />
-    </group>
-    <group>
-
-        <item
             android:id="@+id/nav_about_us"
             android:title="@string/about_us" />
-    </group>
-    <group>
-
-        <item
-            android:id="@+id/nav_open_source"
-            android:title="@string/open_source_license" />
     </group>
     <group>
 

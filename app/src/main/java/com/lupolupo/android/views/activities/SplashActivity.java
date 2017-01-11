@@ -193,7 +193,7 @@ public class SplashActivity extends PortraitActivity {
 
 
                 double downloadTimeSeconds = ((double) (endTime - startTime)) / 1000d;
-                bytesPerSecond = ((double) fileBytes) / downloadTimeSeconds / 128;
+                bytesPerSecond = ((double) fileBytes) / downloadTimeSeconds / 125;
                 return null;
             }
         });

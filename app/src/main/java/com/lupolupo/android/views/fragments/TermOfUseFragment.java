@@ -3,19 +3,22 @@ package com.lupolupo.android.views.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.lupolupo.android.R;
+import com.lupolupo.android.preseneters.events.FragmentEvent;
 import com.lupolupo.android.preseneters.events.TitleEvent;
+import com.lupolupo.android.views.fragments.bases.BackBaseFragment;
 
 import org.greenrobot.eventbus.EventBus;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TermOfUseFragment extends Fragment {
+public class TermOfUseFragment extends BackBaseFragment {
 
 
     public TermOfUseFragment() {
@@ -35,4 +38,8 @@ public class TermOfUseFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_term_of_use, container, false);
     }
 
+    @Override
+    public void onBackPressed() {
+        EventBus.getDefault().post(new FragmentEvent(AboutUsFragment.newInstance(), true));
+    }
 }

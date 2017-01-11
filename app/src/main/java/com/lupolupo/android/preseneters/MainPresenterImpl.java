@@ -1,9 +1,6 @@
 package com.lupolupo.android.preseneters;
 
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -11,13 +8,11 @@ import android.widget.ArrayAdapter;
 
 import com.lupolupo.android.R;
 import com.lupolupo.android.model.enums.AppMode;
+import com.lupolupo.android.preseneters.events.FragmentEvent;
 import com.lupolupo.android.preseneters.events.ModeEvent;
 import com.lupolupo.android.views.MainView;
 import com.lupolupo.android.views.fragments.AboutUsFragment;
 import com.lupolupo.android.views.fragments.DashFragment;
-import com.lupolupo.android.views.fragments.OpenSourceFragment;
-import com.lupolupo.android.views.fragments.PrivacyPolicyFragment;
-import com.lupolupo.android.views.fragments.TermOfUseFragment;
 import com.lupolupo.android.views.fragments.VersionFragment;
 
 import org.greenrobot.eventbus.EventBus;
@@ -39,15 +34,6 @@ public class MainPresenterImpl implements MainPresenter {
     public void initializeViews() {
         mMainView.initializeToolbar();
         mMainView.initializeDrawerLayout();
-    }
-
-    public void fragmentTransaction(Fragment fragment) {
-        FragmentManager fragmentManager = ((AppCompatActivity) mMainView.getActivity()).getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .setCustomAnimations(R.anim.slideinleft, R.anim.slideoutright)
-                .replace(mMainView.getMainLayoutId(), fragment, fragment.getClass().getSimpleName())
-                .commit();
-        //close navigation menu if fragment change
     }
 
 
@@ -79,30 +65,18 @@ public class MainPresenterImpl implements MainPresenter {
             mMainView.closeDrawerLayout();
         switch (id) {
             case R.id.nav_home:
-                fragmentTransaction(DashFragment.newInstance());
-                break;
-            case R.id.nav_term_of_use:
-                fragmentTransaction(TermOfUseFragment.newInstance());
-                break;
-            case R.id.nav_open_source:
-                fragmentTransaction(OpenSourceFragment.newInstance());
-                break;
-            case R.id.nav_app_version:
-                fragmentTransaction(VersionFragment.newInstance());
+                EventBus.getDefault().post(new FragmentEvent(DashFragment.newInstance(), false));
                 break;
             case R.id.nav_new_release:
                 break;
-            case R.id.nav_privacy_policy:
-                fragmentTransaction(PrivacyPolicyFragment.newInstance());
-                break;
             case R.id.nav_about_us:
-                fragmentTransaction(AboutUsFragment.newInstance());
+                EventBus.getDefault().post(new FragmentEvent(AboutUsFragment.newInstance(), false));
                 break;
-            case R.id.nav_contact_us:
-                fragmentTransaction(AboutUsFragment.newInstance());
+            case R.id.nav_app_version:
+                EventBus.getDefault().post(new FragmentEvent(VersionFragment.newInstance(), false));
                 break;
             default:
-                fragmentTransaction(DashFragment.newInstance());
+                EventBus.getDefault().post(new FragmentEvent(DashFragment.newInstance(), false));
         }
         return true;
     }

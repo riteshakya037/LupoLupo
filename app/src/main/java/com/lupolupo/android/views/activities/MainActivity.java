@@ -3,6 +3,8 @@ package com.lupolupo.android.views.activities;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -23,10 +25,16 @@ import com.lupolupo.android.common.NotificationPref;
 import com.lupolupo.android.model.loaders.AppLoader;
 import com.lupolupo.android.preseneters.MainPresenter;
 import com.lupolupo.android.preseneters.MainPresenterImpl;
+import com.lupolupo.android.preseneters.events.FragmentEvent;
+import com.lupolupo.android.preseneters.events.SpinnerVisibilityEvent;
 import com.lupolupo.android.preseneters.events.TitleEvent;
 import com.lupolupo.android.views.MainView;
 import com.lupolupo.android.views.activities.bases.PortraitActivity;
+import com.lupolupo.android.views.fragments.ContactUsFragment;
 import com.lupolupo.android.views.fragments.DashFragment;
+import com.lupolupo.android.views.fragments.PrivacyPolicyFragment;
+import com.lupolupo.android.views.fragments.TermOfUseFragment;
+import com.lupolupo.android.views.fragments.bases.BackBaseFragment;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -57,6 +65,7 @@ public class MainActivity extends PortraitActivity implements MainView {
     Spinner mSpinner;
 
     private MainPresenter mMainPresenter;
+    private Fragment currentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,8 +78,9 @@ public class MainActivity extends PortraitActivity implements MainView {
         mMainPresenter.initializeViews();
         mMainPresenter.initializeMenuItem();
         if (savedInstanceState == null) {
+            currentFragment = DashFragment.newInstance();
             getSupportFragmentManager().beginTransaction()
-                    .replace(getMainLayoutId(), DashFragment.newInstance())
+                    .replace(getMainLayoutId(), currentFragment)
                     .commit();
         }
     }
@@ -79,6 +89,8 @@ public class MainActivity extends PortraitActivity implements MainView {
     public void onBackPressed() {
         if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             mDrawerLayout.closeDrawer(GravityCompat.START);
+        } else if (currentFragment instanceof ContactUsFragment || currentFragment instanceof PrivacyPolicyFragment || currentFragment instanceof TermOfUseFragment) {
+            ((BackBaseFragment) currentFragment).onBackPressed();
         } else {
             super.onBackPressed();
         }
@@ -159,6 +171,12 @@ public class MainActivity extends PortraitActivity implements MainView {
         titleText.setText(event.getTitleText());
     }
 
+    @SuppressWarnings("unused")
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onTitleEvent(SpinnerVisibilityEvent event) {
+        mSpinner.setVisibility(event.isVisible() ? View.VISIBLE : View.GONE);
+    }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -169,5 +187,16 @@ public class MainActivity extends PortraitActivity implements MainView {
     public void onStop() {
         super.onStop();
         EventBus.getDefault().unregister(this);
+    }
+
+    @SuppressWarnings("unused")
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onFragmentTransaction(FragmentEvent fragmentEvent) {
+        currentFragment = fragmentEvent.getFragment();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .setCustomAnimations(fragmentEvent.isGoBack() ? R.anim.slideinleft : R.anim.slideinright, fragmentEvent.isGoBack() ? R.anim.slideoutright : R.anim.slideoutleft)
+                .replace(getMainLayoutId(), fragmentEvent.getFragment(), fragmentEvent.getFragment().getClass().getSimpleName())
+                .commit();
     }
 }

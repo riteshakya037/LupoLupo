@@ -1,16 +1,216 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/cardview_light_background"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <TextView
-        style="@style/TextAppearance.AppCompat.Medium.Inverse"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:text="Term of Use" />
+        android:layout_height="wrap_content"
+        android:background="@color/cardview_light_background"
+        android:orientation="vertical">
 
-</LinearLayout>
+        <TextView
+            style="@style/TextAppearance.AppCompat.Medium.Inverse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Welcome to LupoLupo!"
+            android:textStyle="bold" />
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Medium.Inverse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/welcome_note" />
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Medium.Inverse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="\nAbout Our Website"
+            android:textStyle="bold" />
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Medium.Inverse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/about_our_site" />
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Medium.Inverse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="\nUse of material appearing on the LupoLupo Site"
+            android:textStyle="bold" />
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Medium.Inverse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/use_of_material" />
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Medium.Inverse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="\nAdvertisement"
+            android:textStyle="bold" />
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Medium.Inverse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/advertisement" />
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Medium.Inverse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/contact_page"
+            android:textColor="@color/colorPrimary" />
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Medium.Inverse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="\nUsing our Services"
+            android:textStyle="bold" />
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Medium.Inverse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/using_our_service" />
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Medium.Inverse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="\nPrivacy"
+            android:textStyle="bold" />
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Medium.Inverse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/privacy" />
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Medium.Inverse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="\nAbout Software in our Services"
+            android:textStyle="bold" />
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Medium.Inverse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/about_software" />
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Medium.Inverse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="\nModifying and Terminating our Services"
+            android:textStyle="bold" />
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Medium.Inverse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/modifying_and_terminating" />
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Medium.Inverse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="\nOur Warranties and Disclaimers"
+            android:textStyle="bold" />
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Medium.Inverse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/warranties" />
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Medium.Inverse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="\nLiability for our Services"
+            android:textStyle="bold" />
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Medium.Inverse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/liability" />
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Medium.Inverse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="\nBusiness uses of our Services"
+            android:textStyle="bold" />
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Medium.Inverse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/business_uses" />
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Medium.Inverse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="\nAbout these Terms"
+            android:textStyle="bold" />
+
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Medium.Inverse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/about_terms" />
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Medium.Inverse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/contact_page"
+            android:textColor="@color/colorPrimary" />
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Medium.Inverse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/these_terms_and_conditions_were_last_revised_on_january_1_2017" />
+    </LinearLayout>
+</ScrollView>

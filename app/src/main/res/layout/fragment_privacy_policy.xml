@@ -1,16 +1,157 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/cardview_light_background"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <TextView
-        style="@style/TextAppearance.AppCompat.Medium.Inverse"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:text="Privacy Policy" />
+        android:layout_height="wrap_content"
+        android:background="@color/cardview_light_background"
+        android:orientation="vertical">
 
-</LinearLayout>
+        <TextView
+            style="@style/TextAppearance.AppCompat.Medium.Inverse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="LupoLupo Privacy Notice"
+            android:textStyle="bold" />
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Medium.Inverse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/privacy_note" />
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Medium.Inverse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="\nThe Information We Collect"
+            android:textStyle="bold" />
+
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Medium.Inverse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/information" />
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Medium.Inverse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="\nHow We Use the Information"
+            android:textStyle="bold" />
+
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Medium.Inverse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/use_information" />
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Medium.Inverse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="\nHow We Share and Disclose the Information"
+            android:textStyle="bold" />
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Medium.Inverse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/share_disclose" />
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Medium.Inverse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="\nAnalytics and Third Party Advertising"
+            android:textStyle="bold" />
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Medium.Inverse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/advertising" />
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Medium.Inverse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="\nOur Commitment to Security"
+            android:textStyle="bold" />
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Medium.Inverse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/commitment" />
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Medium.Inverse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="\nSpecial Note to International Users"
+            android:textStyle="bold" />
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Medium.Inverse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/special_note" />
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Medium.Inverse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="\nMerger, Sale, or Bankruptcy"
+            android:textStyle="bold" />
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Medium.Inverse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/merger_sale" />
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Medium.Inverse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="\nRevisions and Effective Date"
+            android:textStyle="bold" />
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Medium.Inverse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/revisions" />
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Medium.Inverse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/contact_page"
+            android:textColor="@color/colorPrimary" />
+    </LinearLayout>
+</ScrollView>
