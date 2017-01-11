@@ -64,4 +64,24 @@ public class ComicLoader {
         }
         return episodeList;
     }
+
+    public Task<Void> startLoadingAll() {
+        this.episodeList = new LinkedList<>();
+        return LupolupoHTTPManager.getInstance().getAllEpisodes().onSuccessTask(new Continuation<List<Episode>, Task<Void>>() {
+            @Override
+            public Task<Void> then(Task<List<Episode>> results) throws Exception {
+                ArrayList<Task<Void>> tasks = new ArrayList<>();
+                if (results.getResult() != null && results.getResult().size() != 0) {
+                    episodeList = results.getResult();
+                    for (final Episode episode : results.getResult()) {
+                        episode.episode_name = StringUtils.replaceEncoded(episode.episode_name);
+                        episode.comic_name = StringUtils.replaceEncoded(episode.comic_name);
+
+                        tasks.add(GlideLoader.getImage("images/" + episode.comic_id + "/" + episode.id + "/", episode.episode_image));
+                    }
+                }
+                return Task.whenAll(tasks);
+            }
+        });
+    }
 }

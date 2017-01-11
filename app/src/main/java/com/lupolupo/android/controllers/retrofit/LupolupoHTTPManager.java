@@ -2,7 +2,6 @@ package com.lupolupo.android.controllers.retrofit;
 
 import android.util.Log;
 
-import com.lupolupo.android.BuildConfig;
 import com.lupolupo.android.common.FCMPref;
 import com.lupolupo.android.common.LikePref;
 import com.lupolupo.android.common.LupolupoAPIApplication;
@@ -49,7 +48,7 @@ public class LupolupoHTTPManager {
 
     private LupolupoAPI getHttpAdaptor() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
         Log.e("End point", PROD_ENDPOINT);
 
@@ -126,7 +125,7 @@ public class LupolupoHTTPManager {
 
     public Task<String> saveInfo(UserInfo info) {
         final TaskCompletionSource<String> source = new TaskCompletionSource<>();
-        getHttpAdaptor().saveInfo(info.latitude, info.longitude, info.publicIP, info.deviceModel, info.deviceID, info.carrier, info.deviceType,info.networkSpeed).enqueue(new Callback<String>() {
+        getHttpAdaptor().saveInfo(info.latitude, info.longitude, info.publicIP, info.deviceModel, info.deviceID, info.carrier, info.deviceType, info.networkSpeed).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 source.setResult(response.body());
@@ -151,6 +150,22 @@ public class LupolupoHTTPManager {
             @Override
             public void onFailure(Call<String> call, Throwable t) {
 
+            }
+        });
+        return source.getTask();
+    }
+
+    public Task<List<Episode>> getAllEpisodes() {
+        final TaskCompletionSource<List<Episode>> source = new TaskCompletionSource<>();
+        getHttpAdaptor().getAllEpisode().enqueue(new Callback<GetEpisodeDto>() {
+            @Override
+            public void onResponse(Call<GetEpisodeDto> call, Response<GetEpisodeDto> response) {
+                source.setResult(response.body().episodes);
+            }
+
+            @Override
+            public void onFailure(Call<GetEpisodeDto> call, Throwable t) {
+                source.setError(null);
             }
         });
         return source.getTask();

@@ -2,7 +2,6 @@
 <resources>
     <string-array name="spinner_list_item_array">
         <item>Recent</item>
-        <item>Featured</item>
         <item>Popular</item>
     </string-array>
 </resources>

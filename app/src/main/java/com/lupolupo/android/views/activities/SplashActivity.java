@@ -42,6 +42,7 @@ import bolts.Continuation;
 import bolts.Task;
 import bolts.TaskCompletionSource;
 
+import static com.lupolupo.android.views.activities.AllComicActivity.INTENT_ALL_EPISODE;
 import static com.lupolupo.android.views.activities.ComicActivity.INTENT_COMIC;
 import static com.lupolupo.android.views.activities.EpisodeActivity.INTENT_EPISODE;
 
@@ -81,6 +82,16 @@ public class SplashActivity extends PortraitActivity {
                 @Override
                 public Void then(Task<Void> task) throws Exception {
                     Intent intent = new Intent(SplashActivity.this, EpisodeActivity.class);
+                    startActivity(intent);
+                    finish();
+                    return null;
+                }
+            });
+        } else if (getIntent().hasExtra(INTENT_ALL_EPISODE)) {
+            ComicLoader.getInstance().startLoadingAll().onSuccess(new Continuation<Void, Void>() {
+                @Override
+                public Void then(Task<Void> task) throws Exception {
+                    Intent intent = new Intent(SplashActivity.this, AllComicActivity.class);
                     startActivity(intent);
                     finish();
                     return null;

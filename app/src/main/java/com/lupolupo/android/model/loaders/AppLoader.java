@@ -59,10 +59,7 @@ public class AppLoader {
 
 
     public List<Comic> getLargeComics() {
-        if (mAppMode == AppMode.FEATURED) {
-            return tempList;
-        } else
-            return comicList;
+        return tempList;
     }
 
     public AppMode getMode() {

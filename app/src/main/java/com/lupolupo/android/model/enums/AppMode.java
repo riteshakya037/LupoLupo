@@ -6,12 +6,18 @@ import java.util.Arrays;
  * @author Ritesh Shakya
  */
 public enum AppMode {
-    RECENT(0), FEATURED(1), POPULAR(2);
+    RECENT(0, "Recent"), POPULAR(1, "Popular");
 
     private int position;
+    private String description;
 
-    AppMode(int position) {
+    AppMode(int position, String description) {
         this.position = position;
+        this.description = description;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public static AppMode match(int position) {

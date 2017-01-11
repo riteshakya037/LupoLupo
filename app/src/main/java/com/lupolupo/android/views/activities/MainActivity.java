@@ -12,17 +12,14 @@ import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.lupolupo.android.R;
 import com.lupolupo.android.common.LupolupoAPIApplication;
 import com.lupolupo.android.common.NotificationPref;
-import com.lupolupo.android.model.loaders.AppLoader;
 import com.lupolupo.android.preseneters.MainPresenter;
 import com.lupolupo.android.preseneters.MainPresenterImpl;
 import com.lupolupo.android.preseneters.events.FragmentEvent;
@@ -30,6 +27,7 @@ import com.lupolupo.android.preseneters.events.SpinnerVisibilityEvent;
 import com.lupolupo.android.preseneters.events.TitleEvent;
 import com.lupolupo.android.views.MainView;
 import com.lupolupo.android.views.activities.bases.PortraitActivity;
+import com.lupolupo.android.views.custom.NDSpinner;
 import com.lupolupo.android.views.fragments.ContactUsFragment;
 import com.lupolupo.android.views.fragments.DashFragment;
 import com.lupolupo.android.views.fragments.PrivacyPolicyFragment;
@@ -62,7 +60,9 @@ public class MainActivity extends PortraitActivity implements MainView {
     View containerFrame;
 
     @BindView(R.id.mode_spinner)
-    Spinner mSpinner;
+    NDSpinner mSpinner;
+    @BindView(R.id.mode_spinner_text)
+    TextView mSpinnerText;
 
     private MainPresenter mMainPresenter;
     private Fragment currentFragment;
@@ -142,13 +142,13 @@ public class MainActivity extends PortraitActivity implements MainView {
     public void setAdapter(ArrayAdapter<String> dataAdapter) {
         if (mSpinner != null) {
             mSpinner.setAdapter(dataAdapter);
-            mSpinner.setSelection(AppLoader.getInstance().getMode().getPosition());
         }
     }
 
     @Override
-    public void setOnItemSelectedListener(AdapterView.OnItemSelectedListener onItemSelectedListener) {
+    public void setListeners(MainPresenterImpl.SpinnerInteractionListener onItemSelectedListener) {
         if (mSpinner != null) {
+            mSpinner.setOnTouchListener(onItemSelectedListener);
             mSpinner.setOnItemSelectedListener(onItemSelectedListener);
         }
     }
@@ -175,6 +175,7 @@ public class MainActivity extends PortraitActivity implements MainView {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onTitleEvent(SpinnerVisibilityEvent event) {
         mSpinner.setVisibility(event.isVisible() ? View.VISIBLE : View.GONE);
+        mSpinnerText.setVisibility(event.isVisible() ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -192,11 +193,13 @@ public class MainActivity extends PortraitActivity implements MainView {
     @SuppressWarnings("unused")
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onFragmentTransaction(FragmentEvent fragmentEvent) {
-        currentFragment = fragmentEvent.getFragment();
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .setCustomAnimations(fragmentEvent.isGoBack() ? R.anim.slideinleft : R.anim.slideinright, fragmentEvent.isGoBack() ? R.anim.slideoutright : R.anim.slideoutleft)
-                .replace(getMainLayoutId(), fragmentEvent.getFragment(), fragmentEvent.getFragment().getClass().getSimpleName())
-                .commit();
+        if (currentFragment.getClass() != fragmentEvent.getFragment().getClass()) {
+            currentFragment = fragmentEvent.getFragment();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .setCustomAnimations(fragmentEvent.isGoBack() ? R.anim.slideinleft : R.anim.slideinright, fragmentEvent.isGoBack() ? R.anim.slideoutright : R.anim.slideoutleft)
+                    .replace(getMainLayoutId(), fragmentEvent.getFragment(), fragmentEvent.getFragment().getClass().getSimpleName())
+                    .commit();
+        }
     }
 }

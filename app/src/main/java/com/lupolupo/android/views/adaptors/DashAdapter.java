@@ -51,11 +51,6 @@ public class DashAdapter extends RecyclerView.Adapter<DashViewSmallHolder> {
                 context.startActivity(intent);
             }
         });
-        if (AppLoader.getInstance().getMode() == AppMode.FEATURED && currentComic.getChecked()) {
-            holder.checkImage.setVisibility(View.VISIBLE);
-        } else {
-            holder.checkImage.setVisibility(View.GONE);
-        }
     }
 
     @Override

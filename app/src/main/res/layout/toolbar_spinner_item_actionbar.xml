@@ -2,8 +2,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:drawablePadding="4dp"
-    android:drawableRight="@drawable/ic_more_vert_white_24px"
     android:gravity="right|center_vertical"
     android:text="Recent"
-    android:textColor="#ffffffff"
+    android:textColor="@android:color/transparent"
     android:textSize="14sp" />

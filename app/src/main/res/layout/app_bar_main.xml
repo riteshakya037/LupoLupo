@@ -34,13 +34,32 @@
                 android:text="@string/app_name"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
-            <Spinner
-                android:id="@+id/mode_spinner"
+            <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:background="@android:color/transparent"
-                android:gravity="end" />
+                android:layout_gravity="end">
+
+                <TextView
+                    android:id="@+id/mode_spinner_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:drawableEnd="@drawable/ic_more_vert_white_24px"
+                    android:drawableRight="@drawable/ic_more_vert_white_24px"
+                    android:gravity="end|center_vertical"
+                    android:text="More"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp" />
+
+                <com.lupolupo.android.views.custom.NDSpinner
+                    android:id="@+id/mode_spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:gravity="end" />
+
+
+            </FrameLayout>
         </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>

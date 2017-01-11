@@ -54,6 +54,16 @@
                 android:value="com.lupolupo.android.views.activities.MainActivity" />
         </activity>
         <activity
+            android:name="com.lupolupo.android.views.activities.AllComicActivity"
+            android:label=""
+            android:parentActivityName="com.lupolupo.android.views.activities.MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeLight.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.lupolupo.android.views.activities.MainActivity" />
+        </activity>
+        <activity
             android:name="com.lupolupo.android.views.activities.EpisodeActivity"
             android:label=""
             android:parentActivityName="com.lupolupo.android.views.activities.ComicActivity"
