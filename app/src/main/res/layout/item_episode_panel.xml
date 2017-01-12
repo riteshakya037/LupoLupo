@@ -7,7 +7,7 @@
     app:horizontal_ratio="2"
     app:vertical_ratio="3">
 
-    <uk.co.senab.photoview.PhotoView
+    <ImageView
         android:id="@+id/panel_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
