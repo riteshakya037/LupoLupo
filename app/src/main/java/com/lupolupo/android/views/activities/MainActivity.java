@@ -10,7 +10,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -203,7 +202,7 @@ public class MainActivity extends PortraitActivity implements MainView {
             mDrawerToggle.setToolbarNavigationClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mDrawerLayout.openDrawer(Gravity.START);
+                    mDrawerLayout.openDrawer(GravityCompat.START);
                 }
             });
         } else if (enable) {
