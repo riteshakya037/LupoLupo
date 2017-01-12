@@ -14,10 +14,12 @@
         android:text="@string/contact_us_text" />
 
     <TextView
+        android:id="@+id/fragment_contact_us.info"
         style="@style/TextAppearance.AppCompat.Medium.Inverse"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:clickable="true"
         android:text="@string/contact_us_info_email"
         android:textColor="@color/colorPrimary" />
 
@@ -29,10 +31,12 @@
         android:text="@string/contact_us_feedback_text" />
 
     <TextView
+        android:id="@+id/fragment_contact_us.feedback"
         style="@style/TextAppearance.AppCompat.Medium.Inverse"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:clickable="true"
         android:text="@string/contact_us_feedback_email"
         android:textColor="@color/colorPrimary" />
 
@@ -49,6 +53,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:clickable="true"
         android:text="@string/contact_us_text_complain_email"
         android:textColor="@color/colorPrimary" />
 

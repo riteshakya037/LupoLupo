@@ -148,10 +148,12 @@
             android:text="@string/revisions" />
 
         <TextView
+            android:id="@+id/fragment_privacy_policy.contact_page"
             style="@style/TextAppearance.AppCompat.Medium.Inverse"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:clickable="true"
             android:text="@string/contact_page"
             android:textColor="@color/colorPrimary" />
     </LinearLayout>

@@ -10,6 +10,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -28,6 +29,7 @@ import com.lupolupo.android.preseneters.events.TitleEvent;
 import com.lupolupo.android.views.MainView;
 import com.lupolupo.android.views.activities.bases.PortraitActivity;
 import com.lupolupo.android.views.custom.NDSpinner;
+import com.lupolupo.android.views.fragments.AboutUsFragment;
 import com.lupolupo.android.views.fragments.ContactUsFragment;
 import com.lupolupo.android.views.fragments.DashFragment;
 import com.lupolupo.android.views.fragments.PrivacyPolicyFragment;
@@ -67,6 +69,8 @@ public class MainActivity extends PortraitActivity implements MainView {
     private MainPresenter mMainPresenter;
     private Fragment currentFragment;
 
+    ActionBarDrawerToggle mDrawerToggle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,7 +104,7 @@ public class MainActivity extends PortraitActivity implements MainView {
     @Override
     public void initializeDrawerLayout() {
         if (mDrawerLayout != null) {
-            ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(
+            mDrawerToggle = new ActionBarDrawerToggle(
                     this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
                 @Override
                 public void onDrawerSlide(View drawerView, float slideOffset) {
@@ -190,11 +194,43 @@ public class MainActivity extends PortraitActivity implements MainView {
         EventBus.getDefault().unregister(this);
     }
 
+    @SuppressWarnings("ConstantConditions")
+    private void enableViews(boolean enable) {
+        if (currentFragment instanceof AboutUsFragment) {
+            mDrawerToggle.setDrawerIndicatorEnabled(false);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            mDrawerToggle.setToolbarNavigationClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mDrawerLayout.openDrawer(Gravity.LEFT);
+                }
+            });
+        } else if (enable) {
+            mDrawerToggle.setDrawerIndicatorEnabled(false);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            mDrawerToggle.setToolbarNavigationClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onBackPressed();
+                }
+            });
+        } else {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            mDrawerToggle.setDrawerIndicatorEnabled(true);
+            mDrawerToggle.setToolbarNavigationClickListener(null);
+        }
+    }
+
     @SuppressWarnings("unused")
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onFragmentTransaction(FragmentEvent fragmentEvent) {
         if (currentFragment.getClass() != fragmentEvent.getFragment().getClass()) {
             currentFragment = fragmentEvent.getFragment();
+            if (currentFragment instanceof ContactUsFragment || currentFragment instanceof PrivacyPolicyFragment || currentFragment instanceof TermOfUseFragment) {
+                enableViews(true);
+            } else {
+                enableViews(false);
+            }
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction()
                     .setCustomAnimations(fragmentEvent.isGoBack() ? R.anim.slideinleft : R.anim.slideinright, fragmentEvent.isGoBack() ? R.anim.slideoutright : R.anim.slideoutleft)

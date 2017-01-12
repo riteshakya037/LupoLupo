@@ -25,17 +25,17 @@ public class AboutUsFragment extends BaseFragment {
 
     @OnClick(R.id.fragment_about_us_terms_and_condition)
     void onTermClick() {
-        EventBus.getDefault().post(new FragmentEvent(TermOfUseFragment.newInstance(), false));
+        EventBus.getDefault().post(new FragmentEvent(TermOfUseFragment.newInstance(this), false));
     }
 
     @OnClick(R.id.fragment_about_us_contact_us)
     void onContactClick() {
-        EventBus.getDefault().post(new FragmentEvent(ContactUsFragment.newInstance(), false));
+        EventBus.getDefault().post(new FragmentEvent(ContactUsFragment.newInstance(this), false));
     }
 
     @OnClick(R.id.fragment_about_us_privacy_policy)
     void onPrivacyClick() {
-        EventBus.getDefault().post(new FragmentEvent(PrivacyPolicyFragment.newInstance(), false));
+        EventBus.getDefault().post(new FragmentEvent(PrivacyPolicyFragment.newInstance(this), false));
     }
 
     public AboutUsFragment() {
@@ -50,7 +50,7 @@ public class AboutUsFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         EventBus.getDefault().post(new TitleEvent("About Us"));
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setHomeButtonEnabled(true);
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_about_us, container, false);
         ButterKnife.bind(this, view);
