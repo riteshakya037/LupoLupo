@@ -34,6 +34,7 @@ import com.lupolupo.android.views.fragments.ContactUsFragment;
 import com.lupolupo.android.views.fragments.DashFragment;
 import com.lupolupo.android.views.fragments.PrivacyPolicyFragment;
 import com.lupolupo.android.views.fragments.TermOfUseFragment;
+import com.lupolupo.android.views.fragments.VersionFragment;
 import com.lupolupo.android.views.fragments.bases.BackBaseFragment;
 
 import org.greenrobot.eventbus.EventBus;
@@ -196,13 +197,13 @@ public class MainActivity extends PortraitActivity implements MainView {
 
     @SuppressWarnings("ConstantConditions")
     private void enableViews(boolean enable) {
-        if (currentFragment instanceof AboutUsFragment) {
+        if (currentFragment instanceof AboutUsFragment || currentFragment instanceof VersionFragment) {
             mDrawerToggle.setDrawerIndicatorEnabled(false);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             mDrawerToggle.setToolbarNavigationClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mDrawerLayout.openDrawer(Gravity.LEFT);
+                    mDrawerLayout.openDrawer(Gravity.START);
                 }
             });
         } else if (enable) {
