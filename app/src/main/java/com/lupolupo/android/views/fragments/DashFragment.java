@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.lupolupo.android.R;
 import com.lupolupo.android.preseneters.DashPresenter;
@@ -43,6 +44,10 @@ public class DashFragment extends Fragment implements DashView, DashMapper, View
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.coverPagerHolder)
     ViewGroup coverPagerHolder;
+
+    @SuppressWarnings("WeakerAccess")
+    @BindView(R.id.no_feature_text)
+    TextView noFeatureText;
 
 
     private DashPresenter dashPresenter;
@@ -131,6 +136,7 @@ public class DashFragment extends Fragment implements DashView, DashMapper, View
     @Override
     public void toggleCoverPagerLayout(boolean isVisible) {
         coverPagerHolder.setVisibility(isVisible ? View.VISIBLE : View.GONE);
+        noFeatureText.setVisibility(!isVisible ? View.VISIBLE : View.GONE);
     }
 
     @Override
