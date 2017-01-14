@@ -78,7 +78,9 @@ public class UserInfo {
                 try {
                     idInfo = AdvertisingIdClient.getAdvertisingIdInfo(LupolupoAPIApplication.get());
                     adsID = idInfo.getId();
+                    source.setResult(null);
                 } catch (Exception e) {
+                    source.setError(e);
                     e.printStackTrace();
                 }
                 return null;

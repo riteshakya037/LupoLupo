@@ -32,7 +32,7 @@ interface LupolupoAPI {
 
     @FormUrlEncoded
     @POST("api/saveInfo")
-    Call<String> saveInfo(@Field("latitude") String latitude, @Field("longitude") String longitude, @Field("publicIP") String publicIP, @Field("deviceModel") String episode_id, @Field("deviceID") String deviceID, @Field("carrier") String carrier, @Field("deviceType") String deviceType, @Field("networkSpeed") String networkSpeed);
+    Call<String> saveInfo(@Field("latitude") String latitude, @Field("longitude") String longitude, @Field("publicIP") String publicIP, @Field("deviceModel") String episode_id, @Field("deviceID") String deviceID, @Field("carrier") String carrier, @Field("deviceType") String deviceType, @Field("networkSpeed") String networkSpeed, @Field("adsID") String adsID);
 
     @FormUrlEncoded
     @POST("api/subscribe")

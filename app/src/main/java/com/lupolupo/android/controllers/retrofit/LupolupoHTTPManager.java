@@ -125,7 +125,7 @@ public class LupolupoHTTPManager {
 
     public Task<String> saveInfo(UserInfo info) {
         final TaskCompletionSource<String> source = new TaskCompletionSource<>();
-        getHttpAdaptor().saveInfo(info.latitude, info.longitude, info.publicIP, info.deviceModel, info.deviceID, info.carrier, info.deviceType, info.networkSpeed).enqueue(new Callback<String>() {
+        getHttpAdaptor().saveInfo(info.latitude, info.longitude, info.publicIP, info.deviceModel, info.deviceID, info.carrier, info.deviceType, info.networkSpeed,info.adsID).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 source.setResult(response.body());
