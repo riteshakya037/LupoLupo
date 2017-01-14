@@ -4,12 +4,16 @@ import android.content.Context;
 import android.os.Build;
 import android.telephony.TelephonyManager;
 
+import com.google.android.gms.ads.identifier.AdvertisingIdClient;
 import com.lupolupo.android.common.FCMPref;
 import com.lupolupo.android.common.GPSTracker;
 import com.lupolupo.android.common.LupolupoAPIApplication;
 import com.lupolupo.android.controllers.retrofit.PublicIP;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.Callable;
 
 import bolts.Continuation;
 import bolts.Task;
@@ -33,8 +37,10 @@ public class UserInfo {
     public String deviceType;
     private GPSTracker gpsTracker = new GPSTracker(LupolupoAPIApplication.get());
     public String networkSpeed;
+    public String adsID;
 
     public Task<UserInfo> getInfo() {
+        List<Task> tasks = new ArrayList<>();
         final TaskCompletionSource<UserInfo> source = new TaskCompletionSource<>();
         if (gpsTracker.canGetLocation()) {
             latitude = String.valueOf(gpsTracker.getLatitude());
@@ -46,7 +52,12 @@ public class UserInfo {
         deviceID = getDeviceToken();
         carrier = getCarrier();
         deviceType = "android";
-        getIp().onSuccess(new Continuation<String, Void>() {
+        getAdId().onSuccessTask(new Continuation<Void, Task<String>>() {
+            @Override
+            public Task<String> then(Task<Void> task) throws Exception {
+                return getIp();
+            }
+        }).onSuccess(new Continuation<String, Void>() {
             @Override
             public Void then(Task<String> task) throws Exception {
                 publicIP = task.getResult();
@@ -55,6 +66,24 @@ public class UserInfo {
             }
         });
 
+        return source.getTask();
+    }
+
+    private Task<Void> getAdId() {
+        final TaskCompletionSource<Void> source = new TaskCompletionSource<>();
+        Task.callInBackground(new Callable<Void>() {
+            @Override
+            public Void call() throws Exception {
+                AdvertisingIdClient.Info idInfo;
+                try {
+                    idInfo = AdvertisingIdClient.getAdvertisingIdInfo(LupolupoAPIApplication.get());
+                    adsID = idInfo.getId();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+        });
         return source.getTask();
     }
 
