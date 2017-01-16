@@ -604,6 +604,8 @@ public class TouchImageView extends ImageView {
                         setState(State.NONE);
                         break;
                 }
+            } else {
+                return false;
             }
 
             setImageMatrix(matrix);
@@ -620,7 +622,7 @@ public class TouchImageView extends ImageView {
         }
     }
 
-    private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
+    private class ScaleListener implements ScaleGestureDetector.OnScaleGestureListener {
         @Override
         public boolean onScaleBegin(ScaleGestureDetector detector) {
             setState(State.ZOOM);
@@ -639,7 +641,6 @@ public class TouchImageView extends ImageView {
 
         @Override
         public void onScaleEnd(ScaleGestureDetector detector) {
-            super.onScaleEnd(detector);
             setState(State.NONE);
             boolean animateToZoomBoundary = false;
             float targetZoom = normalizedScale;
