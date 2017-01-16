@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.TextView;
 
 import com.lupolupo.android.R;
@@ -15,7 +17,7 @@ import com.lupolupo.android.preseneters.EpisodePresenter;
 import com.lupolupo.android.preseneters.EpisodePresenterImpl;
 import com.lupolupo.android.preseneters.mappers.EpisodeMapper;
 import com.lupolupo.android.views.EpisodeView;
-import com.lupolupo.android.views.activities.bases.PortraitActivity;
+import com.lupolupo.android.views.custom.ZoomView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,6 +33,9 @@ public class EpisodeActivity extends AppCompatActivity implements EpisodeView, E
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
+    @SuppressWarnings("WeakerAccess")
+    @BindView(R.id.container)
+    ZoomView container;
     @SuppressWarnings("FieldCanBeLocal")
     private EpisodePresenter mPresenter;
 
