@@ -16,29 +16,13 @@ import android.widget.FrameLayout;
  */
 public class ZoomView extends FrameLayout {
 
-    /**
-     * Zooming view listener interface.
-     *
-     * @author karooolek
-     */
-    public interface ZoomViewListener {
-
-        void onZoomStarted(float zoom, float zoomx, float zoomy);
-
-        void onZooming(float zoom, float zoomx, float zoomy);
-
-        void onZoomEnded(float zoom, float zoomx, float zoomy);
-    }
-
     // zooming
     float zoom = 1.0f;
     float maxZoom = 2.0f;
     float smoothZoom = 1.0f;
     float zoomX, zoomY;
     float smoothZoomX, smoothZoomY;
-    private boolean scrolling; // NOPMD by karooolek on 29.06.11 11:45
-
-    // minimap variables
+    private boolean scrolling;
     private boolean showMinimap = false;
     private int miniMapColor = Color.BLACK;
     private int miniMapHeight = -1;
@@ -46,7 +30,6 @@ public class ZoomView extends FrameLayout {
     private float miniMapCaptionSize = 10.0f;
     private int miniMapCaptionColor = Color.WHITE;
 
-    // touching variables
     private long lastTapTime;
     private float touchStartX, touchStartY;
     private float touchLastX, touchLastY;
@@ -56,12 +39,8 @@ public class ZoomView extends FrameLayout {
     private float lastdx1, lastdy1;
     private float lastdx2, lastdy2;
 
-    // drawing
     private final Matrix m = new Matrix();
     private final Paint p = new Paint();
-
-    // listener
-    ZoomViewListener listener;
 
     private Bitmap ch;
 
@@ -81,24 +60,18 @@ public class ZoomView extends FrameLayout {
         smoothZoom = clamp(1.0f, zoom, maxZoom);
         smoothZoomX = x;
         smoothZoomY = y;
-        if (listener != null) {
-            listener.onZoomStarted(smoothZoom, x, y);
-        }
     }
 
     @Override
     public boolean dispatchTouchEvent(final MotionEvent ev) {
-        // single touch
         if (ev.getPointerCount() == 1) {
             processSingleTouchEvent(ev);
         }
 
-        // // double touch
         if (ev.getPointerCount() == 2) {
             processDoubleTouchEvent(ev);
         }
 
-        // redraw
         getRootView().invalidate();
         invalidate();
 
@@ -172,9 +145,7 @@ public class ZoomView extends FrameLayout {
             case MotionEvent.ACTION_OUTSIDE:
             case MotionEvent.ACTION_UP:
 
-                // tap
                 if (l < 30.0f) {
-                    // check double tap
                     if (System.currentTimeMillis() - lastTapTime < 500) {
                         if (smoothZoom == 1.0f) {
                             smoothZoomTo(maxZoom, x, y);
@@ -273,9 +244,6 @@ public class ZoomView extends FrameLayout {
 
         zoomX = lerp(bias(zoomX, smoothZoomX, 0.1f), smoothZoomX, 0.35f);
         zoomY = lerp(bias(zoomY, smoothZoomY, 0.1f), smoothZoomY, 0.35f);
-        if (zoom != smoothZoom && listener != null) {
-            listener.onZooming(zoom, zoomX, zoomY);
-        }
 
         final boolean animating = Math.abs(zoom - smoothZoom) > 0.0000001f
                 || Math.abs(zoomX - smoothZoomX) > 0.0000001f || Math.abs(zoomY - smoothZoomY) > 0.0000001f;
