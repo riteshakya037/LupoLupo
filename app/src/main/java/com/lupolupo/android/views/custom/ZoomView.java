@@ -1,319 +1,145 @@
 package com.lupolupo.android.views.custom;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Matrix;
-import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.widget.FrameLayout;
 
 /**
  * Zooming view.
  */
-public class ZoomView extends FrameLayout {
+public class ZoomView extends FrameLayout implements ScaleGestureDetector.OnScaleGestureListener {
 
-    // zooming
-    float zoom = 1.0f;
-    float maxZoom = 2.0f;
-    float smoothZoom = 1.0f;
-    float zoomX, zoomY;
-    float smoothZoomX, smoothZoomY;
-    private boolean scrolling;
-    private boolean showMinimap = false;
-    private int miniMapColor = Color.BLACK;
-    private int miniMapHeight = -1;
-    private String miniMapCaption;
-    private float miniMapCaptionSize = 10.0f;
-    private int miniMapCaptionColor = Color.WHITE;
+    private enum Mode {
+        NONE,
+        DRAG,
+        ZOOM
+    }
 
-    private long lastTapTime;
-    private float touchStartX, touchStartY;
-    private float touchLastX, touchLastY;
-    private float startd;
-    private boolean pinching;
-    private float lastd;
-    private float lastdx1, lastdy1;
-    private float lastdx2, lastdy2;
+    ScaleGestureDetector scaleDetector;
 
-    private final Matrix m = new Matrix();
-    private final Paint p = new Paint();
+    private static final String TAG = "ZoomLayout";
+    private static final float MIN_ZOOM = 1.0f;
+    private static final float MAX_ZOOM = 2.0f;
 
-    private Bitmap ch;
+    private Mode mode = Mode.NONE;
+    private float scale = 1.0f;
+    private float lastScaleFactor = 0f;
 
-    public ZoomView(final Context context) {
+    // Where the finger first  touches the screen
+    private float startX = 0f;
+    private float startY = 0f;
+
+    // How much to translate the canvas
+    private float dx = 0f;
+    private float dy = 0f;
+    private float prevDx = 0f;
+    private float prevDy = 0f;
+
+    public ZoomView(Context context) {
         super(context);
+        init(context);
     }
 
     public ZoomView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        init(context);
     }
 
-    public ZoomView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
+    public ZoomView(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        init(context);
     }
 
-    public void smoothZoomTo(final float zoom, final float x, final float y) {
-        smoothZoom = clamp(1.0f, zoom, maxZoom);
-        smoothZoomX = x;
-        smoothZoomY = y;
+    private void init(Context context) {
+        scaleDetector = new ScaleGestureDetector(context, this);
     }
 
     @Override
-    public boolean dispatchTouchEvent(final MotionEvent ev) {
-        if (ev.getPointerCount() == 1) {
-            processSingleTouchEvent(ev);
+    public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
+        switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
+            case MotionEvent.ACTION_DOWN:
+                Log.i(TAG, "DOWN");
+                if (scale > MIN_ZOOM) {
+                    mode = Mode.DRAG;
+                    startX = motionEvent.getX() - prevDx;
+                    startY = motionEvent.getY() - prevDy;
+                }
+                break;
+            case MotionEvent.ACTION_MOVE:
+                if (mode == Mode.DRAG) {
+                    dx = motionEvent.getX() - startX;
+                    dy = motionEvent.getY() - startY;
+                }
+                break;
+            case MotionEvent.ACTION_POINTER_DOWN:
+                mode = Mode.ZOOM;
+                break;
+            case MotionEvent.ACTION_POINTER_UP:
+                mode = Mode.DRAG;
+                break;
+            case MotionEvent.ACTION_UP:
+                Log.i(TAG, "UP");
+                mode = Mode.NONE;
+                prevDx = dx;
+                prevDy = dy;
+                break;
         }
+        scaleDetector.onTouchEvent(motionEvent);
 
-        if (ev.getPointerCount() == 2) {
-            processDoubleTouchEvent(ev);
+        if ((mode == Mode.DRAG && scale >= MIN_ZOOM) || mode == Mode.ZOOM) {
+            getParent().requestDisallowInterceptTouchEvent(true);
+            float maxDx = (child().getWidth() - (child().getWidth() / scale)) / 2 * scale;
+            float maxDy = (child().getHeight() - (child().getHeight() / scale)) / 2 * scale;
+            dx = Math.min(Math.max(dx, -maxDx), maxDx);
+            dy = Math.min(Math.max(dy, -maxDy), maxDy);
+            Log.i(TAG, "Width: " + child().getWidth() + ", scale " + scale + ", dx " + dx
+                    + ", max " + maxDx);
+            applyScaleAndTranslation();
         }
+        Log.i(TAG, "onInterceptTouchEvent: " + motionEvent.getPointerCount());
 
-        getRootView().invalidate();
-        invalidate();
+        return false;
+    }
 
+    // ScaleGestureDetector
+
+    @Override
+    public boolean onScaleBegin(ScaleGestureDetector scaleDetector) {
+        Log.i(TAG, "onScaleBegin");
         return true;
     }
 
-    private void processSingleTouchEvent(final MotionEvent ev) {
-
-        final float x = ev.getX();
-        final float y = ev.getY();
-
-        final float w = miniMapHeight * (float) getWidth() / getHeight();
-        final float h = miniMapHeight;
-        final boolean touchingMiniMap = x >= 10.0f && x <= 10.0f + w && y >= 10.0f && y <= 10.0f + h;
-
-        if (showMinimap && smoothZoom > 1.0f && touchingMiniMap) {
-            processSingleTouchOnMinimap(ev);
+    @Override
+    public boolean onScale(ScaleGestureDetector scaleDetector) {
+        float scaleFactor = scaleDetector.getScaleFactor();
+        Log.i(TAG, "onScale" + scaleFactor);
+        if (lastScaleFactor == 0 || (Math.signum(scaleFactor) == Math.signum(lastScaleFactor))) {
+            scale *= scaleFactor;
+            scale = Math.max(MIN_ZOOM, Math.min(scale, MAX_ZOOM));
+            lastScaleFactor = scaleFactor;
         } else {
-            processSingleTouchOutsideMinimap(ev);
+            lastScaleFactor = 0;
         }
-    }
-
-    private void processSingleTouchOnMinimap(final MotionEvent ev) {
-        final float x = ev.getX();
-        final float y = ev.getY();
-
-        final float w = miniMapHeight * (float) getWidth() / getHeight();
-        final float h = miniMapHeight;
-        final float zx = (x - 10.0f) / w * getWidth();
-        final float zy = (y - 10.0f) / h * getHeight();
-        smoothZoomTo(smoothZoom, zx, zy);
-    }
-
-    private void processSingleTouchOutsideMinimap(final MotionEvent ev) {
-        final float x = ev.getX();
-        final float y = ev.getY();
-        float lx = x - touchStartX;
-        float ly = y - touchStartY;
-        final float l = (float) Math.hypot(lx, ly);
-        float dx = x - touchLastX;
-        float dy = y - touchLastY;
-        touchLastX = x;
-        touchLastY = y;
-
-        switch (ev.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                touchStartX = x;
-                touchStartY = y;
-                touchLastX = x;
-                touchLastY = y;
-                dx = 0;
-                dy = 0;
-                lx = 0;
-                ly = 0;
-                scrolling = false;
-                break;
-
-            case MotionEvent.ACTION_MOVE:
-                if (scrolling || (smoothZoom > 1.0f && l > 30.0f)) {
-                    if (!scrolling) {
-                        scrolling = true;
-                        ev.setAction(MotionEvent.ACTION_CANCEL);
-                        super.dispatchTouchEvent(ev);
-                    }
-                    smoothZoomX -= dx / zoom;
-                    smoothZoomY -= dy / zoom;
-                    return;
-                }
-                break;
-
-            case MotionEvent.ACTION_OUTSIDE:
-            case MotionEvent.ACTION_UP:
-
-                if (l < 30.0f) {
-                    if (System.currentTimeMillis() - lastTapTime < 500) {
-                        if (smoothZoom == 1.0f) {
-                            smoothZoomTo(maxZoom, x, y);
-                        } else {
-                            smoothZoomTo(1.0f, getWidth() / 2.0f, getHeight() / 2.0f);
-                        }
-                        lastTapTime = 0;
-                        ev.setAction(MotionEvent.ACTION_CANCEL);
-                        super.dispatchTouchEvent(ev);
-                        return;
-                    }
-
-                    lastTapTime = System.currentTimeMillis();
-
-                    performClick();
-                }
-                break;
-
-            default:
-                break;
-        }
-
-        ev.setLocation(zoomX + (x - 0.5f * getWidth()) / zoom, zoomY + (y - 0.5f * getHeight()) / zoom);
-
-        ev.getX();
-        ev.getY();
-
-        super.dispatchTouchEvent(ev);
-    }
-
-    private void processDoubleTouchEvent(final MotionEvent ev) {
-        final float x1 = ev.getX(0);
-        final float dx1 = x1 - lastdx1;
-        lastdx1 = x1;
-        final float y1 = ev.getY(0);
-        final float dy1 = y1 - lastdy1;
-        lastdy1 = y1;
-        final float x2 = ev.getX(1);
-        final float dx2 = x2 - lastdx2;
-        lastdx2 = x2;
-        final float y2 = ev.getY(1);
-        final float dy2 = y2 - lastdy2;
-        lastdy2 = y2;
-
-        // pointers distance
-        final float d = (float) Math.hypot(x2 - x1, y2 - y1);
-        final float dd = d - lastd;
-        lastd = d;
-        final float ld = Math.abs(d - startd);
-
-        Math.atan2(y2 - y1, x2 - x1);
-        switch (ev.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                startd = d;
-                pinching = false;
-                break;
-
-            case MotionEvent.ACTION_MOVE:
-                if (pinching || ld > 30.0f) {
-                    pinching = true;
-                    final float dxk = 0.5f * (dx1 + dx2);
-                    final float dyk = 0.5f * (dy1 + dy2);
-                    smoothZoomTo(Math.max(1.0f, zoom * d / (d - dd)), zoomX - dxk / zoom, zoomY - dyk / zoom);
-                }
-
-                break;
-
-            case MotionEvent.ACTION_UP:
-            default:
-                pinching = false;
-                break;
-        }
-
-        ev.setAction(MotionEvent.ACTION_CANCEL);
-        super.dispatchTouchEvent(ev);
-    }
-
-    private float clamp(final float min, final float value, final float max) {
-        return Math.max(min, Math.min(value, max));
-    }
-
-    private float lerp(final float a, final float b, final float k) {
-        return a + (b - a) * k;
-    }
-
-    private float bias(final float a, final float b, final float k) {
-        return Math.abs(b - a) >= k ? a + k * Math.signum(b - a) : b;
+        return true;
     }
 
     @Override
-    protected void dispatchDraw(final Canvas canvas) {
-        // do zoom
-        zoom = lerp(bias(zoom, smoothZoom, 0.05f), smoothZoom, 0.2f);
-        smoothZoomX = clamp(0.5f * getWidth() / smoothZoom, smoothZoomX, getWidth() - 0.5f * getWidth() / smoothZoom);
-        smoothZoomY = clamp(0.5f * getHeight() / smoothZoom, smoothZoomY, getHeight() - 0.5f * getHeight() / smoothZoom);
+    public void onScaleEnd(ScaleGestureDetector scaleDetector) {
+        Log.i(TAG, "onScaleEnd");
+    }
 
-        zoomX = lerp(bias(zoomX, smoothZoomX, 0.1f), smoothZoomX, 0.35f);
-        zoomY = lerp(bias(zoomY, smoothZoomY, 0.1f), smoothZoomY, 0.35f);
+    private void applyScaleAndTranslation() {
+        child().setScaleX(scale);
+        child().setScaleY(scale);
+        child().setTranslationX(dx);
+        child().setTranslationY(dy);
+    }
 
-        final boolean animating = Math.abs(zoom - smoothZoom) > 0.0000001f
-                || Math.abs(zoomX - smoothZoomX) > 0.0000001f || Math.abs(zoomY - smoothZoomY) > 0.0000001f;
-
-        // nothing to draw
-        if (getChildCount() == 0) {
-            return;
-        }
-
-        // prepare matrix
-        m.setTranslate(0.5f * getWidth(), 0.5f * getHeight());
-        m.preScale(zoom, zoom);
-        m.preTranslate(-clamp(0.5f * getWidth() / zoom, zoomX, getWidth() - 0.5f * getWidth() / zoom),
-                -clamp(0.5f * getHeight() / zoom, zoomY, getHeight() - 0.5f * getHeight() / zoom));
-
-        // get view
-        final View v = getChildAt(0);
-        m.preTranslate(v.getLeft(), v.getTop());
-
-        // get drawing cache if available
-        if (animating && ch == null && isAnimationCacheEnabled()) {
-            v.setDrawingCacheEnabled(true);
-            ch = v.getDrawingCache();
-        }
-
-        // draw using cache while animating
-        if (animating && isAnimationCacheEnabled() && ch != null) {
-            p.setColor(0xffffffff);
-            canvas.drawBitmap(ch, m, p);
-        } else { // zoomed or cache unavailable
-            ch = null;
-            canvas.save();
-            canvas.concat(m);
-            v.draw(canvas);
-            canvas.restore();
-        }
-
-        // draw minimap
-        if (showMinimap) {
-            if (miniMapHeight < 0) {
-                miniMapHeight = getHeight() / 4;
-            }
-
-            canvas.translate(10.0f, 10.0f);
-
-            p.setColor(0x80000000 | 0x00ffffff & miniMapColor);
-            final float w = miniMapHeight * (float) getWidth() / getHeight();
-            final float h = miniMapHeight;
-            canvas.drawRect(0.0f, 0.0f, w, h, p);
-
-            if (miniMapCaption != null && miniMapCaption.length() > 0) {
-                p.setTextSize(miniMapCaptionSize);
-                p.setColor(miniMapCaptionColor);
-                p.setAntiAlias(true);
-                canvas.drawText(miniMapCaption, 10.0f, 10.0f + miniMapCaptionSize, p);
-                p.setAntiAlias(false);
-            }
-
-            p.setColor(0x80000000 | 0x00ffffff & miniMapColor);
-            final float dx = w * zoomX / getWidth();
-            final float dy = h * zoomY / getHeight();
-            canvas.drawRect(dx - 0.5f * w / zoom, dy - 0.5f * h / zoom, dx + 0.5f * w / zoom, dy + 0.5f * h / zoom, p);
-
-            canvas.translate(-10.0f, -10.0f);
-        }
-
-        // redraw
-        // if (animating) {
-        getRootView().invalidate();
-        invalidate();
-        // }
+    private View child() {
+        return getChildAt(0);
     }
 }
