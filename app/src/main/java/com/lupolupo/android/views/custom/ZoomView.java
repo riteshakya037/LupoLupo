@@ -55,7 +55,8 @@ public class ZoomView extends RecyclerView {
 
     @Override
     public boolean onTouchEvent(@NonNull MotionEvent ev) {
-        super.onTouchEvent(ev);
+        if (ev.getPointerCount() == 1)
+            super.onTouchEvent(ev);
         final int action = ev.getAction();
         mScaleDetector.onTouchEvent(ev);
 //        mGestureDetector.onTouchEvent(ev);
@@ -100,10 +101,6 @@ public class ZoomView extends RecyclerView {
 
             case MotionEvent.ACTION_UP: {
                 mActivePointerId = INVALID_POINTER_ID;
-                if (mScaleFactor < 1) {
-                    timer = new Timer();
-                    timer.schedule(new ScaleBack(), 0, 25);
-                }
                 break;
             }
 
@@ -120,6 +117,9 @@ public class ZoomView extends RecyclerView {
                     mLastTouchX = ev.getX(newPointerIndex);
                     mLastTouchY = ev.getY(newPointerIndex);
                     mActivePointerId = ev.getPointerId(newPointerIndex);
+                }
+                if (mScaleFactor < 1 && timer != null) {
+                    timer.schedule(new ScaleBack(), 0, 25);
                 }
                 break;
             }
@@ -158,7 +158,10 @@ public class ZoomView extends RecyclerView {
         @Override
         public boolean onScale(ScaleGestureDetector detector) {
             mScaleFactor *= detector.getScaleFactor();
-            mScaleFactor = Math.max(.9f, Math.min(mScaleFactor, 2.0f));
+            mScaleFactor = Math.max(.8f, Math.min(mScaleFactor, 2.0f));
+            if (mScaleFactor < 1.f) {
+                timer = new Timer();
+            }
             maxWidth = width - (width * mScaleFactor);
             maxHeight = height - (height * mScaleFactor);
             invalidate();
@@ -168,20 +171,29 @@ public class ZoomView extends RecyclerView {
 
     class ScaleBack extends TimerTask {
         public void run() {
-            mScaleFactor += 0.01;
-            if (mScaleFactor >= 1.0f) {
-                mScaleFactor = 1f;
-                timer.cancel();
-                timer.purge();
-            }
-            maxWidth = width - (width * mScaleFactor);
-            maxHeight = height - (height * mScaleFactor);
-            ((Activity) getContext()).runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    invalidate();
+            if (timer != null) {
+                System.out.println("rinning");
+                mScaleFactor += 0.01;
+                if (mScaleFactor > 1.0f) {
+                    System.out.println("stopping");
+                    mScaleFactor = 1f;
+                    try {
+                        timer.cancel();
+                        timer.purge();
+                    } catch (NullPointerException ignored) {
+                    } finally {
+                        timer = null;
+                    }
                 }
-            });
+                maxWidth = width - (width * mScaleFactor);
+                maxHeight = height - (height * mScaleFactor);
+                ((Activity) getContext()).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        invalidate();
+                    }
+                });
+            }
         }
     }
 }
