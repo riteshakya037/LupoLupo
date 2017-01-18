@@ -172,10 +172,8 @@ public class ZoomView extends RecyclerView {
     class ScaleBack extends TimerTask {
         public void run() {
             if (timer != null) {
-                System.out.println("rinning");
                 mScaleFactor += 0.01;
                 if (mScaleFactor > 1.0f) {
-                    System.out.println("stopping");
                     mScaleFactor = 1f;
                     try {
                         timer.cancel();
