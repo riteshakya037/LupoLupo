@@ -11,4 +11,7 @@ import retrofit2.http.GET;
 public interface PublicIP {
     @GET("json")
     Call<FreegeoipDto> getIP();
+
+    @GET("json")
+    Call<String> getIP2();
 }

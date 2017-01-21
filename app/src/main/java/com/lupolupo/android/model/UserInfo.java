@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.Callable;
+import java.util.regex.Pattern;
 
 import bolts.Continuation;
 import bolts.Task;
@@ -23,6 +24,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 /**
  * @author Ritesh Shakya
@@ -38,6 +40,9 @@ public class UserInfo {
     private GPSTracker gpsTracker = new GPSTracker(LupolupoAPIApplication.get());
     public String networkSpeed;
     public String adsID;
+
+    private static final Pattern PATTERN = Pattern.compile(
+            "^(([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.){3}([01]?\\d\\d?|2[0-4]\\d|25[0-5])$");
 
     public Task<UserInfo> getInfo() {
         List<Task> tasks = new ArrayList<>();
@@ -67,6 +72,10 @@ public class UserInfo {
         });
 
         return source.getTask();
+    }
+
+    public static boolean validate(final String ip) {
+        return PATTERN.matcher(ip).matches();
     }
 
     private Task<Void> getAdId() {
@@ -123,15 +132,36 @@ public class UserInfo {
         retrofit.create(PublicIP.class).getIP().enqueue(new Callback<FreegeoipDto>() {
             @Override
             public void onResponse(Call<FreegeoipDto> call, Response<FreegeoipDto> response) {
-                source.setResult(response.body().ip);
+                if (PATTERN.matcher(response.body().ip).matches())
+                    source.setResult(response.body().ip);
+                else {
+                    getIp2(source);
+                }
             }
 
             @Override
             public void onFailure(Call<FreegeoipDto> call, Throwable t) {
-                source.setError(null);
+                getIp2(source);
             }
         });
         return source.getTask();
+    }
+
+    private void getIp2(final TaskCompletionSource<String> source) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://icanhazip.com/")
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .build();
+        retrofit.create(PublicIP.class).getIP2().enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                source.setResult(response.body().replace("\n", ""));
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+            }
+        });
     }
 
     @Override
