@@ -2,6 +2,7 @@ package com.lupolupo.android.controllers.retrofit;
 
 import android.util.Log;
 
+import com.google.android.gms.ads.identifier.AdvertisingIdClient;
 import com.lupolupo.android.common.FCMPref;
 import com.lupolupo.android.common.LikePref;
 import com.lupolupo.android.common.LupolupoAPIApplication;
@@ -14,7 +15,9 @@ import com.lupolupo.android.model.dtos.GetEpisodeDto;
 import com.lupolupo.android.model.dtos.GetPanelDto;
 
 import java.util.List;
+import java.util.concurrent.Callable;
 
+import bolts.Continuation;
 import bolts.Task;
 import bolts.TaskCompletionSource;
 import okhttp3.OkHttpClient;
@@ -125,7 +128,7 @@ public class LupolupoHTTPManager {
 
     public Task<String> saveInfo(UserInfo info) {
         final TaskCompletionSource<String> source = new TaskCompletionSource<>();
-        getHttpAdaptor().saveInfo(info.latitude, info.longitude, info.publicIP, info.deviceModel, info.deviceID, info.carrier, info.deviceType, info.networkSpeed,info.adsID).enqueue(new Callback<String>() {
+        getHttpAdaptor().saveInfo(info.latitude, info.longitude, info.publicIP, info.deviceModel, info.deviceID, info.carrier, info.deviceType, info.networkSpeed, info.adsID).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 source.setResult(response.body());
@@ -139,20 +142,40 @@ public class LupolupoHTTPManager {
         return source.getTask();
     }
 
-    public Task<String> subscribe(String comicID) {
+    public Task<String> subscribe(final String comicID) {
         final TaskCompletionSource<String> source = new TaskCompletionSource<>();
-        getHttpAdaptor().subscribe(comicID, FCMPref.newInsance().getToken(), "android").enqueue(new Callback<String>() {
+        Task.callInBackground(new Callable<Void>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                source.setResult(response.body());
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-
+            public Void call() throws Exception {
+                AdvertisingIdClient.Info idInfo;
+                try {
+                    idInfo = AdvertisingIdClient.getAdvertisingIdInfo(LupolupoAPIApplication.get());
+                    source.setResult(idInfo.getId());
+                } catch (Exception e) {
+                    source.setError(e);
+                    e.printStackTrace();
+                }
+                return null;
             }
         });
-        return source.getTask();
+        return source.getTask().continueWithTask(new Continuation<String, Task<String>>() {
+            @Override
+            public Task<String> then(Task<String> task) throws Exception {
+                final TaskCompletionSource<String> source = new TaskCompletionSource<>();
+                getHttpAdaptor().subscribe(comicID, FCMPref.newInsance().getToken(), task.getResult(), "android").enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(Call<String> call, Response<String> response) {
+                        source.setResult(response.body());
+                    }
+
+                    @Override
+                    public void onFailure(Call<String> call, Throwable t) {
+
+                    }
+                });
+                return source.getTask();
+            }
+        });
     }
 
     public Task<List<Episode>> getAllEpisodes() {

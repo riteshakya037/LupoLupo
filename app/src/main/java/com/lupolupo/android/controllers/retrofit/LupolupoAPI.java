@@ -36,7 +36,7 @@ interface LupolupoAPI {
 
     @FormUrlEncoded
     @POST("api/subscribe")
-    Call<String> subscribe(@Field("comicID") String comicID, @Field("deviceID") String deviceID, @Field("deviceType") String deviceType);
+    Call<String> subscribe(@Field("comicID") String comicID, @Field("deviceID") String deviceID,@Field("adsID")String adsID, @Field("deviceType") String deviceType);
 
     @POST("api/getAllEpisodes")
     Call<GetEpisodeDto> getAllEpisode();

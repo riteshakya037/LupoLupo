@@ -20,7 +20,7 @@ public class AppLoader {
     private static AppLoader _instance;
     private List<Comic> comicList;
     private AppMode mAppMode = AppMode.RECENT;
-    List<Comic> tempList;
+    private List<Comic> tempList = new ArrayList<>();
 
     public static AppLoader getInstance() {
         if (_instance == null)
@@ -41,7 +41,6 @@ public class AppLoader {
                         tasks.add(GlideLoader.getImage("images/" + comic.id + "/", comic.comic_big_image));
                         tasks.add(GlideLoader.getImage("images/" + comic.id + "/", comic.comic_image));
                     }
-                    tempList = new ArrayList<>();
                     for (Comic comic : comicList) {
                         if (comic.getChecked())
                             tempList.add(comic);
