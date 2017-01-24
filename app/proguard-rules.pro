@@ -30,13 +30,14 @@
 -keepattributes Signature
 # Retain declared checked exceptions for use by a Proxy instance.
 -keepattributes Exceptions
--keep class com.blues.lupolupo.model.** { *; }
+-keep class com.lupolupo.android.model.** { *; }
 -keepattributes *Annotation*
 -keepclassmembers class ** {
     @org.greenrobot.eventbus.Subscribe <methods>;
 }
 -keep enum org.greenrobot.eventbus.ThreadMode { *; }
 
+-keep public class com.lupolupo.android.views.custom.** { *; }
 -keep class * extends java.util.ListResourceBundle {
     protected Object[][] getContents();  }
 

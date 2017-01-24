@@ -6,7 +6,7 @@ android {
         config {
             keyAlias 'LupoLupo'
             keyPassword 'paperPC'
-            storeFile file('app/lupolupo.jks')
+            storeFile file('lupolupo.jks')
             storePassword 'paperPC'
         }
     }
