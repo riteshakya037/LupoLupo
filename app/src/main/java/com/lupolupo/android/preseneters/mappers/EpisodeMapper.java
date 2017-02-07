@@ -8,5 +8,4 @@ import android.support.v7.widget.RecyclerView;
 public interface EpisodeMapper {
     void registerAdapter(RecyclerView.Adapter adapter);
 
-    void setTitle(String episode_name);
 }

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="spinner_list_item_array">
+        <item>Flip</item>
+        <item>Grid</item>
         <item>Recent</item>
         <item>Popular</item>
     </string-array>

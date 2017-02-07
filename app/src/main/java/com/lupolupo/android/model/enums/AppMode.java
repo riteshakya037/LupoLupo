@@ -6,7 +6,7 @@ import java.util.Arrays;
  * @author Ritesh Shakya
  */
 public enum AppMode {
-    RECENT(0, "Recent"), POPULAR(1, "Popular");
+    FLIP(0, "Flip"), GRID(1, "GRID"), RECENT(2, "Recent"), POPULAR(3, "Popular");
 
     private int position;
     private String description;

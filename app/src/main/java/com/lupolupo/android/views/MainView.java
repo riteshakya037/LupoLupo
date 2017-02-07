@@ -1,15 +1,14 @@
 package com.lupolupo.android.views;
 
-import android.widget.ArrayAdapter;
-
-import com.lupolupo.android.preseneters.MainPresenterImpl;
 import com.lupolupo.android.views.bases.BaseContextView;
+import com.lupolupo.android.views.bases.BaseSpinnerView;
 import com.lupolupo.android.views.bases.BaseToolbarView;
 
 /**
  * @author Ritesh Shakya
  */
-public interface MainView extends BaseContextView, BaseToolbarView {
+public interface MainView extends BaseContextView, BaseToolbarView, BaseSpinnerView
+{
     void initializeDrawerLayout();
 
     void closeDrawerLayout();
@@ -17,7 +16,5 @@ public interface MainView extends BaseContextView, BaseToolbarView {
     @SuppressWarnings("SameReturnValue")
     int getMainLayoutId();
 
-    void setAdapter(ArrayAdapter<String> dataAdapter);
 
-    void setListeners(MainPresenterImpl.SpinnerInteractionListener onItemSelectedListener);
 }

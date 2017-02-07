@@ -276,7 +276,10 @@ public class SplashActivity extends PortraitActivity {
     public void onProgress(DownloadProgressEvent event) {
         fileBytes = event.getTotalFileSize();
         mProgressBar.setVisibility(View.VISIBLE);
-        mProgressBar.setProgress((event.getTotalBytesWritten() * 100 / event.getTotalFileSize() / event.getSmoothingVariable()));
+        try {
+            mProgressBar.setProgress((event.getTotalBytesWritten() * 100 / event.getTotalFileSize() / event.getSmoothingVariable()));
+        } catch (ArithmeticException ignored) {
+        }
     }
 
 

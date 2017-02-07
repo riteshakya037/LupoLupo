@@ -10,6 +10,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -22,6 +23,7 @@ import com.lupolupo.android.common.LupolupoAPIApplication;
 import com.lupolupo.android.common.NotificationPref;
 import com.lupolupo.android.preseneters.MainPresenter;
 import com.lupolupo.android.preseneters.MainPresenterImpl;
+import com.lupolupo.android.preseneters.SpinnerInteractionListener;
 import com.lupolupo.android.preseneters.events.FragmentEvent;
 import com.lupolupo.android.preseneters.events.SpinnerVisibilityEvent;
 import com.lupolupo.android.preseneters.events.TitleEvent;
@@ -86,7 +88,16 @@ public class MainActivity extends PortraitActivity implements MainView {
             getSupportFragmentManager().beginTransaction()
                     .replace(getMainLayoutId(), currentFragment)
                     .commit();
+        } else {
+            currentFragment = getSupportFragmentManager().getFragment(savedInstanceState, "currentFragment");
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        //Save the fragment's instance
+        getSupportFragmentManager().putFragment(outState, "currentFragment", currentFragment);
     }
 
     @Override
@@ -150,9 +161,9 @@ public class MainActivity extends PortraitActivity implements MainView {
     }
 
     @Override
-    public void setListeners(MainPresenterImpl.SpinnerInteractionListener onItemSelectedListener) {
+    public void setListeners(SpinnerInteractionListener onItemSelectedListener) {
         if (mSpinner != null) {
-            mSpinner.setOnTouchListener(onItemSelectedListener);
+            Log.i(TAG, "setListeners: ");
             mSpinner.setOnItemSelectedListener(onItemSelectedListener);
         }
     }

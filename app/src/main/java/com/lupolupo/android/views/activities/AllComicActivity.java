@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.lupolupo.android.R;
@@ -12,9 +14,11 @@ import com.lupolupo.android.common.DialogUtils;
 import com.lupolupo.android.model.loaders.AppLoader;
 import com.lupolupo.android.preseneters.AllComicPresenter;
 import com.lupolupo.android.preseneters.AllComicPresenterImpl;
+import com.lupolupo.android.preseneters.SpinnerInteractionListener;
 import com.lupolupo.android.preseneters.mappers.AllComicMapper;
 import com.lupolupo.android.views.AllComicView;
 import com.lupolupo.android.views.activities.bases.PortraitActivity;
+import com.lupolupo.android.views.custom.NDSpinner;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,6 +41,8 @@ public class AllComicActivity extends PortraitActivity implements AllComicView, 
 
     private AllComicPresenter mPresenter;
 
+    @BindView(R.id.mode_spinner)
+    NDSpinner mSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +52,7 @@ public class AllComicActivity extends PortraitActivity implements AllComicView, 
 
         mPresenter = new AllComicPresenterImpl(this, this);
         mPresenter.initializeViews();
+        mPresenter.initializeMenuItem();
         mPresenter.initializeAdaptor();
         mPresenter.initializeData();
     }
@@ -93,5 +100,19 @@ public class AllComicActivity extends PortraitActivity implements AllComicView, 
     @Override
     public void showEmptyDialog() {
         DialogUtils.showDialog(this, "Information", "There are no episodes.");
+    }
+
+    @Override
+    public void setAdapter(ArrayAdapter<String> dataAdapter) {
+        if (mSpinner != null) {
+            mSpinner.setAdapter(dataAdapter);
+        }
+    }
+
+    @Override
+    public void setListeners(SpinnerInteractionListener onItemSelectedListener) {
+        if (mSpinner != null) {
+            mSpinner.setOnItemSelectedListener(onItemSelectedListener);
+        }
     }
 }

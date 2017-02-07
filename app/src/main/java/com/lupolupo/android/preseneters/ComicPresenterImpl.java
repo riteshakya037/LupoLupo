@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.v4.content.FileProvider;
 import android.support.v7.widget.LinearLayoutManager;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -24,6 +25,7 @@ import com.lupolupo.android.views.adaptors.ComicEpisodeAdapter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 
 import bolts.Continuation;
 import bolts.Task;
@@ -49,6 +51,16 @@ public class ComicPresenterImpl implements ComicPresenter {
     public void initializeAdaptor() {
         comicEpisodeAdaptor = new ComicEpisodeAdapter(mView.getActivity());
         mMapper.registerAdapter(comicEpisodeAdaptor);
+    }
+
+    @Override
+    public void initializeMenuItem() {
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(mView.getActivity(),
+                R.layout.toolbar_spinner_item_actionbar, Arrays.asList(mView.getActivity().getResources().getStringArray(R.array.spinner_list_item_array)));
+        dataAdapter.setDropDownViewResource(R.layout.toolbar_spinner_item_dropdown);
+        mView.setAdapter(dataAdapter);
+        SpinnerInteractionListener listener = new SpinnerInteractionListener(mView.getActivity());
+        mView.setListeners(listener);
     }
 
     @Override

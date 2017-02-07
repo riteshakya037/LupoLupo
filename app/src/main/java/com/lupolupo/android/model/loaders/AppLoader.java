@@ -49,7 +49,7 @@ public class AppLoader implements LoaderBase {
                         taskSize++;
                         comic.comic_name = StringUtils.replaceEncoded(comic.comic_name);
                         tasks.add(ImageLoader.getImage("images/" + comic.id + "/", comic.comic_big_image, AppLoader.this));
-                        tasks.add(ImageLoader.getImage("images/" + comic.id + "/", comic.comic_image, AppLoader.this, true));
+                        tasks.add(ImageLoader.getImage("images/" + comic.id + "/", comic.comic_image, AppLoader.this, false));
                     }
                     for (Comic comic : comicList) {
                         if (comic.getChecked())

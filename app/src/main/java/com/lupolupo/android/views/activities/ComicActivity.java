@@ -6,9 +6,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,9 +15,11 @@ import com.lupolupo.android.common.DialogUtils;
 import com.lupolupo.android.model.Comic;
 import com.lupolupo.android.preseneters.ComicPresenter;
 import com.lupolupo.android.preseneters.ComicPresenterImpl;
+import com.lupolupo.android.preseneters.SpinnerInteractionListener;
 import com.lupolupo.android.preseneters.mappers.ComicMapper;
 import com.lupolupo.android.views.ComicView;
 import com.lupolupo.android.views.activities.bases.PortraitActivity;
+import com.lupolupo.android.views.custom.NDSpinner;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,6 +30,7 @@ import mehdi.sakout.fancybuttons.FancyButton;
 public class ComicActivity extends PortraitActivity implements ComicView, ComicMapper {
 
     public static final String INTENT_COMIC = "comic_intent";
+    private static final String TAG = ComicActivity.class.getSimpleName();
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -56,6 +57,14 @@ public class ComicActivity extends PortraitActivity implements ComicView, ComicM
         mPresenter.subscribe();
     }
 
+    @OnClick(R.id.button_share)
+    void onShare() {
+        mPresenter.share();
+    }
+
+    @BindView(R.id.mode_spinner)
+    NDSpinner mSpinner;
+
     private ComicPresenter mPresenter;
 
 
@@ -67,28 +76,11 @@ public class ComicActivity extends PortraitActivity implements ComicView, ComicM
 
         mPresenter = new ComicPresenterImpl(this, this);
         mPresenter.initializeViews();
+        mPresenter.initializeMenuItem();
         mPresenter.initializeAdaptor();
         mPresenter.initializeData();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        new MenuInflater(this).inflate(R.menu.activity_comic_menu, menu);
-        return (super.onCreateOptionsMenu(menu));
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == android.R.id.home) {
-            // This ID represents the Home or Up button.
-            onBackPressed();
-            return true;
-        } else if (id == R.id.action_share) {
-            mPresenter.share();
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     public Activity getActivity() {
@@ -145,5 +137,19 @@ public class ComicActivity extends PortraitActivity implements ComicView, ComicM
     @Override
     public void showEmptyDialog() {
         DialogUtils.showDialog(this, "Information", "There are no episodes.");
+    }
+
+    @Override
+    public void setAdapter(ArrayAdapter<String> dataAdapter) {
+        if (mSpinner != null) {
+            mSpinner.setAdapter(dataAdapter);
+        }
+    }
+
+    @Override
+    public void setListeners(SpinnerInteractionListener onItemSelectedListener) {
+        if (mSpinner != null) {
+            mSpinner.setOnItemSelectedListener(onItemSelectedListener);
+        }
     }
 }

@@ -28,13 +28,59 @@
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/AppThemeLight.PopupOverlay">
 
-            <TextView
-                android:id="@+id/toolbar_title"
+            <mehdi.sakout.fancybuttons.FancyButton
+                android:id="@+id/button_subscribe"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@string/app_name"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                android:background="?android:attr/selectableItemBackground"
+                android:padding="8dp"
+                app:fb_borderColor="?colorAccent"
+                app:fb_borderWidth="1dp"
+                app:fb_defaultColor="@android:color/transparent"
+                app:fb_iconPosition="left"
+                app:fb_radius="30dp"
+                app:fb_text="@string/subscribe"
+                app:fb_textColor="?colorAccent" />
+
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="end">
+
+                <TextView
+                    android:id="@+id/mode_spinner_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="@android:color/transparent"
+                    android:drawableEnd="@drawable/ic_more_vert_accent_24px"
+                    android:drawableRight="@drawable/ic_more_vert_accent_24px"
+                    android:gravity="end|center_vertical"
+                    android:text="More"
+                    android:textColor="?colorAccent"
+                    android:textSize="14sp" />
+
+
+                <com.lupolupo.android.views.custom.NDSpinner
+                    android:id="@+id/mode_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+                    android:foreground="?selectableItemBackground"
+                    android:gravity="end" />
+
+            </FrameLayout>
+
+            <ImageButton
+                android:id="@+id/button_share"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="end"
+                android:background="@android:color/transparent"
+                android:padding="8dp"
+                android:src="@drawable/ic_share_white_24px" />
         </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
