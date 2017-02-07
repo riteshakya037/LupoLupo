@@ -8,11 +8,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -39,11 +42,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 import java.util.concurrent.Callable;
 
 import bolts.Continuation;
@@ -155,6 +153,11 @@ public class SplashActivity extends PortraitActivity {
                 long endTime = System.currentTimeMillis();
                 double downloadTimeSeconds = ((double) (endTime - startTime)) / 1000d;
                 bytesPerSecond = ((double) fileBytes) / downloadTimeSeconds / 125;
+                return checkGPS();
+            }
+        }).continueWithTask(new Continuation<Void, Task<Void>>() {
+            @Override
+            public Task<Void> then(Task<Void> task) throws Exception {
                 return saveInfo();
             }
         }).onSuccess(new Continuation<Void, Void>() {
@@ -166,6 +169,51 @@ public class SplashActivity extends PortraitActivity {
                 return null;
             }
         });
+    }
+
+    TaskCompletionSource<Void> checkGpsTask;
+
+    private Task<Void> checkGPS() {
+        checkGpsTask = new TaskCompletionSource<>();
+        LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        boolean gps_enabled = false;
+        try {
+            gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        } catch (Exception ignored) {
+        }
+
+        if (!gps_enabled) {
+            AlertDialog.Builder dialog = new AlertDialog.Builder(this, android.R.style.Theme_Holo_Light_Dialog_NoActionBar);
+            dialog.setMessage(getResources().getString(R.string.gps_not_enabled));
+            dialog.setPositiveButton(getResources().getString(R.string.open_location_settings), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                    // TODO Auto-generated method stub
+                    Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    startActivityForResult(myIntent, 100);
+                }
+            });
+//            dialog.setNegativeButton(getString(R.string.Cancel), new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+//                    checkGpsTask.setResult(null);
+//                }
+//            });
+            dialog.show();
+        } else {
+            checkGpsTask.setResult(null);
+        }
+        return checkGpsTask.getTask();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 100) {
+            if (checkGpsTask != null) {
+                checkGpsTask.setResult(null);
+            }
+        }
     }
 
     private boolean checkPlayServices() {
@@ -190,38 +238,6 @@ public class SplashActivity extends PortraitActivity {
         return true;
     }
 
-
-    private Task<Void> getDownload() throws IOException {
-        return Task.callInBackground(new Callable<Void>() {
-            @Override
-            public Void call() throws Exception {
-
-                for (Comic comic : AppLoader.getInstance().getComics().subList(0, AppLoader.getInstance().getComics().size() < 5 ? AppLoader.getInstance().getComics().size() : 5)) {
-                    URL website = new URL("http://lupolupo.com/images/" + comic.id + "/" + comic.comic_big_image);
-
-
-                    InputStream input = website.openStream();
-
-                    File outputFile = new File(getCacheDir(), "output.jpg");
-                    outputFile.createNewFile();
-                    FileOutputStream output = new FileOutputStream(outputFile);
-                    byte[] buffer = new byte[4096];
-                    int bytesRead;
-                    while ((bytesRead = input.read(buffer)) != -1) {
-                        output.write(buffer, 0, bytesRead);
-                    }
-                    output.close();
-                    input.close();
-                    fileBytes += outputFile.length();
-                    outputFile.delete();
-
-                }
-
-                return null;
-            }
-        });
-
-    }
 
     private Task<Void> saveInfo() {
         final TaskCompletionSource<Void> tcs = new TaskCompletionSource<>();
@@ -258,11 +274,9 @@ public class SplashActivity extends PortraitActivity {
     @SuppressWarnings("unused")
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onProgress(DownloadProgressEvent event) {
-        Log.i(TAG, "onProgress: " + event);
         fileBytes = event.getTotalFileSize();
         mProgressBar.setVisibility(View.VISIBLE);
         mProgressBar.setProgress((event.getTotalBytesWritten() * 100 / event.getTotalFileSize() / event.getSmoothingVariable()));
-        System.out.println(mProgressBar.getProgress());
     }
 
 

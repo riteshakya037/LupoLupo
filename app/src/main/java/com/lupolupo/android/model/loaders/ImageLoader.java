@@ -36,7 +36,7 @@ public class ImageLoader {
         final File imgFile = new File(LupolupoAPIApplication.get().getCacheDir(), parentFolder + fileName);
         if (imgFile.exists() && skip) {
             tcs.setResult(null);
-            loaderBase.setProgress(imgFile.getAbsolutePath(), 128000, 128000);
+            loaderBase.setProgress(imgFile.getAbsolutePath(), 0, 0);
         } else {
             HttpUtils.get("http://lupolupo.com/" + parentFolder + fileName, null, true, new FileAsyncHttpResponseHandler(imgFile) {
                 @Override
