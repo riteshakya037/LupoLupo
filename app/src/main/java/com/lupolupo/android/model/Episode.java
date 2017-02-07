@@ -28,6 +28,7 @@ public class Episode implements Parcelable {
     public String likes;
     public String comic_name;
     public String created_date;
+    public String e_abbreviation = "";
 
     private Episode(Parcel in) {
         id = in.readString();
@@ -60,6 +61,14 @@ public class Episode implements Parcelable {
         @Override
         public int compare(Episode episode, Episode t1) {
             return Integer.valueOf(t1.likes) - Integer.valueOf(episode.likes);
+        }
+    }
+
+
+    public static class AbbreviationComparator implements Comparator<Episode> {
+        @Override
+        public int compare(Episode episode, Episode t1) {
+            return t1.e_abbreviation.compareTo(episode.e_abbreviation);
         }
     }
 }

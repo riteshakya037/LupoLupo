@@ -24,7 +24,7 @@ interface LupolupoAPI {
 
     @FormUrlEncoded
     @POST("api/getPanels")
-    Call<GetPanelDto> getPanel(@Field("episode_id") String episode_id);
+    Call<GetPanelDto> getPanel(@Field("episode_id") String episode_id, @Field("deviceType") String deviceType);
 
     @FormUrlEncoded
     @POST("api/Like_unlike")
@@ -36,7 +36,7 @@ interface LupolupoAPI {
 
     @FormUrlEncoded
     @POST("api/subscribe")
-    Call<String> subscribe(@Field("comicID") String comicID, @Field("deviceID") String deviceID,@Field("adsID")String adsID, @Field("deviceType") String deviceType);
+    Call<String> subscribe(@Field("comicID") String comicID, @Field("deviceID") String deviceID, @Field("adsID") String adsID, @Field("deviceType") String deviceType);
 
     @POST("api/getAllEpisodes")
     Call<GetEpisodeDto> getAllEpisode();

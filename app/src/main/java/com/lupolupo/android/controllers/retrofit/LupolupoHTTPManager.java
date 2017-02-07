@@ -99,7 +99,7 @@ public class LupolupoHTTPManager {
 
     public Task<List<Panel>> getPanel(String episode_id) {
         final TaskCompletionSource<List<Panel>> source = new TaskCompletionSource<>();
-        getHttpAdaptor().getPanel(episode_id).enqueue(new Callback<GetPanelDto>() {
+        getHttpAdaptor().getPanel(episode_id, "android").enqueue(new Callback<GetPanelDto>() {
             @Override
             public void onResponse(Call<GetPanelDto> call, Response<GetPanelDto> response) {
                 source.setResult(response.body().panels);

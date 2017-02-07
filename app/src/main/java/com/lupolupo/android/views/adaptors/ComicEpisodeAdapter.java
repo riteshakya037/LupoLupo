@@ -12,7 +12,6 @@ import com.lupolupo.android.common.LupolupoAPIApplication;
 import com.lupolupo.android.model.Episode;
 import com.lupolupo.android.views.activities.EpisodeActivity;
 import com.lupolupo.android.views.activities.SplashActivity;
-import com.lupolupo.android.views.bases.BaseEmptyRelativeLayoutView;
 import com.lupolupo.android.views.holders.EpisodeHolder;
 
 import java.util.LinkedList;
@@ -43,7 +42,7 @@ public class ComicEpisodeAdapter extends RecyclerView.Adapter<EpisodeHolder> {
     public void onBindViewHolder(EpisodeHolder holder, final int position) {
         final Episode currentEpisode = data.get(position);
         holder.episodeTitle.setText(currentEpisode.episode_name);
-        holder.txtEpisodeId.setText(LupolupoAPIApplication.get().getString(R.string.episode_no, position + 1));
+        holder.txtEpisodeId.setText(LupolupoAPIApplication.get().getString(R.string.episode_no, data.size() - position));
         holder.txtEpisodeLikeCount.setText(currentEpisode.likes);
         holder.episodeDate.setText(currentEpisode.created_date);
         holder.setEpisodeId(currentEpisode.id);

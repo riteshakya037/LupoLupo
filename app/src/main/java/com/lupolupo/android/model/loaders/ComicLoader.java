@@ -47,6 +47,7 @@ public class ComicLoader implements LoaderBase {
                 clear();
                 if (results.getResult() != null && results.getResult().size() != 0) {
                     episodeList = results.getResult();
+//                    Collections.sort(episodeList, new Episode.AbbreviationComparator());
                     tasks.add(ImageLoader.getImage("/images/" + comicData.id + "/", comicData.comic_big_image, ComicLoader.this));
                     for (final Episode episode : results.getResult()) {
                         episode.episode_name = StringUtils.replaceEncoded(episode.episode_name);
