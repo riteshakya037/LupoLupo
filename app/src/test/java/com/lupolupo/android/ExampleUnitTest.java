@@ -23,9 +23,9 @@ public class ExampleUnitTest {
     @Test
     public void FireBase() throws Exception {
         // Method to send Notifications from server to client end.
-        String AUTH_KEY_FCM = "AIzaSyByF2Ax3YJq5l6U5yXrkicR-xqR98PBFK0";
+        String AUTH_KEY_FCM = "AIzaSyBL-ob5qcthYbfpb33It2NIvyjvN6ELcOU";
         String API_URL_FCM = "https://fcm.googleapis.com/fcm/send";
-        String userDeviceIdKey = "fDUGiZAA9gM:APA91bGs7rOQucRaa_Rfo-kJChvB8NJ4xiWYNhXpeo0Pk7SycNZuWFos3Ka4LtetsSbPNF-dS5M2_9CxWved9LPROG1ZMp9WVT_bx0wwzf8c9B-RP4CbcUV3laxJzgaHngBD1MWSmGvO";
+        String userDeviceIdKey = "dnWqHxIwbVQ:APA91bHEC0dVI3POX1L_6x3fbp7JB5AqogZy3OFSFU_w7bX_m0vhWqU6MXqRTLy6dOpQgbkCJ9fTqYWFbiUfWvZqiw_D0NSpYnggVn67Chap7gLO2UQdMBEKX5iMIT7Yt4dc0koty8Lb";
 
         URL url = new URL(API_URL_FCM);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();

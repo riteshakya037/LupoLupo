@@ -9,10 +9,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.lupolupo.android.R;
-import com.lupolupo.android.common.LikePref;
 import com.lupolupo.android.common.LupolupoAPIApplication;
 import com.lupolupo.android.controllers.retrofit.LupolupoHTTPManager;
-import com.lupolupo.android.model.loaders.GlideLoader;
+import com.lupolupo.android.model.loaders.ImageLoader;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -63,7 +62,7 @@ public class EpisodeHolder extends RecyclerView.ViewHolder {
     }
 
     public void setEpisodeImage(String url) {
-        GlideLoader.load(url, episodeImage);
+        ImageLoader.load(url, episodeImage);
     }
 
     public void setEpisodeId(String episodeId) {

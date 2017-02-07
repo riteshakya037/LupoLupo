@@ -16,10 +16,12 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.tasks.Tasks;
 import com.lupolupo.android.BuildConfig;
+import com.lupolupo.android.R;
 import com.lupolupo.android.common.FCMPref;
 import com.lupolupo.android.common.FirstRunPrefPref;
 import com.lupolupo.android.controllers.retrofit.LupolupoHTTPManager;
@@ -29,7 +31,12 @@ import com.lupolupo.android.model.UserInfo;
 import com.lupolupo.android.model.loaders.AppLoader;
 import com.lupolupo.android.model.loaders.ComicLoader;
 import com.lupolupo.android.model.loaders.EpisodeLoader;
+import com.lupolupo.android.preseneters.events.DownloadProgressEvent;
 import com.lupolupo.android.views.activities.bases.PortraitActivity;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -41,6 +48,8 @@ import java.util.concurrent.Callable;
 import bolts.Continuation;
 import bolts.Task;
 import bolts.TaskCompletionSource;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 import static com.lupolupo.android.views.activities.AllComicActivity.INTENT_ALL_EPISODE;
 import static com.lupolupo.android.views.activities.ComicActivity.INTENT_COMIC;
@@ -54,9 +63,16 @@ public class SplashActivity extends PortraitActivity {
     private BroadcastReceiver mRegistrationBroadcastReceiver;
     double bytesPerSecond = 0;
 
+    @BindView(R.id.activity_splash_progress)
+    RoundCornerProgressBar mProgressBar;
+    private int fileBytes;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_splash);
+        ButterKnife.bind(this);
+
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -130,14 +146,14 @@ public class SplashActivity extends PortraitActivity {
     }
 
     private void startMain() {
+        final long startTime = System.currentTimeMillis();
+        fileBytes = 0;
         AppLoader.getInstance().startLoading().continueWithTask(new Continuation<Void, Task<Void>>() {
             @Override
             public Task<Void> then(Task<Void> task) throws Exception {
-                return getDownload();
-            }
-        }).continueWithTask(new Continuation<Void, Task<Void>>() {
-            @Override
-            public Task<Void> then(Task<Void> task) throws Exception {
+                long endTime = System.currentTimeMillis();
+                double downloadTimeSeconds = ((double) (endTime - startTime)) / 1000d;
+                bytesPerSecond = ((double) fileBytes) / downloadTimeSeconds / 125;
                 return saveInfo();
             }
         }).onSuccess(new Continuation<Void, Void>() {
@@ -178,8 +194,7 @@ public class SplashActivity extends PortraitActivity {
         return Task.callInBackground(new Callable<Void>() {
             @Override
             public Void call() throws Exception {
-                long startTime = System.currentTimeMillis();
-                long fileBytes = 0;
+
                 for (Comic comic : AppLoader.getInstance().getComics().subList(0, AppLoader.getInstance().getComics().size() < 5 ? AppLoader.getInstance().getComics().size() : 5)) {
                     URL website = new URL("http://lupolupo.com/images/" + comic.id + "/" + comic.comic_big_image);
 
@@ -200,11 +215,7 @@ public class SplashActivity extends PortraitActivity {
                     outputFile.delete();
 
                 }
-                long endTime = System.currentTimeMillis();
 
-
-                double downloadTimeSeconds = ((double) (endTime - startTime)) / 1000d;
-                bytesPerSecond = ((double) fileBytes) / downloadTimeSeconds / 125;
                 return null;
             }
         });
@@ -243,13 +254,34 @@ public class SplashActivity extends PortraitActivity {
         return tcs.getTask();
     }
 
+    @SuppressWarnings("unused")
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onProgress(DownloadProgressEvent event) {
+        Log.i(TAG, "onProgress: " + event);
+        fileBytes = event.getTotalFileSize();
+        mProgressBar.setProgress((event.getTotalBytesWritten() * 100 / event.getTotalFileSize() / event.getSmoothingVariable()));
+        System.out.println(mProgressBar.getProgress());
+    }
+
+
     @Override
     protected void onResume() {
         super.onResume();
         // register GCM registration complete receiver
         LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
                 new IntentFilter(FCMPref.REGISTRATION_COMPLETE));
+    }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
 
     }
 

@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.lupolupo.android.R;
-import com.lupolupo.android.model.loaders.GlideLoader;
+import com.lupolupo.android.model.loaders.ImageLoader;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,6 +26,6 @@ public class EpisodePanelHolder extends RecyclerView.ViewHolder {
     }
 
     public void loadPanelImage(String url) {
-        GlideLoader.load(url, panelImage);
+        ImageLoader.load(url, panelImage);
     }
 }

@@ -6,9 +6,14 @@ import com.lupolupo.android.controllers.retrofit.LupolupoHTTPManager;
 import com.lupolupo.android.model.Comic;
 import com.lupolupo.android.model.Episode;
 import com.lupolupo.android.model.enums.AppMode;
+import com.lupolupo.android.model.loaders.bases.LoaderBase;
+import com.lupolupo.android.preseneters.events.DownloadProgressEvent;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -18,10 +23,12 @@ import bolts.Task;
 /**
  * @author Ritesh Shakya
  */
-public class ComicLoader {
+public class ComicLoader implements LoaderBase {
     private static ComicLoader _instance;
     private Comic comicData;
     private List<Episode> episodeList;
+    private final HashMap<String, ProgressCount> fileProgressMap = new HashMap<>();
+    private int taskSize = 0;
 
     public static ComicLoader getInstance() {
         if (_instance == null)
@@ -36,14 +43,15 @@ public class ComicLoader {
             @Override
             public Task<Void> then(Task<List<Episode>> results) throws Exception {
                 ArrayList<Task<Void>> tasks = new ArrayList<>();
+                fileProgressMap.clear();
                 if (results.getResult() != null && results.getResult().size() != 0) {
                     episodeList = results.getResult();
-                    tasks.add(GlideLoader.getImage("/images/" + comicData.id + "/", comicData.comic_big_image));
+                    tasks.add(ImageLoader.getImage("/images/" + comicData.id + "/", comicData.comic_big_image, ComicLoader.this));
                     for (final Episode episode : results.getResult()) {
                         episode.episode_name = StringUtils.replaceEncoded(episode.episode_name);
                         episode.comic_name = StringUtils.replaceEncoded(episode.comic_name);
-
-                        tasks.add(GlideLoader.getImage("images/" + episode.comic_id + "/" + episode.id + "/", episode.episode_image));
+                        taskSize++;
+                        tasks.add(ImageLoader.getImage("images/" + episode.comic_id + "/" + episode.id + "/", episode.episode_image, ComicLoader.this));
                     }
                 }
                 return Task.whenAll(tasks);
@@ -77,11 +85,25 @@ public class ComicLoader {
                         episode.episode_name = StringUtils.replaceEncoded(episode.episode_name);
                         episode.comic_name = StringUtils.replaceEncoded(episode.comic_name);
 
-                        tasks.add(GlideLoader.getImage("images/" + episode.comic_id + "/" + episode.id + "/", episode.episode_image));
+                        tasks.add(ImageLoader.getImage("images/" + episode.comic_id + "/" + episode.id + "/", episode.episode_image, ComicLoader.this));
                     }
                 }
                 return Task.whenAll(tasks);
             }
         });
+    }
+
+    @Override
+    public void setProgress(String imgFile, int bytesWritten, int totalSize) {
+        synchronized (fileProgressMap) {
+            fileProgressMap.put(imgFile, new ProgressCount(bytesWritten, totalSize));
+            int totalBytesWritten = 0;
+            int totalFileSize = 0;
+            for (ProgressCount progressCount : fileProgressMap.values()) {
+                totalBytesWritten += progressCount.bytesWritten;
+                totalFileSize += progressCount.totalSize;
+            }
+            EventBus.getDefault().post(new DownloadProgressEvent(totalBytesWritten, totalFileSize, taskSize * 2 / fileProgressMap.size()));
+        }
     }
 }

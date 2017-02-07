@@ -16,7 +16,7 @@ import com.lupolupo.android.common.LupolupoAPIApplication;
 import com.lupolupo.android.controllers.retrofit.LupolupoHTTPManager;
 import com.lupolupo.android.model.Comic;
 import com.lupolupo.android.model.loaders.ComicLoader;
-import com.lupolupo.android.model.loaders.GlideLoader;
+import com.lupolupo.android.model.loaders.ImageLoader;
 import com.lupolupo.android.preseneters.mappers.ComicMapper;
 import com.lupolupo.android.views.ComicView;
 import com.lupolupo.android.views.adaptors.ComicEpisodeAdapter;
@@ -65,7 +65,7 @@ public class ComicPresenterImpl implements ComicPresenter {
 
     @Override
     public void loadImage(String url) {
-        GlideLoader.load(url, mView.getCoverImageHolder());
+        ImageLoader.load(url, mView.getCoverImageHolder());
         Glide.with(LupolupoAPIApplication.get())
                 .load("http://lupolupo.com/" + url)
                 .asBitmap()

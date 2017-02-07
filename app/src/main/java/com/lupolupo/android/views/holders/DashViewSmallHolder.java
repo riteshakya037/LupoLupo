@@ -6,7 +6,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.lupolupo.android.R;
-import com.lupolupo.android.model.loaders.GlideLoader;
+import com.lupolupo.android.model.loaders.ImageLoader;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,6 +31,6 @@ public class DashViewSmallHolder extends RecyclerView.ViewHolder {
     }
 
     public void loadImage(String url) {
-        GlideLoader.load(url, coverImage);
+        ImageLoader.load(url, coverImage);
     }
 }
