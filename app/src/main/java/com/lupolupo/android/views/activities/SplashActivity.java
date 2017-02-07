@@ -14,6 +14,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
@@ -259,6 +260,7 @@ public class SplashActivity extends PortraitActivity {
     public void onProgress(DownloadProgressEvent event) {
         Log.i(TAG, "onProgress: " + event);
         fileBytes = event.getTotalFileSize();
+        mProgressBar.setVisibility(View.VISIBLE);
         mProgressBar.setProgress((event.getTotalBytesWritten() * 100 / event.getTotalFileSize() / event.getSmoothingVariable()));
         System.out.println(mProgressBar.getProgress());
     }

@@ -27,6 +27,7 @@ public class EpisodeLoader implements LoaderBase {
     private final HashMap<String, ProgressCount> fileProgressMap = new HashMap<>();
     private List<Panel> panelList;
     private int taskSize = 0;
+    private boolean startLoading =false;
 
     public static EpisodeLoader getInstance() {
         if (_instance == null)
@@ -41,7 +42,7 @@ public class EpisodeLoader implements LoaderBase {
             @Override
             public Task<Void> then(Task<List<Panel>> results) throws Exception {
                 ArrayList<Task<Void>> tasks = new ArrayList<>();
-                fileProgressMap.clear();
+                clear();
                 if (results.getResult() != null && results.getResult().size() != 0) {
                     panelList = results.getResult();
                     for (final Panel panel : results.getResult().subList(0, results.getResult().size() < 5 ? results.getResult().size() : 5)) {
@@ -49,9 +50,16 @@ public class EpisodeLoader implements LoaderBase {
                         tasks.add(ImageLoader.getImage("images/" + episodeData.comic_id + "/" + panel.episode_id + "/", panel.panel_image, EpisodeLoader.this));
                     }
                 }
+                startLoading = true;
                 return Task.whenAll(tasks);
             }
         });
+    }
+
+    private void clear() {
+        fileProgressMap.clear();
+        taskSize = 0;
+        startLoading = false;
     }
 
     public List<Panel> getPanelList() {
@@ -86,13 +94,15 @@ public class EpisodeLoader implements LoaderBase {
     public void setProgress(String imgFile, int bytesWritten, int totalSize) {
         synchronized (fileProgressMap) {
             fileProgressMap.put(imgFile, new ProgressCount(bytesWritten, totalSize));
-            int totalBytesWritten = 0;
-            int totalFileSize = 0;
-            for (ProgressCount progressCount : fileProgressMap.values()) {
-                totalBytesWritten += progressCount.bytesWritten;
-                totalFileSize += progressCount.totalSize;
+            if (startLoading) {
+                int totalBytesWritten = 0;
+                int totalFileSize = 0;
+                for (ProgressCount progressCount : fileProgressMap.values()) {
+                    totalBytesWritten += progressCount.bytesWritten;
+                    totalFileSize += progressCount.totalSize;
+                }
+                EventBus.getDefault().post(new DownloadProgressEvent(totalBytesWritten, totalFileSize, taskSize / fileProgressMap.size()));
             }
-            EventBus.getDefault().post(new DownloadProgressEvent(totalBytesWritten, totalFileSize, taskSize * 2 / fileProgressMap.size()));
         }
     }
 }

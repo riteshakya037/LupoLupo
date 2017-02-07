@@ -25,8 +25,9 @@ public class DownloadProgressEvent {
     @Override
     public String toString() {
         return "DownloadProgressEvent{" +
-                "totalBytesWritten=" + totalBytesWritten +
-                ", totalFileSize=" + totalFileSize +
+                "totalFileSize=" + totalFileSize +
+                ", totalBytesWritten=" + totalBytesWritten +
+                ", smoothingVariable=" + smoothingVariable +
                 '}';
     }
 

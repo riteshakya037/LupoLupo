@@ -28,11 +28,15 @@ public class ImageLoader {
     private static final String TAG = ImageLoader.class.getSimpleName();
 
     static Task<Void> getImage(final String parentFolder, final String fileName, final LoaderBase loaderBase) {
+        return getImage(parentFolder, fileName, loaderBase, true);
+    }
+
+    static Task<Void> getImage(final String parentFolder, final String fileName, final LoaderBase loaderBase, boolean skip) {
         final TaskCompletionSource<Void> tcs = new TaskCompletionSource<>();
         final File imgFile = new File(LupolupoAPIApplication.get().getCacheDir(), parentFolder + fileName);
-        if (imgFile.exists() && !(loaderBase instanceof AppLoader)) {
+        if (imgFile.exists() && skip) {
             tcs.setResult(null);
-            loaderBase.setProgress(imgFile.getAbsolutePath(), 10, 10);
+            loaderBase.setProgress(imgFile.getAbsolutePath(), 128000, 128000);
         } else {
             HttpUtils.get("http://lupolupo.com/" + parentFolder + fileName, null, true, new FileAsyncHttpResponseHandler(imgFile) {
                 @Override
