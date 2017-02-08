@@ -2,6 +2,7 @@ package com.lupolupo.android.preseneters;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.widget.LinearLayoutManager;
 import android.widget.ArrayAdapter;
@@ -29,7 +30,7 @@ import bolts.Task;
 public class EpisodePresenterImpl implements EpisodePresenter {
     private final EpisodeView mView;
     private final EpisodeMapper mMapper;
-
+    private boolean liked = false;
     private EpisodeAdapter mPanelAdapter;
     private Episode episodeData;
 
@@ -57,6 +58,27 @@ public class EpisodePresenterImpl implements EpisodePresenter {
     @Override
     public void initializeEpisode() {
         episodeData = EpisodeLoader.getInstance().getEpisode();
+    }
+
+    @Override
+    public void showWeb() {
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://lupolupo.com/panels.php?epid=" + episodeData.id + "&cid=" + episodeData.comic_id));
+        mView.getActivity().startActivity(browserIntent);
+    }
+
+    @Override
+    public void onLike() {
+        liked = !liked;
+        setLikeDrawable();
+        LupolupoHTTPManager.getInstance().postLikeUnlike(episodeData.id, liked);
+    }
+
+    private void setLikeDrawable() {
+        if (liked) {
+            mView.setLikeDrawable(ContextCompat.getDrawable(LupolupoAPIApplication.get(), R.drawable.ic_favorite_black_24px));
+        } else {
+            mView.setLikeDrawable(ContextCompat.getDrawable(LupolupoAPIApplication.get(), R.drawable.ic_favorite_border_black_24px));
+        }
     }
 
     @Override

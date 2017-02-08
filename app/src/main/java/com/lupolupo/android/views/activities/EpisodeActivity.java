@@ -1,16 +1,19 @@
 package com.lupolupo.android.views.activities;
 
 import android.app.Activity;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 
 import com.lupolupo.android.R;
 import com.lupolupo.android.common.DialogUtils;
@@ -29,6 +32,11 @@ import mehdi.sakout.fancybuttons.FancyButton;
 
 public class EpisodeActivity extends AppCompatActivity implements EpisodeView, EpisodeMapper {
     public static final String INTENT_EPISODE = "episode_intent";
+
+    static {
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+    }
+
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -41,14 +49,34 @@ public class EpisodeActivity extends AppCompatActivity implements EpisodeView, E
     @BindView(R.id.button_subscribe)
     FancyButton buttonSubscribe;
 
-    @SuppressWarnings("FieldCanBeLocal")
-    private EpisodePresenter mPresenter;
+    @BindView(R.id.button_heart)
+    ImageButton buttonLike;
 
+    @BindView(R.id.mode_spinner)
+    NDSpinner mSpinner;
 
     @OnClick(R.id.button_subscribe)
     void onSubscribe() {
         toggleSubButton(false);
         mPresenter.subscribe();
+    }
+
+    @OnClick(R.id.button_heart)
+    void onLike() {
+        mPresenter.onLike();
+    }
+
+    @BindView(R.id.extra_buttons)
+    View extra_buttons;
+
+    @OnClick(R.id.button_plus)
+    void hideExtra() {
+        extra_buttons.setVisibility(View.GONE);
+    }
+
+    @OnClick(R.id.button_web)
+    void onShowWeb() {
+        mPresenter.showWeb();
     }
 
     @OnClick(R.id.button_share)
@@ -57,8 +85,9 @@ public class EpisodeActivity extends AppCompatActivity implements EpisodeView, E
         mPresenter.share(EpisodeLoader.getInstance().getPanelList().get(visibleItemNo));
     }
 
-    @BindView(R.id.mode_spinner)
-    NDSpinner mSpinner;
+    @SuppressWarnings("FieldCanBeLocal")
+    private EpisodePresenter mPresenter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +117,11 @@ public class EpisodeActivity extends AppCompatActivity implements EpisodeView, E
         buttonSubscribe.setBackgroundColor(ContextCompat.getColor(this, isEnabled ? android.R.color.transparent : R.color.colorAccentLight));
         buttonSubscribe.setTextColor(ContextCompat.getColor(this, isEnabled ? R.color.colorAccentLight : R.color.cardview_light_background));
         buttonSubscribe.setEnabled(isEnabled);
+    }
+
+    @Override
+    public void setLikeDrawable(Drawable drawable) {
+        buttonLike.setImageDrawable(drawable);
     }
 
     @Override

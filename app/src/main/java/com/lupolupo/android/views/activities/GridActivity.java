@@ -8,8 +8,8 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -22,6 +22,7 @@ import com.lupolupo.android.preseneters.SpinnerInteractionListener;
 import com.lupolupo.android.preseneters.events.TitleEvent;
 import com.lupolupo.android.preseneters.mappers.GridMapper;
 import com.lupolupo.android.views.GridView;
+import com.lupolupo.android.views.activities.bases.PortraitActivity;
 import com.lupolupo.android.views.custom.NDSpinner;
 import com.lupolupo.android.views.fragments.DashFragment;
 
@@ -32,7 +33,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class GridActivity extends AppCompatActivity implements GridView, GridMapper, ViewPager.OnPageChangeListener {
+public class GridActivity extends PortraitActivity implements GridView, GridMapper, ViewPager.OnPageChangeListener {
 
     public static final String INTENT_GRID = "flip_intent";
     private static final String TAG = DashFragment.class.getSimpleName();
@@ -48,7 +49,9 @@ public class GridActivity extends AppCompatActivity implements GridView, GridMap
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.coverPagerHolder)
     ViewGroup coverPagerHolder;
-
+    @SuppressWarnings("WeakerAccess")
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.no_feature_text)
     TextView noFeatureText;
@@ -112,6 +115,21 @@ public class GridActivity extends AppCompatActivity implements GridView, GridMap
     public void initializeRecyclerLayoutManager(RecyclerView.LayoutManager layoutManager) {
         if (dashViewRecycler != null) {
             dashViewRecycler.setLayoutManager(layoutManager);
+        }
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    @Override
+    public void initializeToolbar() {
+        if (mToolbar != null) {
+            setSupportActionBar(mToolbar);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onBackPressed();
+                }
+            });
         }
     }
 

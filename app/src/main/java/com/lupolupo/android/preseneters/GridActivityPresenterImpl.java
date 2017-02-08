@@ -32,6 +32,7 @@ public class GridActivityPresenterImpl implements GridActivityPresenter {
 
     @Override
     public void initializeViews() {
+        mView.initializeToolbar();
         mView.initializeRecyclerLayoutManager(new GridLayoutManager(mView.getActivity(), 2));
         mView.initializeBasePageView();
     }

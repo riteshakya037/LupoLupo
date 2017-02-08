@@ -44,17 +44,12 @@
         <activity
             android:name=".views.activities.MainActivity"
             android:label=""
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".views.activities.ComicActivity"
             android:label=""
-            android:parentActivityName=".views.activities.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeLight.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.lupolupo.android.views.activities.MainActivity" />
         </activity>
         <activity
             android:name=".views.activities.AllComicActivity"
@@ -67,6 +62,11 @@
             android:label=""
             android:theme="@style/FullscreenTheme">
         </activity>
+        <activity
+            android:name=".views.activities.GridActivity"
+            android:label=""
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeLight.NoActionBar" />
         <!-- Firebase Notifications -->
         <service android:name=".service.MyFirebaseMessagingService">
             <intent-filter>
@@ -88,10 +88,7 @@
             </intent-filter>
         </service>
 
-        <activity
-            android:name=".views.activities.GridActivity"
-            android:label=""
-            android:theme="@style/AppThemeLight.NoActionBar" />
+
     </application>
 
 </manifest>

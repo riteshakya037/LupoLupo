@@ -16,4 +16,8 @@ public interface EpisodePresenter extends BasePresenter, BaseDataPresenter, Base
     void subscribe();
 
     void initializeEpisode();
+
+    void showWeb();
+
+    void onLike();
 }

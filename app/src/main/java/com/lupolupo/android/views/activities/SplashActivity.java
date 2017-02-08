@@ -116,7 +116,7 @@ public class SplashActivity extends PortraitActivity {
                 }
             });
         } else if (getIntent().hasExtra(INTENT_MAIN)) {
-            FlipLoader.getInstance().startLoading().onSuccess(new Continuation<Void, Void>() {
+            FlipLoader.getInstance().startLoading(true).onSuccess(new Continuation<Void, Void>() {
                 @Override
                 public Void then(Task<Void> task) throws Exception {
                     Intent intent = new Intent(SplashActivity.this, MainActivity.class);
@@ -171,7 +171,7 @@ public class SplashActivity extends PortraitActivity {
         mProgressBar.setVisibility(View.VISIBLE);
         final long startTime = System.currentTimeMillis();
         fileBytes = 0;
-        FlipLoader.getInstance().startLoading().continueWithTask(new Continuation<Void, Task<Void>>() {
+        FlipLoader.getInstance().startLoading(false).continueWithTask(new Continuation<Void, Task<Void>>() {
             @Override
             public Task<Void> then(Task<Void> task) throws Exception {
                 long endTime = System.currentTimeMillis();

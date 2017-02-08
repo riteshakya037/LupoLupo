@@ -1,6 +1,7 @@
 package com.lupolupo.android.views.fragments;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -12,8 +13,11 @@ import android.view.ViewGroup;
 import com.lupolupo.android.R;
 import com.lupolupo.android.preseneters.DashFragmentPresenter;
 import com.lupolupo.android.preseneters.DashFragmentPresenterImpl;
+import com.lupolupo.android.preseneters.events.SpinnerVisibilityEvent;
 import com.lupolupo.android.preseneters.mappers.DashFragmentMapper;
 import com.lupolupo.android.views.DashFragmentView;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -83,5 +87,11 @@ public class DashFragment extends Fragment implements DashFragmentView, DashFrag
     @Override
     public void onPageScrollStateChanged(int state) {
 
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        EventBus.getDefault().post(new SpinnerVisibilityEvent(true));
     }
 }

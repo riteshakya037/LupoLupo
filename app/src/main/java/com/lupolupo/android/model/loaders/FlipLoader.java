@@ -32,7 +32,7 @@ public class FlipLoader implements LoaderBase {
         return _instance;
     }
 
-    public Task<Void> startLoading() {
+    public Task<Void> startLoading(final boolean skip) {
         return LupolupoHTTPManager.getInstance().getAllEpisodes().onSuccessTask(new Continuation<List<Episode>, Task<Void>>() {
             @Override
             public Task<Void> then(Task<List<Episode>> results) throws Exception {
@@ -43,7 +43,7 @@ public class FlipLoader implements LoaderBase {
                         episode.episode_name = StringUtils.replaceEncoded(episode.episode_name);
                         episode.comic_name = StringUtils.replaceEncoded(episode.comic_name);
                         taskSize++;
-                        tasks.add(ImageLoader.getImage("images/" + episode.comic_id + "/" + episode.id + "/", episode.episode_image, FlipLoader.this));
+                        tasks.add(ImageLoader.getImage("images/" + episode.comic_id + "/" + episode.id + "/", episode.episode_image, FlipLoader.this, skip));
                         tasks.add(LupolupoHTTPManager.getInstance().getPanel(episode.id).onSuccessTask(new Continuation<List<Panel>, Task<Void>>() {
                             @Override
                             public Task<Void> then(Task<List<Panel>> results) throws Exception {

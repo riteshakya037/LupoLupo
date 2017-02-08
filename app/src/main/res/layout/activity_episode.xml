@@ -73,6 +73,40 @@
 
             </FrameLayout>
 
+            <LinearLayout
+                android:id="@+id/extra_buttons"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="end">
+
+                <ImageButton
+                    android:id="@+id/button_heart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="end"
+                    android:background="@android:color/transparent"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_favorite_border_black_24px" />
+
+                <ImageButton
+                    android:id="@+id/button_plus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="end"
+                    android:background="@android:color/transparent"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_add_black_24px" />
+
+                <ImageButton
+                    android:id="@+id/button_web"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="end"
+                    android:background="@android:color/transparent"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_desktop_windows_black_24px" />
+            </LinearLayout>
+
             <ImageButton
                 android:id="@+id/button_share"
                 android:layout_width="wrap_content"
