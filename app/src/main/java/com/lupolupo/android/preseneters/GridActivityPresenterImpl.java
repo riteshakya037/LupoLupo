@@ -1,28 +1,33 @@
 package com.lupolupo.android.preseneters;
 
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
+import android.widget.ArrayAdapter;
 
+import com.lupolupo.android.R;
 import com.lupolupo.android.model.loaders.AppLoader;
 import com.lupolupo.android.preseneters.events.TitleEvent;
-import com.lupolupo.android.preseneters.mappers.DashMapper;
-import com.lupolupo.android.views.DashView;
+import com.lupolupo.android.preseneters.mappers.GridMapper;
+import com.lupolupo.android.views.GridView;
 import com.lupolupo.android.views.adaptors.DashAdapter;
 import com.lupolupo.android.views.adaptors.DashLargePagerAdapter;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.Arrays;
+
 /**
  * @author Ritesh Shakya
  */
-public class DashPresenterImpl implements DashPresenter {
-    private final DashView mView;
-    private final DashMapper mMapper;
+public class GridActivityPresenterImpl implements GridActivityPresenter {
+    private final GridView mView;
+    private final GridMapper mMapper;
     private DashAdapter mDashAdapter;
     private DashLargePagerAdapter mDashPageAdapter;
 
-    public DashPresenterImpl(DashView dashView, DashMapper dashMapper) {
-        mView = dashView;
-        mMapper = dashMapper;
+    public GridActivityPresenterImpl(GridView gridView, GridMapper gridMapper) {
+        mView = gridView;
+        mMapper = gridMapper;
     }
 
     @Override
@@ -51,12 +56,22 @@ public class DashPresenterImpl implements DashPresenter {
         mDashAdapter = new DashAdapter(mView.getActivity());
         mMapper.registerAdapter(mDashAdapter);
 
-        mDashPageAdapter = new DashLargePagerAdapter(mView.getFragmentManager());
+        mDashPageAdapter = new DashLargePagerAdapter(((AppCompatActivity) mView.getActivity()).getSupportFragmentManager());
         mMapper.registerAdapter(mDashPageAdapter);
     }
 
     @Override
     public void setPage(int position) {
         EventBus.getDefault().post(new TitleEvent(mDashAdapter.getData().get(position).comic_name));
+    }
+
+    @Override
+    public void initializeMenuItem() {
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(mView.getActivity(),
+                R.layout.toolbar_spinner_item_actionbar, Arrays.asList(mView.getActivity().getResources().getStringArray(R.array.spinner_list_item_array)));
+        dataAdapter.setDropDownViewResource(R.layout.toolbar_spinner_item_dropdown);
+        mView.setAdapter(dataAdapter);
+        SpinnerInteractionListener listener = new SpinnerInteractionListener(mView.getActivity());
+        mView.setListeners(listener);
     }
 }

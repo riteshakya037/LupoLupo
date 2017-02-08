@@ -49,7 +49,7 @@ public class AppLoader implements LoaderBase {
                         taskSize++;
                         comic.comic_name = StringUtils.replaceEncoded(comic.comic_name);
                         tasks.add(ImageLoader.getImage("images/" + comic.id + "/", comic.comic_big_image, AppLoader.this));
-                        tasks.add(ImageLoader.getImage("images/" + comic.id + "/", comic.comic_image, AppLoader.this, false));
+                        tasks.add(ImageLoader.getImage("images/" + comic.id + "/", comic.comic_image, AppLoader.this));
                     }
                     for (Comic comic : comicList) {
                         if (comic.getChecked())
@@ -88,17 +88,6 @@ public class AppLoader implements LoaderBase {
 
     @Override
     public void setProgress(String imgFile, int bytesWritten, int totalSize) {
-        synchronized (fileProgressMap) {
-            fileProgressMap.put(imgFile, new ProgressCount(bytesWritten, totalSize));
-            if (startLoading) {
-                int totalBytesWritten = 0;
-                int totalFileSize = 0;
-                for (ProgressCount progressCount : fileProgressMap.values()) {
-                    totalBytesWritten += progressCount.bytesWritten;
-                    totalFileSize += progressCount.totalSize;
-                }
-                EventBus.getDefault().post(new DownloadProgressEvent(totalBytesWritten, totalFileSize, taskSize * 2 / fileProgressMap.size()));
-            }
-        }
+
     }
 }

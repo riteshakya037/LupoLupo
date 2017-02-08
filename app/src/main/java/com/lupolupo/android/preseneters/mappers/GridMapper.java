@@ -8,7 +8,7 @@ import com.lupolupo.android.preseneters.bases.BaseRecycleAdapterMapper;
 /**
  * @author Ritesh Shakya
  */
-public interface DashMapper extends BaseRecycleAdapterMapper {
+public interface GridMapper extends BaseRecycleAdapterMapper {
 
     void registerAdapter(FragmentStatePagerAdapter adapter);
 

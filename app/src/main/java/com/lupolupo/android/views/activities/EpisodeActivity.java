@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 
 import com.lupolupo.android.R;
@@ -115,6 +116,12 @@ public class EpisodeActivity extends AppCompatActivity implements EpisodeView, E
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     @Override
@@ -132,6 +139,7 @@ public class EpisodeActivity extends AppCompatActivity implements EpisodeView, E
     @Override
     public void setListeners(SpinnerInteractionListener onItemSelectedListener) {
         if (mSpinner != null) {
+            mSpinner.setOnTouchListener(onItemSelectedListener);
             mSpinner.setOnItemSelectedListener(onItemSelectedListener);
         }
     }

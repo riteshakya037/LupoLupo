@@ -35,6 +35,7 @@ import com.lupolupo.android.model.UserInfo;
 import com.lupolupo.android.model.loaders.AppLoader;
 import com.lupolupo.android.model.loaders.ComicLoader;
 import com.lupolupo.android.model.loaders.EpisodeLoader;
+import com.lupolupo.android.model.loaders.FlipLoader;
 import com.lupolupo.android.preseneters.events.DownloadProgressEvent;
 import com.lupolupo.android.views.activities.bases.PortraitActivity;
 
@@ -53,6 +54,8 @@ import butterknife.ButterKnife;
 import static com.lupolupo.android.views.activities.AllComicActivity.INTENT_ALL_EPISODE;
 import static com.lupolupo.android.views.activities.ComicActivity.INTENT_COMIC;
 import static com.lupolupo.android.views.activities.EpisodeActivity.INTENT_EPISODE;
+import static com.lupolupo.android.views.activities.GridActivity.INTENT_GRID;
+import static com.lupolupo.android.views.activities.MainActivity.INTENT_MAIN;
 
 public class SplashActivity extends PortraitActivity {
 
@@ -112,6 +115,26 @@ public class SplashActivity extends PortraitActivity {
                     return null;
                 }
             });
+        } else if (getIntent().hasExtra(INTENT_MAIN)) {
+            FlipLoader.getInstance().startLoading().onSuccess(new Continuation<Void, Void>() {
+                @Override
+                public Void then(Task<Void> task) throws Exception {
+                    Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                    return null;
+                }
+            });
+        } else if (getIntent().hasExtra(INTENT_GRID)) {
+            AppLoader.getInstance().startLoading().onSuccess(new Continuation<Void, Void>() {
+                @Override
+                public Void then(Task<Void> task) throws Exception {
+                    Intent intent = new Intent(SplashActivity.this, GridActivity.class);
+                    startActivity(intent);
+                    finish();
+                    return null;
+                }
+            });
         } else if (!FirstRunPrefPref.with(getApplicationContext()).getBoolean()) {
             requestPermission();
         }
@@ -145,9 +168,10 @@ public class SplashActivity extends PortraitActivity {
     }
 
     private void startMain() {
+        mProgressBar.setVisibility(View.VISIBLE);
         final long startTime = System.currentTimeMillis();
         fileBytes = 0;
-        AppLoader.getInstance().startLoading().continueWithTask(new Continuation<Void, Task<Void>>() {
+        FlipLoader.getInstance().startLoading().continueWithTask(new Continuation<Void, Task<Void>>() {
             @Override
             public Task<Void> then(Task<Void> task) throws Exception {
                 long endTime = System.currentTimeMillis();
@@ -275,7 +299,6 @@ public class SplashActivity extends PortraitActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onProgress(DownloadProgressEvent event) {
         fileBytes = event.getTotalFileSize();
-        mProgressBar.setVisibility(View.VISIBLE);
         try {
             mProgressBar.setProgress((event.getTotalBytesWritten() * 100 / event.getTotalFileSize() / event.getSmoothingVariable()));
         } catch (ArithmeticException ignored) {

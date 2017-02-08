@@ -6,6 +6,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -93,6 +94,12 @@ public class ComicActivity extends PortraitActivity implements ComicView, ComicM
         if (mToolbar != null) {
             setSupportActionBar(mToolbar);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onBackPressed();
+                }
+            });
         }
     }
 
@@ -149,6 +156,7 @@ public class ComicActivity extends PortraitActivity implements ComicView, ComicM
     @Override
     public void setListeners(SpinnerInteractionListener onItemSelectedListener) {
         if (mSpinner != null) {
+            mSpinner.setOnTouchListener(onItemSelectedListener);
             mSpinner.setOnItemSelectedListener(onItemSelectedListener);
         }
     }

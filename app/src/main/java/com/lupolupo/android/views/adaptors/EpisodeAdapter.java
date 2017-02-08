@@ -39,7 +39,9 @@ public class EpisodeAdapter extends RecyclerView.Adapter<EpisodePanelHolder> {
 
     @Override
     public int getItemCount() {
-        return mData.size();
+        if (mData != null)
+            return mData.size();
+        else return 0;
     }
 
     public void setData(List<Panel> result) {

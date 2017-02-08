@@ -47,6 +47,7 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends PortraitActivity implements MainView {
     private static final String TAG = MainActivity.class.getSimpleName();
+    public static final String INTENT_MAIN = "main_intent";
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -163,7 +164,7 @@ public class MainActivity extends PortraitActivity implements MainView {
     @Override
     public void setListeners(SpinnerInteractionListener onItemSelectedListener) {
         if (mSpinner != null) {
-            Log.i(TAG, "setListeners: ");
+            mSpinner.setOnTouchListener(onItemSelectedListener);
             mSpinner.setOnItemSelectedListener(onItemSelectedListener);
         }
     }

@@ -66,4 +66,7 @@
     <string name="gps_not_enabled">This app requires Location enabled for best experience.</string>
     <string name="open_location_settings">Enable Location</string>
     <string name="Cancel">Cancel</string>
+    <string name="title_activity_flip">FlipActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 </resources>

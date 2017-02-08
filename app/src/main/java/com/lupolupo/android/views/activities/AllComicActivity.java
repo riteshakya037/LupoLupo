@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
@@ -112,6 +111,7 @@ public class AllComicActivity extends PortraitActivity implements AllComicView, 
     @Override
     public void setListeners(SpinnerInteractionListener onItemSelectedListener) {
         if (mSpinner != null) {
+            mSpinner.setOnTouchListener(onItemSelectedListener);
             mSpinner.setOnItemSelectedListener(onItemSelectedListener);
         }
     }

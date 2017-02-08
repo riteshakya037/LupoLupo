@@ -92,17 +92,6 @@ public class EpisodeLoader implements LoaderBase {
 
     @Override
     public void setProgress(String imgFile, int bytesWritten, int totalSize) {
-        synchronized (fileProgressMap) {
-            fileProgressMap.put(imgFile, new ProgressCount(bytesWritten, totalSize));
-            if (startLoading) {
-                int totalBytesWritten = 0;
-                int totalFileSize = 0;
-                for (ProgressCount progressCount : fileProgressMap.values()) {
-                    totalBytesWritten += progressCount.bytesWritten;
-                    totalFileSize += progressCount.totalSize;
-                }
-                EventBus.getDefault().post(new DownloadProgressEvent(totalBytesWritten, totalFileSize, taskSize / fileProgressMap.size()));
-            }
-        }
+
     }
 }
