@@ -53,8 +53,9 @@ import butterknife.ButterKnife;
 
 import static com.lupolupo.android.views.activities.AllComicActivity.INTENT_ALL_EPISODE;
 import static com.lupolupo.android.views.activities.ComicActivity.INTENT_COMIC;
+import static com.lupolupo.android.views.activities.ComicActivity.INTENT_COMIC_FULL;
 import static com.lupolupo.android.views.activities.EpisodeActivity.INTENT_EPISODE;
-import static com.lupolupo.android.views.activities.GridActivity.INTENT_GRID;
+import static com.lupolupo.android.views.activities.FlipActivity.INTENT_GRID;
 import static com.lupolupo.android.views.activities.MainActivity.INTENT_MAIN;
 
 public class SplashActivity extends PortraitActivity {
@@ -95,6 +96,16 @@ public class SplashActivity extends PortraitActivity {
                     return null;
                 }
             });
+        } else if (getIntent().hasExtra(INTENT_COMIC_FULL)) {
+            ComicLoader.getInstance().startLoading(getIntent().getStringExtra(INTENT_COMIC_FULL)).onSuccess(new Continuation<Void, Void>() {
+                @Override
+                public Void then(Task<Void> task) throws Exception {
+                    Intent intent = new Intent(SplashActivity.this, ComicActivity.class);
+                    startActivity(intent);
+                    finish();
+                    return null;
+                }
+            });
         } else if (getIntent().hasExtra(INTENT_EPISODE)) {
             EpisodeLoader.getInstance().startLoading((Episode) getIntent().getParcelableExtra(INTENT_EPISODE)).onSuccess(new Continuation<Void, Void>() {
                 @Override
@@ -116,7 +127,7 @@ public class SplashActivity extends PortraitActivity {
                 }
             });
         } else if (getIntent().hasExtra(INTENT_MAIN)) {
-            FlipLoader.getInstance().startLoading(true).onSuccess(new Continuation<Void, Void>() {
+            AppLoader.getInstance().startLoading().onSuccess(new Continuation<Void, Void>() {
                 @Override
                 public Void then(Task<Void> task) throws Exception {
                     Intent intent = new Intent(SplashActivity.this, MainActivity.class);
@@ -126,10 +137,10 @@ public class SplashActivity extends PortraitActivity {
                 }
             });
         } else if (getIntent().hasExtra(INTENT_GRID)) {
-            AppLoader.getInstance().startLoading().onSuccess(new Continuation<Void, Void>() {
+            FlipLoader.getInstance().startLoading(true).onSuccess(new Continuation<Void, Void>() {
                 @Override
                 public Void then(Task<Void> task) throws Exception {
-                    Intent intent = new Intent(SplashActivity.this, GridActivity.class);
+                    Intent intent = new Intent(SplashActivity.this, FlipActivity.class);
                     startActivity(intent);
                     finish();
                     return null;
@@ -187,7 +198,7 @@ public class SplashActivity extends PortraitActivity {
         }).onSuccess(new Continuation<Void, Void>() {
             @Override
             public Void then(Task<Void> task) throws Exception {
-                Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                Intent intent = new Intent(SplashActivity.this, FlipActivity.class);
                 startActivity(intent);
                 finish();
                 return null;

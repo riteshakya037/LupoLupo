@@ -27,6 +27,9 @@ public class Comic implements Parcelable {
     public String created;
     public String checked;
 
+    public Comic(String id) {
+        this.id = id;
+    }
 
     private Comic(Parcel in) {
         id = in.readString();

@@ -5,8 +5,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.lupolupo.android.model.Episode;
+import com.lupolupo.android.model.Panel;
 import com.lupolupo.android.views.fragments.FlipPagerFragment;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;

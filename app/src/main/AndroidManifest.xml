@@ -63,7 +63,7 @@
             android:theme="@style/FullscreenTheme">
         </activity>
         <activity
-            android:name=".views.activities.GridActivity"
+            android:name=".views.activities.FlipActivity"
             android:label=""
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeLight.NoActionBar" />

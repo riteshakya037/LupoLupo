@@ -32,7 +32,6 @@ public class GridActivityPresenterImpl implements GridActivityPresenter {
 
     @Override
     public void initializeViews() {
-        mView.initializeToolbar();
         mView.initializeRecyclerLayoutManager(new GridLayoutManager(mView.getActivity(), 2));
         mView.initializeBasePageView();
     }
@@ -66,13 +65,4 @@ public class GridActivityPresenterImpl implements GridActivityPresenter {
         EventBus.getDefault().post(new TitleEvent(mDashAdapter.getData().get(position).comic_name));
     }
 
-    @Override
-    public void initializeMenuItem() {
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(mView.getActivity(),
-                R.layout.toolbar_spinner_item_actionbar, Arrays.asList(mView.getActivity().getResources().getStringArray(R.array.spinner_list_item_array)));
-        dataAdapter.setDropDownViewResource(R.layout.toolbar_spinner_item_dropdown);
-        mView.setAdapter(dataAdapter);
-        SpinnerInteractionListener listener = new SpinnerInteractionListener(mView.getActivity());
-        mView.setListeners(listener);
-    }
 }

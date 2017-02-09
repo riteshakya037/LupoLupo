@@ -31,6 +31,7 @@ import mehdi.sakout.fancybuttons.FancyButton;
 public class ComicActivity extends PortraitActivity implements ComicView, ComicMapper {
 
     public static final String INTENT_COMIC = "comic_intent";
+    public static final String INTENT_COMIC_FULL = "comic_episode_intent";
     private static final String TAG = ComicActivity.class.getSimpleName();
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.toolbar)

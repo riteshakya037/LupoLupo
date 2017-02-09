@@ -16,6 +16,8 @@ import com.lupolupo.android.model.Panel;
 import com.lupolupo.android.model.loaders.EpisodeLoader;
 import com.lupolupo.android.preseneters.mappers.EpisodeMapper;
 import com.lupolupo.android.views.EpisodeView;
+import com.lupolupo.android.views.activities.ComicActivity;
+import com.lupolupo.android.views.activities.SplashActivity;
 import com.lupolupo.android.views.adaptors.EpisodeAdapter;
 
 import java.io.File;
@@ -111,6 +113,13 @@ public class EpisodePresenterImpl implements EpisodePresenter {
             shareIntent.setType(mView.getActivity().getContentResolver().getType(contentUri));
             mView.getActivity().startActivity(Intent.createChooser(shareIntent, mView.getActivity().getResources().getText(R.string.send_to)));
         }
+    }
+
+    @Override
+    public void showComic() {
+        Intent intent = new Intent(mView.getActivity(), SplashActivity.class);
+        intent.putExtra(ComicActivity.INTENT_COMIC_FULL, episodeData.comic_id);
+        mView.getActivity().startActivity(intent);
     }
 
     @Override

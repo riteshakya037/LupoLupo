@@ -66,12 +66,10 @@ public class EpisodeActivity extends AppCompatActivity implements EpisodeView, E
         mPresenter.onLike();
     }
 
-    @BindView(R.id.extra_buttons)
-    View extra_buttons;
 
     @OnClick(R.id.button_plus)
-    void hideExtra() {
-        extra_buttons.setVisibility(View.GONE);
+    void showComic() {
+        mPresenter.showComic();
     }
 
     @OnClick(R.id.button_web)

@@ -20,4 +20,6 @@ public interface EpisodePresenter extends BasePresenter, BaseDataPresenter, Base
     void showWeb();
 
     void onLike();
+
+    void showComic();
 }

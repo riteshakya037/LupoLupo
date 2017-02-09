@@ -7,9 +7,6 @@ import com.lupolupo.android.model.Comic;
 import com.lupolupo.android.model.Episode;
 import com.lupolupo.android.model.enums.AppMode;
 import com.lupolupo.android.model.loaders.bases.LoaderBase;
-import com.lupolupo.android.preseneters.events.DownloadProgressEvent;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -107,5 +104,22 @@ public class ComicLoader implements LoaderBase {
     @Override
     public void setProgress(String imgFile, int bytesWritten, int totalSize) {
 
+    }
+
+    public Task<Void> startLoading(final String comic_id) {
+        return LupolupoHTTPManager.getInstance().getComics().onSuccessTask(new Continuation<List<Comic>, Task<Void>>() {
+            @Override
+            public Task<Void> then(Task<List<Comic>> results) throws Exception {
+                clear();
+                if (results.getResult() != null && results.getResult().size() != 0) {
+                    for (final Comic comic : results.getResult()) {
+                        if (comic.id.equals(comic_id)) {
+                            comicData = comic;
+                        }
+                    }
+                }
+                return startLoading(comicData);
+            }
+        });
     }
 }

@@ -52,4 +52,8 @@ public class EpisodeAdapter extends RecyclerView.Adapter<EpisodePanelHolder> {
     public void setComicId(String comic_id) {
         this.comic_id = comic_id;
     }
+
+    public List<Panel> getData() {
+        return mData;
+    }
 }

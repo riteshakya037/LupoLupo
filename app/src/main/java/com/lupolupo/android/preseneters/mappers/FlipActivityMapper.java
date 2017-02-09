@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 /**
  * @author Ritesh Shakya
  */
-public interface DashFragmentMapper {
+public interface FlipActivityMapper {
 
     void registerAdapter(FragmentStatePagerAdapter adapter);
 

@@ -24,6 +24,13 @@ public class Panel implements Parcelable {
     public final String episode_id;
     public final String created;
 
+    public Panel() {
+        id = "";
+        panel_image = "";
+        episode_id = "";
+        created = "";
+    }
+
     private Panel(Parcel in) {
         id = in.readString();
         panel_image = in.readString();

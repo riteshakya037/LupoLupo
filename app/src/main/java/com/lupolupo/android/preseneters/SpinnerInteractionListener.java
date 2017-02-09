@@ -9,7 +9,7 @@ import android.widget.AdapterView;
 import com.lupolupo.android.model.enums.AppMode;
 import com.lupolupo.android.model.loaders.AppLoader;
 import com.lupolupo.android.views.activities.AllComicActivity;
-import com.lupolupo.android.views.activities.GridActivity;
+import com.lupolupo.android.views.activities.FlipActivity;
 import com.lupolupo.android.views.activities.MainActivity;
 import com.lupolupo.android.views.activities.SplashActivity;
 
@@ -39,16 +39,16 @@ public class SpinnerInteractionListener implements AdapterView.OnItemSelectedLis
         if (userSelect) {
             switch (i) {
                 case 0:
-                    if (!(activity instanceof MainActivity)) {
+                    if (!(activity instanceof FlipActivity)) {
                         Intent intent = new Intent(activity, SplashActivity.class);
-                        intent.putExtra(MainActivity.INTENT_MAIN, "");
+                        intent.putExtra(FlipActivity.INTENT_GRID, "");
                         activity.startActivity(intent);
                     }
                     break;
                 case 1:
-                    if (!(activity instanceof GridActivity)) {
+                    if (!(activity instanceof MainActivity)) {
                         Intent intent = new Intent(activity, SplashActivity.class);
-                        intent.putExtra(GridActivity.INTENT_GRID, "");
+                        intent.putExtra(MainActivity.INTENT_MAIN, "");
                         activity.startActivity(intent);
                     }
                     break;

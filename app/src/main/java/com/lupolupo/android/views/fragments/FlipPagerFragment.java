@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.lupolupo.android.R;
 import com.lupolupo.android.model.Episode;
+import com.lupolupo.android.model.Panel;
 import com.lupolupo.android.model.loaders.FlipLoader;
 import com.lupolupo.android.views.adaptors.EpisodeAdapter;
 
@@ -29,8 +30,8 @@ public class FlipPagerFragment extends Fragment {
     private EpisodeAdapter mPanelAdapter;
     private Episode episodeData;
 
-    public static Fragment newInstance(Episode episode) {
-        Fragment fragment = new FlipPagerFragment();
+    public static FlipPagerFragment newInstance(Episode episode) {
+        FlipPagerFragment fragment = new FlipPagerFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelable(KEY_EPISODE_BUNDLE, episode);
         fragment.setArguments(bundle);
