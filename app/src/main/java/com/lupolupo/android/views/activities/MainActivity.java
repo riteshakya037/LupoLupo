@@ -8,7 +8,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -28,6 +27,7 @@ import com.lupolupo.android.preseneters.events.FragmentEvent;
 import com.lupolupo.android.preseneters.events.SpinnerVisibilityEvent;
 import com.lupolupo.android.preseneters.events.TitleEvent;
 import com.lupolupo.android.views.MainView;
+import com.lupolupo.android.views.activities.bases.PortraitActivity;
 import com.lupolupo.android.views.custom.NDSpinner;
 import com.lupolupo.android.views.fragments.AboutUsFragment;
 import com.lupolupo.android.views.fragments.ContactUsFragment;
@@ -44,7 +44,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements MainView {
+public class MainActivity extends PortraitActivity implements MainView {
     private static final String TAG = MainActivity.class.getSimpleName();
     public static final String INTENT_MAIN = "main_intent";
     @SuppressWarnings("WeakerAccess")

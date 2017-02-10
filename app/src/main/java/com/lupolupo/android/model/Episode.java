@@ -68,7 +68,15 @@ public class Episode implements Parcelable {
     public static class AbbreviationComparator implements Comparator<Episode> {
         @Override
         public int compare(Episode episode, Episode t1) {
-            return t1.e_abbreviation.compareTo(episode.e_abbreviation);
+            return episode.e_abbreviation.compareTo(t1.e_abbreviation);
+        }
+    }
+
+
+    public static class TimeComparator implements Comparator<Episode> {
+        @Override
+        public int compare(Episode episode, Episode t1) {
+            return t1.created_date.compareTo(episode.created_date);
         }
     }
 }

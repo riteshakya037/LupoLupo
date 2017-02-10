@@ -67,10 +67,10 @@ public class ComicPresenterImpl implements ComicPresenter {
     public void initializeData() {
         comicData = ComicLoader.getInstance().getComicData();
         mMapper.setHeader(comicData);
-        if (ComicLoader.getInstance().getEpisodeList().size() == 0) {
+        if (ComicLoader.getInstance().getEpisodeListSorted().size() == 0) {
             mView.showEmptyDialog();
         } else {
-            comicEpisodeAdaptor.setData(ComicLoader.getInstance().getEpisodeList());
+            comicEpisodeAdaptor.setData(ComicLoader.getInstance().getEpisodeListSorted());
         }
 
     }

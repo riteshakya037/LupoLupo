@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -19,7 +20,6 @@ import com.lupolupo.android.preseneters.FlipActivityPresenterImpl;
 import com.lupolupo.android.preseneters.SpinnerInteractionListener;
 import com.lupolupo.android.preseneters.mappers.FlipActivityMapper;
 import com.lupolupo.android.views.FlipActivityView;
-import com.lupolupo.android.views.activities.bases.PortraitActivity;
 import com.lupolupo.android.views.custom.NDSpinner;
 import com.lupolupo.android.views.fragments.DashFragment;
 
@@ -28,7 +28,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import mehdi.sakout.fancybuttons.FancyButton;
 
-public class FlipActivity extends PortraitActivity implements FlipActivityView, FlipActivityMapper, ViewPager.OnPageChangeListener {
+public class FlipActivity extends AppCompatActivity implements FlipActivityView, FlipActivityMapper, ViewPager.OnPageChangeListener {
 
     public static final String INTENT_GRID = "flip_intent";
     private static final String TAG = DashFragment.class.getSimpleName();
@@ -97,7 +97,6 @@ public class FlipActivity extends PortraitActivity implements FlipActivityView, 
         mPresenter.initializeAdaptor();
         mPresenter.initializeData();
         mPresenter.initializeMenuItem();
-        mViewPager.setCurrentItem(2);
     }
 
     @Override
@@ -123,11 +122,6 @@ public class FlipActivity extends PortraitActivity implements FlipActivityView, 
     @Override
     public void onPageSelected(int position) {
         mPresenter.setPage(position);
-        if (position != 0) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        } else {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        }
     }
 
     @Override
@@ -148,7 +142,8 @@ public class FlipActivity extends PortraitActivity implements FlipActivityView, 
             mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mViewPager.setCurrentItem(mViewPager.getCurrentItem() - 1);
+                    if (mViewPager.getCurrentItem() != 0)
+                        mViewPager.setCurrentItem(mViewPager.getCurrentItem() - 1);
                 }
             });
         }

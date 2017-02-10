@@ -11,6 +11,7 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import bolts.Continuation;
@@ -21,7 +22,7 @@ import bolts.Task;
  */
 public class FlipLoader implements LoaderBase {
     private static FlipLoader _instance;
-    private final HashMap<Episode, List<Panel>> episodeList = new HashMap<>();
+    private final HashMap<Episode, List<Panel>> episodeList = new LinkedHashMap<>();
     private final HashMap<String, ProgressCount> fileProgressMap = new HashMap<>();
     private int taskSize = 0;
     private boolean startLoading = false;
@@ -43,6 +44,7 @@ public class FlipLoader implements LoaderBase {
                         episode.episode_name = StringUtils.replaceEncoded(episode.episode_name);
                         episode.comic_name = StringUtils.replaceEncoded(episode.comic_name);
                         taskSize++;
+                        episodeList.put(episode, null);
                         tasks.add(ImageLoader.getImage("images/" + episode.comic_id + "/" + episode.id + "/", episode.episode_image, FlipLoader.this, skip));
                         tasks.add(LupolupoHTTPManager.getInstance().getPanel(episode.id).onSuccessTask(new Continuation<List<Panel>, Task<Void>>() {
                             @Override

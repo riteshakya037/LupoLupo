@@ -64,9 +64,15 @@ public class ComicLoader implements LoaderBase {
         return comicData;
     }
 
+    public List<Episode> getEpisodeListSorted() {
+        List<Episode> tempList = new LinkedList<>(episodeList);
+        Collections.sort(tempList, new Episode.AbbreviationComparator());
+        return tempList;
+    }
+
     public List<Episode> getEpisodeList() {
         if (AppLoader.getInstance().getMode() == AppMode.POPULAR) {
-            List<Episode> tempList = new ArrayList<>(episodeList);
+            List<Episode> tempList = new LinkedList<>(episodeList);
             Collections.sort(tempList, new Episode.PopularComparator());
             return tempList;
         }
