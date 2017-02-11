@@ -40,7 +40,7 @@ public class FlipLoader implements LoaderBase {
                 ArrayList<Task<Void>> tasks = new ArrayList<>();
                 clear();
                 if (results.getResult() != null && results.getResult().size() != 0) {
-                    for (final Episode episode : results.getResult().subList(0, 3)) {
+                    for (final Episode episode : results.getResult()) {
                         episode.episode_name = StringUtils.replaceEncoded(episode.episode_name);
                         episode.comic_name = StringUtils.replaceEncoded(episode.comic_name);
                         taskSize++;

@@ -13,8 +13,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.lupolupo.android.R;
+import com.lupolupo.android.model.loaders.FlipLoader;
 import com.lupolupo.android.preseneters.FlipActivityPresenter;
 import com.lupolupo.android.preseneters.FlipActivityPresenterImpl;
 import com.lupolupo.android.preseneters.SpinnerInteractionListener;
@@ -45,6 +47,9 @@ public class FlipActivity extends AppCompatActivity implements FlipActivityView,
 
     @BindView(R.id.button_heart)
     ImageButton buttonLike;
+
+    @BindView(R.id.swipe_left)
+    TextView swipeLeft;
 
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.button_subscribe)
@@ -121,6 +126,11 @@ public class FlipActivity extends AppCompatActivity implements FlipActivityView,
 
     @Override
     public void onPageSelected(int position) {
+        if (position == FlipLoader.getInstance().getFlipMap().size() - 1) {
+            swipeLeft.setVisibility(View.GONE);
+        } else {
+            swipeLeft.setVisibility(View.VISIBLE);
+        }
         mPresenter.setPage(position);
     }
 
