@@ -8,7 +8,6 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.Scroller;
 
-
 import com.lupolupo.android.R;
 
 import java.lang.reflect.Field;
