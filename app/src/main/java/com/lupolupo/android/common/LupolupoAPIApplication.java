@@ -21,12 +21,12 @@ public class LupolupoAPIApplication extends Application {
 //        Fabric.with(this, new Crashlytics());
         LupolupoAPIApplication.instance = this;
         // Setup handler for uncaught exceptions.
-        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
-            @Override
-            public void uncaughtException(Thread thread, Throwable e) {
-                handleUncaughtException(thread, e);
-            }
-        });
+//        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+//            @Override
+//            public void uncaughtException(Thread thread, Throwable e) {
+//                handleUncaughtException(thread, e);
+//            }
+//        });
     }
 
     public boolean isUIThread() {

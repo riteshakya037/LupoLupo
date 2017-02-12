@@ -17,16 +17,15 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:context="com.lupolupo.android.views.activities.FlipActivity" />
 
-    <TextView
-        android:id="@+id/swipe_left"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical|end"
-        android:drawableEnd="@drawable/ic_keyboard_arrow_right_black_24px"
-        android:drawableRight="@drawable/ic_keyboard_arrow_right_black_24px"
+    <ImageView
+        android:id="@+id/swipe_helper"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_gravity="center_horizontal|bottom"
+        android:alpha=".8"
         android:gravity="center"
-        android:padding="8dp"
-        android:text="Swipe left" />
+        android:scaleType="fitXY"
+        android:src="@drawable/swipe_handle" />
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"

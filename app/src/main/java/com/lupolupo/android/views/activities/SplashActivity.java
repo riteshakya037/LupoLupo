@@ -199,6 +199,7 @@ public class SplashActivity extends PortraitActivity {
             @Override
             public Void then(Task<Void> task) throws Exception {
                 Intent intent = new Intent(SplashActivity.this, FlipActivity.class);
+                intent.putExtra(FlipActivity.LOAD_GUIDE, true);
                 startActivity(intent);
                 finish();
                 return null;

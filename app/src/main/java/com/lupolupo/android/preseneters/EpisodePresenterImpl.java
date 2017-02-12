@@ -107,7 +107,7 @@ public class EpisodePresenterImpl implements EpisodePresenter {
         if (contentUri != null) {
             Intent shareIntent = new Intent();
             shareIntent.setAction(Intent.ACTION_SEND);
-            shareIntent.putExtra(Intent.EXTRA_TEXT, "This app is too Funny – LupoLupo. You should check it out!");
+            shareIntent.putExtra(Intent.EXTRA_SUBJECT, "This app is too Funny – LupoLupo. You should check it out!");
             shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
             shareIntent.setType(mView.getActivity().getContentResolver().getType(contentUri));

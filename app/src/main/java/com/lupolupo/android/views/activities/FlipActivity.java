@@ -4,6 +4,7 @@ package com.lupolupo.android.views.activities;
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.content.ContextCompat;
@@ -13,10 +14,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
-import android.widget.TextView;
+import android.widget.ImageView;
 
 import com.lupolupo.android.R;
-import com.lupolupo.android.model.loaders.FlipLoader;
 import com.lupolupo.android.preseneters.FlipActivityPresenter;
 import com.lupolupo.android.preseneters.FlipActivityPresenterImpl;
 import com.lupolupo.android.preseneters.SpinnerInteractionListener;
@@ -34,6 +34,9 @@ public class FlipActivity extends AppCompatActivity implements FlipActivityView,
 
     public static final String INTENT_GRID = "flip_intent";
     private static final String TAG = DashFragment.class.getSimpleName();
+    public static final String LOAD_GUIDE = "load_guide";
+    private Handler handler;
+    private int delay = 2000;
 
     @BindView(R.id.mode_spinner)
     NDSpinner mSpinner;
@@ -48,8 +51,8 @@ public class FlipActivity extends AppCompatActivity implements FlipActivityView,
     @BindView(R.id.button_heart)
     ImageButton buttonLike;
 
-    @BindView(R.id.swipe_left)
-    TextView swipeLeft;
+    @BindView(R.id.swipe_helper)
+    ImageView swipeHelper;
 
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.button_subscribe)
@@ -82,6 +85,14 @@ public class FlipActivity extends AppCompatActivity implements FlipActivityView,
     }
 
 
+    Runnable runnable = new Runnable() {
+        public void run() {
+            if (swipeHelper != null) {
+                swipeHelper.setVisibility(View.GONE);
+            }
+        }
+    };
+
     public FlipActivity() {
         // Required empty public constructor
     }
@@ -102,6 +113,18 @@ public class FlipActivity extends AppCompatActivity implements FlipActivityView,
         mPresenter.initializeAdaptor();
         mPresenter.initializeData();
         mPresenter.initializeMenuItem();
+        handler = new Handler();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (getIntent().hasExtra(LOAD_GUIDE)) {
+            handler.postDelayed(runnable, delay);
+            swipeHelper.setVisibility(View.VISIBLE);
+        } else {
+            swipeHelper.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -126,11 +149,6 @@ public class FlipActivity extends AppCompatActivity implements FlipActivityView,
 
     @Override
     public void onPageSelected(int position) {
-        if (position == FlipLoader.getInstance().getFlipMap().size() - 1) {
-            swipeLeft.setVisibility(View.GONE);
-        } else {
-            swipeLeft.setVisibility(View.VISIBLE);
-        }
         mPresenter.setPage(position);
     }
 
