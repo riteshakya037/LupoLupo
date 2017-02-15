@@ -35,7 +35,7 @@ public class FlipActivityPresenterImpl implements FlipActivityPresenter {
     private FlipPagerAdapter mDashPageAdapter;
     private Episode episodeData;
     private int position;
-    private boolean liked = false;
+    private boolean[] liked = {false};
 
     public FlipActivityPresenterImpl(FlipActivityView mView, FlipActivityMapper mMapper) {
         this.mView = mView;
@@ -44,6 +44,8 @@ public class FlipActivityPresenterImpl implements FlipActivityPresenter {
 
     @Override
     public void initializeData() {
+        liked = new boolean[FlipLoader.getInstance().getFlipMap().size()];
+        Arrays.fill(liked, Boolean.FALSE);
         if (FlipLoader.getInstance().getFlipMap().size() != 0) {
             mDashPageAdapter.setData(FlipLoader.getInstance().getFlipMap().keySet());
             mMapper.setCurrentPage(0);
@@ -61,6 +63,7 @@ public class FlipActivityPresenterImpl implements FlipActivityPresenter {
     public void setPage(int position) {
         episodeData = mDashPageAdapter.getData().get(position);
         this.position = position;
+        setLikeDrawable();
     }
 
     @Override
@@ -106,13 +109,13 @@ public class FlipActivityPresenterImpl implements FlipActivityPresenter {
 
     @Override
     public void onLike() {
-        liked = !liked;
+        liked[position] = !liked[position];
         setLikeDrawable();
-        LupolupoHTTPManager.getInstance().postLikeUnlike(episodeData.id, liked);
+        LupolupoHTTPManager.getInstance().postLikeUnlike(episodeData.id, liked[position]);
     }
 
     private void setLikeDrawable() {
-        if (liked) {
+        if (liked[position]) {
             mView.setLikeDrawable(ContextCompat.getDrawable(LupolupoAPIApplication.get(), R.drawable.ic_favorite_black_24px));
         } else {
             mView.setLikeDrawable(ContextCompat.getDrawable(LupolupoAPIApplication.get(), R.drawable.ic_favorite_border_black_24px));
