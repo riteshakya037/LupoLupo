@@ -5,11 +5,15 @@ import android.net.Uri;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.lupolupo.android.R;
 import com.lupolupo.android.common.LupolupoAPIApplication;
+import com.lupolupo.android.common.StringUtils;
 import com.lupolupo.android.controllers.retrofit.LupolupoHTTPManager;
 import com.lupolupo.android.model.Episode;
 import com.lupolupo.android.model.Panel;
@@ -18,6 +22,7 @@ import com.lupolupo.android.preseneters.mappers.EpisodeMapper;
 import com.lupolupo.android.views.EpisodeView;
 import com.lupolupo.android.views.activities.ComicActivity;
 import com.lupolupo.android.views.activities.SplashActivity;
+import com.lupolupo.android.views.activities.WebActivity;
 import com.lupolupo.android.views.adaptors.EpisodeAdapter;
 
 import java.io.File;
@@ -45,6 +50,25 @@ public class EpisodePresenterImpl implements EpisodePresenter {
     public void initializeViews() {
         mView.initializeToolbar();
         mView.initializeRecyclerLayoutManager(new LinearLayoutManager(mView.getActivity()));
+
+        mView.initializeDoubleClick(new RecyclerView.SimpleOnItemTouchListener() {
+
+            GestureDetector gestureDetector = new GestureDetector(mView.getActivity(), new GestureDetector.SimpleOnGestureListener() {
+                @Override
+                public boolean onDoubleTap(MotionEvent e) {
+                    if (StringUtils.isNotNull(episodeData.link))
+                        mView.getActivity().startActivity(new Intent(mView.getActivity(), WebActivity.class));
+                    return super.onDoubleTap(e);
+                }
+            });
+
+
+            @Override
+            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent event) {
+                gestureDetector.onTouchEvent(event);
+                return false;
+            }
+        });
     }
 
     @Override

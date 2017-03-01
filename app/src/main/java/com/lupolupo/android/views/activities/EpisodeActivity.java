@@ -123,6 +123,13 @@ public class EpisodeActivity extends AppCompatActivity implements EpisodeView, E
     }
 
     @Override
+    public void initializeDoubleClick(RecyclerView.SimpleOnItemTouchListener simpleOnItemTouchListener) {
+        if (mRecyclerView != null) {
+            mRecyclerView.addOnItemTouchListener(simpleOnItemTouchListener);
+        }
+    }
+
+    @Override
     public void registerAdapter(RecyclerView.Adapter adapter) {
         if (mRecyclerView != null) {
             mRecyclerView.setAdapter(adapter);

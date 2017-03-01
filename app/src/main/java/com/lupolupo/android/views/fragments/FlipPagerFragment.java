@@ -1,17 +1,21 @@
 package com.lupolupo.android.views.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.lupolupo.android.R;
+import com.lupolupo.android.common.StringUtils;
 import com.lupolupo.android.model.Episode;
-import com.lupolupo.android.model.Panel;
 import com.lupolupo.android.model.loaders.FlipLoader;
+import com.lupolupo.android.views.activities.WebActivity;
 import com.lupolupo.android.views.adaptors.EpisodeAdapter;
 
 import butterknife.BindView;
@@ -50,6 +54,24 @@ public class FlipPagerFragment extends Fragment {
         mRecyclerView.setAdapter(mPanelAdapter);
         mPanelAdapter.setComicId(episodeData.comic_id);
         mPanelAdapter.setData(FlipLoader.getInstance().getPanelList(episodeData));
+        mRecyclerView.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener() {
+
+            GestureDetector gestureDetector = new GestureDetector(getContext(), new GestureDetector.SimpleOnGestureListener() {
+                @Override
+                public boolean onDoubleTap(MotionEvent e) {
+                    if (StringUtils.isNotNull(episodeData.link))
+                        getActivity().startActivity(new Intent(getContext(), WebActivity.class));
+                    return super.onDoubleTap(e);
+                }
+            });
+
+            @Override
+            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent event) {
+                gestureDetector.onTouchEvent(event);
+                return false;
+            }
+
+        });
         return gridFrag;
     }
 }

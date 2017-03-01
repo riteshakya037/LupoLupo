@@ -219,7 +219,7 @@ public class SplashActivity extends PortraitActivity {
         }
 
         if (!gps_enabled) {
-            AlertDialog.Builder dialog = new AlertDialog.Builder(this, android.R.style.Theme_Holo_Light_Dialog_NoActionBar);
+            final AlertDialog.Builder dialog = new AlertDialog.Builder(this, android.R.style.Theme_Holo_Light_Dialog_NoActionBar);
             dialog.setMessage(getResources().getString(R.string.gps_not_enabled));
             dialog.setPositiveButton(getResources().getString(R.string.open_location_settings), new DialogInterface.OnClickListener() {
                 @Override
@@ -229,13 +229,18 @@ public class SplashActivity extends PortraitActivity {
                     startActivityForResult(myIntent, 100);
                 }
             });
-//            dialog.setNegativeButton(getString(R.string.Cancel), new DialogInterface.OnClickListener() {
-//                @Override
-//                public void onClick(DialogInterface paramDialogInterface, int paramInt) {
-//                    checkGpsTask.setResult(null);
-//                }
-//            });
-            dialog.show();
+            dialog.setNegativeButton(getString(R.string.Cancel), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                    checkGpsTask.setResult(null);
+                }
+            });
+            dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialogInterface) {
+                    checkGpsTask.setResult(null);
+                }
+            }).show();
         } else {
             checkGpsTask.setResult(null);
         }

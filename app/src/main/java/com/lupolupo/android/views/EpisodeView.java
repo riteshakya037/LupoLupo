@@ -1,6 +1,7 @@
 package com.lupolupo.android.views;
 
 import android.graphics.drawable.Drawable;
+import android.support.v7.widget.RecyclerView;
 
 import com.lupolupo.android.views.bases.BaseContextView;
 import com.lupolupo.android.views.bases.BaseEmptyDialogView;
@@ -15,4 +16,6 @@ public interface EpisodeView extends BaseContextView, BaseToolbarView, BaseRecyc
     void toggleSubButton(boolean isEnabled);
 
     void setLikeDrawable(Drawable drawable);
+
+    void initializeDoubleClick(RecyclerView.SimpleOnItemTouchListener simpleOnItemTouchListener);
 }

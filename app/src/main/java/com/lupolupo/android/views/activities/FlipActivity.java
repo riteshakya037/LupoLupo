@@ -114,11 +114,6 @@ public class FlipActivity extends AppCompatActivity implements FlipActivityView,
         mPresenter.initializeData();
         mPresenter.initializeMenuItem();
         handler = new Handler();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
         if (getIntent().hasExtra(LOAD_GUIDE)) {
             handler.postDelayed(runnable, delay);
             swipeHelper.setVisibility(View.VISIBLE);
