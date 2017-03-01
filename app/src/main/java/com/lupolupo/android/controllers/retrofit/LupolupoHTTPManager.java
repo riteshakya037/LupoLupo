@@ -36,7 +36,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 public class LupolupoHTTPManager {
     private static LupolupoHTTPManager __instance;
     @SuppressWarnings("FieldCanBeLocal")
-    private final String PROD_ENDPOINT = "http://lupolupo.com";
+    private final String PROD_ENDPOINT = "http://lupolupo.com/test/";
 
     public static LupolupoHTTPManager getInstance() {
         if (__instance == null) {
@@ -128,7 +128,7 @@ public class LupolupoHTTPManager {
 
     public Task<String> saveInfo(UserInfo info) {
         final TaskCompletionSource<String> source = new TaskCompletionSource<>();
-        getHttpAdaptor().saveInfo(info.latitude, info.longitude, info.publicIP, info.deviceModel, info.deviceID, info.carrier, info.deviceType, info.networkSpeed, info.adsID).enqueue(new Callback<String>() {
+        getHttpAdaptor().saveInfo(info.latitude, info.longitude, info.publicIP, info.deviceModel, info.deviceID, info.carrier, info.deviceType, info.networkSpeed, info.adsID, info.language).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 source.setResult(response.body());

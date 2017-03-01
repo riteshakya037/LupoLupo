@@ -106,7 +106,7 @@ public class FlipActivity extends AppCompatActivity implements FlipActivityView,
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_flip);
+        setContentView(R.layout.activity_flip);
         ButterKnife.bind(this);
         mPresenter = new FlipActivityPresenterImpl(this, this);
         mPresenter.initializeViews();

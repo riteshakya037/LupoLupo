@@ -40,6 +40,7 @@ public class UserInfo {
     private GPSTracker gpsTracker = new GPSTracker(LupolupoAPIApplication.get());
     public String networkSpeed;
     public String adsID;
+    public String language;
 
     private static final Pattern PATTERN = Pattern.compile(
             "^(([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.){3}([01]?\\d\\d?|2[0-4]\\d|25[0-5])$");
@@ -70,7 +71,7 @@ public class UserInfo {
                 return null;
             }
         });
-
+        language = Locale.getDefault().getDisplayLanguage();
         return source.getTask();
     }
 

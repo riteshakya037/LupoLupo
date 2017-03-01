@@ -29,6 +29,7 @@ public class Episode implements Parcelable {
     public String comic_name;
     public String created_date;
     public String e_abbreviation = "";
+    public String link;
 
     private Episode(Parcel in) {
         id = in.readString();
