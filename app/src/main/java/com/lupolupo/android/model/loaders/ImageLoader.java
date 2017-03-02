@@ -21,6 +21,8 @@ import bolts.Task;
 import bolts.TaskCompletionSource;
 import cz.msebera.android.httpclient.Header;
 
+import static com.lupolupo.android.controllers.retrofit.LupolupoHTTPManager.PROD_ENDPOINT;
+
 /**
  * @author Ritesh Shakya
  */
@@ -38,7 +40,7 @@ public class ImageLoader {
             tcs.setResult(null);
             loaderBase.setProgress(imgFile.getAbsolutePath(), 0, 0);
         } else {
-            HttpUtils.get("http://lupolupo.com/" + parentFolder + fileName, null, true, new FileAsyncHttpResponseHandler(imgFile) {
+            HttpUtils.get(PROD_ENDPOINT + parentFolder + fileName, null, true, new FileAsyncHttpResponseHandler(imgFile) {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, File file) {
                     Log.d(TAG, "urlDownloadImage - onSuccess: " + Integer.toString(statusCode));
@@ -69,7 +71,7 @@ public class ImageLoader {
             coverImage.setImageBitmap(myBitmap);
         } else {
             Glide.with(LupolupoAPIApplication.get())
-                    .load("http://lupolupo.com/" + url)
+                    .load(PROD_ENDPOINT + url)
                     .crossFade()
                     .placeholder(R.drawable.background_empty)
                     .thumbnail(.5f)

@@ -36,7 +36,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 public class LupolupoHTTPManager {
     private static LupolupoHTTPManager __instance;
     @SuppressWarnings("FieldCanBeLocal")
-    private final String PROD_ENDPOINT = "http://lupolupo.com/test/";
+    public final static String PROD_ENDPOINT = "http://lupolupo.com/test/";
 
     public static LupolupoHTTPManager getInstance() {
         if (__instance == null) {

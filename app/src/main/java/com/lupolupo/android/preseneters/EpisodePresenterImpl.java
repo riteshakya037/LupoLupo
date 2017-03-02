@@ -31,6 +31,8 @@ import java.util.Arrays;
 import bolts.Continuation;
 import bolts.Task;
 
+import static com.lupolupo.android.controllers.retrofit.LupolupoHTTPManager.PROD_ENDPOINT;
+
 /**
  * @author Ritesh Shakya
  */
@@ -88,7 +90,7 @@ public class EpisodePresenterImpl implements EpisodePresenter {
 
     @Override
     public void showWeb() {
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://lupolupo.com/panels.php?epid=" + episodeData.id + "&cid=" + episodeData.comic_id));
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(PROD_ENDPOINT + "panels.php?epid=" + episodeData.id + "&cid=" + episodeData.comic_id));
         mView.getActivity().startActivity(browserIntent);
     }
 

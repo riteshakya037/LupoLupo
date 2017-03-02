@@ -30,6 +30,8 @@ import java.util.Arrays;
 import bolts.Continuation;
 import bolts.Task;
 
+import static com.lupolupo.android.controllers.retrofit.LupolupoHTTPManager.PROD_ENDPOINT;
+
 /**
  * @author Ritesh Shakya
  */
@@ -79,7 +81,7 @@ public class ComicPresenterImpl implements ComicPresenter {
     public void loadImage(String url) {
         ImageLoader.load(url, mView.getCoverImageHolder());
         Glide.with(LupolupoAPIApplication.get())
-                .load("http://lupolupo.com/" + url)
+                .load(PROD_ENDPOINT + url)
                 .asBitmap()
                 .placeholder(R.drawable.background_empty)
                 .into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
