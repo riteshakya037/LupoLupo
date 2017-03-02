@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import com.lupolupo.android.R;
 import com.lupolupo.android.common.StringUtils;
 import com.lupolupo.android.model.Episode;
+import com.lupolupo.android.model.loaders.EpisodeLoader;
 import com.lupolupo.android.model.loaders.FlipLoader;
 import com.lupolupo.android.views.activities.WebActivity;
 import com.lupolupo.android.views.adaptors.EpisodeAdapter;
@@ -59,8 +60,11 @@ public class FlipPagerFragment extends Fragment {
             GestureDetector gestureDetector = new GestureDetector(getContext(), new GestureDetector.SimpleOnGestureListener() {
                 @Override
                 public boolean onDoubleTap(MotionEvent e) {
-                    if (StringUtils.isNotNull(episodeData.link))
-                        getActivity().startActivity(new Intent(getContext(), WebActivity.class));
+                    if (StringUtils.isNotNull(episodeData.link)) {
+                        Intent intent = new Intent(getContext(), WebActivity.class);
+                        intent.putExtra(WebActivity.URL, episodeData.link);
+                        getActivity().startActivity(intent);
+                    }
                     return super.onDoubleTap(e);
                 }
             });

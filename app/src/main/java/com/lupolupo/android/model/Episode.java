@@ -39,6 +39,7 @@ public class Episode implements Parcelable {
         likes = in.readString();
         comic_name = in.readString();
         created_date = in.readString();
+        link = in.readString();
     }
 
     @Override
@@ -55,6 +56,7 @@ public class Episode implements Parcelable {
         parcel.writeString(likes);
         parcel.writeString(comic_name);
         parcel.writeString(created_date);
+        parcel.writeString(link);
     }
 
     public static class PopularComparator implements Comparator<Episode> {
