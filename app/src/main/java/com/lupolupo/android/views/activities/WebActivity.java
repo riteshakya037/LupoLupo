@@ -3,15 +3,23 @@ package com.lupolupo.android.views.activities;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.identifier.AdvertisingIdClient;
 import com.lupolupo.android.R;
-import com.lupolupo.android.common.FCMPref;
+import com.lupolupo.android.common.LupolupoAPIApplication;
+import com.lupolupo.android.preseneters.events.WebEvent;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.concurrent.Callable;
+
+import bolts.Task;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -36,11 +44,7 @@ public class WebActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         webView.getSettings().setJavaScriptEnabled(true);
-        if (getIntent().hasExtra(URL)) {
-            String url = getIntent().getStringExtra(URL) + "?app=LupoLupo&deviceid=" + FCMPref.newInsance().getToken();
-            webView.loadUrl(url);
-            urlText.setText(url);
-        }
+        getAdId();
         WebViewClient yourWebClient = new WebViewClient() {
             @SuppressWarnings("deprecation")
             @Override
@@ -55,6 +59,22 @@ public class WebActivity extends AppCompatActivity {
         webView.setWebViewClient(yourWebClient);
     }
 
+    private void getAdId() {
+        Task.callInBackground(new Callable<Void>() {
+            @Override
+            public Void call() throws Exception {
+                AdvertisingIdClient.Info idInfo;
+                try {
+                    idInfo = AdvertisingIdClient.getAdvertisingIdInfo(LupolupoAPIApplication.get());
+                    EventBus.getDefault().post(new WebEvent(idInfo.getId()));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+        });
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -64,4 +84,25 @@ public class WebActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @SuppressWarnings("unused")
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onUpdateView(WebEvent webEvent) {
+        String url = getIntent().getStringExtra(URL) + "?app=LupoLupo&deviceid=" + webEvent.getId();
+        webView.loadUrl(url);
+        urlText.setText(url);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
 }
