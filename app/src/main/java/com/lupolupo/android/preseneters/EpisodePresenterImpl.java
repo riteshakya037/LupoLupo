@@ -61,6 +61,7 @@ public class EpisodePresenterImpl implements EpisodePresenter {
                     if (StringUtils.isNotNull(episodeData.link)) {
                         Intent intent = new Intent(mView.getActivity(), WebActivity.class);
                         intent.putExtra(WebActivity.URL, episodeData.link);
+                        intent.putExtra(WebActivity.EPISODE_NAME, episodeData.episode_name);
                         mView.getActivity().startActivity(intent);
                     }
                     return super.onDoubleTap(e);

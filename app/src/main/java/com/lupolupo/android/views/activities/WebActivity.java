@@ -27,6 +27,7 @@ public class WebActivity extends AppCompatActivity {
 
     public static final String URL = "web_url";
     private static final String TAG = WebActivity.class.getSimpleName();
+    public static final String EPISODE_NAME = "episode_name";
     @BindView(R.id.activity_web_web_view)
     WebView webView;
 
@@ -88,7 +89,7 @@ public class WebActivity extends AppCompatActivity {
     @SuppressWarnings("unused")
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onUpdateView(WebEvent webEvent) {
-        String url = getIntent().getStringExtra(URL) + "?app=LupoLupo&deviceid=" + webEvent.getId();
+        String url = getIntent().getStringExtra(URL) + "?app=LupoLupo" + "&deviceid=" + webEvent.getId() + "&episode=" + getIntent().getStringExtra(EPISODE_NAME);
         webView.loadUrl(url);
         urlText.setText(url);
     }

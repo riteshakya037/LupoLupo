@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import com.lupolupo.android.R;
 import com.lupolupo.android.common.StringUtils;
 import com.lupolupo.android.model.Episode;
-import com.lupolupo.android.model.loaders.EpisodeLoader;
 import com.lupolupo.android.model.loaders.FlipLoader;
 import com.lupolupo.android.views.activities.WebActivity;
 import com.lupolupo.android.views.adaptors.EpisodeAdapter;
@@ -63,6 +62,7 @@ public class FlipPagerFragment extends Fragment {
                     if (StringUtils.isNotNull(episodeData.link)) {
                         Intent intent = new Intent(getContext(), WebActivity.class);
                         intent.putExtra(WebActivity.URL, episodeData.link);
+                        intent.putExtra(WebActivity.EPISODE_NAME, episodeData.episode_name);
                         getActivity().startActivity(intent);
                     }
                     return super.onDoubleTap(e);
