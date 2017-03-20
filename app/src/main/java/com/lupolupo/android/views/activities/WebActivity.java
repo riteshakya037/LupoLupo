@@ -50,7 +50,7 @@ public class WebActivity extends AppCompatActivity {
             @SuppressWarnings("deprecation")
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                if (url.startsWith("https://scottlupo.typeform.com/to/l2BXer?app=")) {
+                if (url.startsWith(getIntent().getStringExtra(URL))) {
                     finish();
                     return true;
                 }

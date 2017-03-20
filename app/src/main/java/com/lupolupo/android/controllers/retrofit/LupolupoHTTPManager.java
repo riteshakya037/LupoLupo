@@ -37,6 +37,7 @@ public class LupolupoHTTPManager {
     private static LupolupoHTTPManager __instance;
     @SuppressWarnings("FieldCanBeLocal")
     public final static String PROD_ENDPOINT = "http://lupolupo.com/test/";
+    public final static String APP_NAME = "LupoLupo";
 
     public static LupolupoHTTPManager getInstance() {
         if (__instance == null) {
@@ -67,7 +68,7 @@ public class LupolupoHTTPManager {
 
     public Task<List<Comic>> getComics() {
         final TaskCompletionSource<List<Comic>> source = new TaskCompletionSource<>();
-        getHttpAdaptor().getComics().enqueue(new Callback<GetComicDto>() {
+        getHttpAdaptor().getComics(APP_NAME).enqueue(new Callback<GetComicDto>() {
             @Override
             public void onResponse(Call<GetComicDto> call, Response<GetComicDto> response) {
                 source.setResult(response.body().comics);
@@ -83,7 +84,7 @@ public class LupolupoHTTPManager {
 
     public Task<List<Episode>> getEpisodes(String comic_id) {
         final TaskCompletionSource<List<Episode>> source = new TaskCompletionSource<>();
-        getHttpAdaptor().getEpisode(comic_id).enqueue(new Callback<GetEpisodeDto>() {
+        getHttpAdaptor().getEpisode(comic_id, APP_NAME).enqueue(new Callback<GetEpisodeDto>() {
             @Override
             public void onResponse(Call<GetEpisodeDto> call, Response<GetEpisodeDto> response) {
                 source.setResult(response.body().episodes);
@@ -128,7 +129,7 @@ public class LupolupoHTTPManager {
 
     public Task<String> saveInfo(UserInfo info) {
         final TaskCompletionSource<String> source = new TaskCompletionSource<>();
-        getHttpAdaptor().saveInfo(info.latitude, info.longitude, info.publicIP, info.deviceModel, info.deviceID, info.carrier, info.deviceType, info.networkSpeed, info.adsID, info.language).enqueue(new Callback<String>() {
+        getHttpAdaptor().saveInfo(info.latitude, info.longitude, info.publicIP, info.deviceModel, info.deviceID, info.carrier, info.deviceType, info.networkSpeed, info.adsID, info.language, APP_NAME).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 source.setResult(response.body());
@@ -162,7 +163,7 @@ public class LupolupoHTTPManager {
             @Override
             public Task<String> then(Task<String> task) throws Exception {
                 final TaskCompletionSource<String> source = new TaskCompletionSource<>();
-                getHttpAdaptor().subscribe(comicID, FCMPref.newInsance().getToken(), task.getResult(), "android").enqueue(new Callback<String>() {
+                getHttpAdaptor().subscribe(comicID, FCMPref.newInsance().getToken(), task.getResult(), "android", APP_NAME).enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
                         source.setResult(response.body());
@@ -180,7 +181,7 @@ public class LupolupoHTTPManager {
 
     public Task<List<Episode>> getAllEpisodes() {
         final TaskCompletionSource<List<Episode>> source = new TaskCompletionSource<>();
-        getHttpAdaptor().getAllEpisode().enqueue(new Callback<GetEpisodeDto>() {
+        getHttpAdaptor().getAllEpisode(APP_NAME).enqueue(new Callback<GetEpisodeDto>() {
             @Override
             public void onResponse(Call<GetEpisodeDto> call, Response<GetEpisodeDto> response) {
                 source.setResult(response.body().episodes);

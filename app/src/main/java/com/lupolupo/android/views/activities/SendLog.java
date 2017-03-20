@@ -104,16 +104,5 @@ public class SendLog extends PortraitActivity implements View.OnClickListener {
     }
 
     private void sendLogFile() {
-        String fullName = extractLogToFile();
-        if (fullName == null)
-            return;
-
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("plain/text");
-        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"riteshakya037@gmail.com"});
-        intent.putExtra(Intent.EXTRA_SUBJECT, "Gallery App log file");
-        intent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://" + fullName));
-        intent.putExtra(Intent.EXTRA_TEXT, "Log file attached."); // do this so some email clients don't complain about empty body.
-        startActivity(intent);
     }
 }
