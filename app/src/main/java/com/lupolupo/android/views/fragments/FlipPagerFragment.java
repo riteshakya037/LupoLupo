@@ -58,14 +58,14 @@ public class FlipPagerFragment extends Fragment {
 
             GestureDetector gestureDetector = new GestureDetector(getContext(), new GestureDetector.SimpleOnGestureListener() {
                 @Override
-                public boolean onDown(MotionEvent e) {
+                public boolean onSingleTapConfirmed(MotionEvent e) {
                     if (StringUtils.isNotNull(episodeData.link)) {
                         Intent intent = new Intent(getContext(), WebActivity.class);
                         intent.putExtra(WebActivity.URL, episodeData.link);
                         intent.putExtra(WebActivity.EPISODE_NAME, episodeData.episode_name);
                         getActivity().startActivity(intent);
                     }
-                    return super.onDown(e);
+                    return super.onSingleTapConfirmed(e);
                 }
             });
 

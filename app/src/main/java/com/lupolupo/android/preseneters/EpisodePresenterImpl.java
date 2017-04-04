@@ -58,14 +58,14 @@ public class EpisodePresenterImpl implements EpisodePresenter {
 
             GestureDetector gestureDetector = new GestureDetector(mView.getActivity(), new GestureDetector.SimpleOnGestureListener() {
                 @Override
-                public boolean onDown(MotionEvent e) {
+                public boolean onSingleTapConfirmed(MotionEvent e) {
                     if (StringUtils.isNotNull(episodeData.link)) {
                         Intent intent = new Intent(mView.getActivity(), WebActivity.class);
                         intent.putExtra(WebActivity.URL, episodeData.link);
                         intent.putExtra(WebActivity.EPISODE_NAME, episodeData.episode_name);
                         mView.getActivity().startActivity(intent);
                     }
-                    return super.onDown(e);
+                    return super.onSingleTapConfirmed(e);
                 }
             });
 
