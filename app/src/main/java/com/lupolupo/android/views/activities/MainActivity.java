@@ -45,8 +45,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends PortraitActivity implements MainView {
-    private static final String TAG = MainActivity.class.getSimpleName();
     public static final String INTENT_MAIN = "main_intent";
+    private static final String TAG = MainActivity.class.getSimpleName();
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -67,11 +67,9 @@ public class MainActivity extends PortraitActivity implements MainView {
     NDSpinner mSpinner;
     @BindView(R.id.mode_spinner_text)
     TextView mSpinnerText;
-
+    ActionBarDrawerToggle mDrawerToggle;
     private MainPresenter mMainPresenter;
     private Fragment currentFragment;
-
-    ActionBarDrawerToggle mDrawerToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,15 +129,15 @@ public class MainActivity extends PortraitActivity implements MainView {
             mDrawerToggle.syncState();
             navigationView.setNavigationItemSelectedListener(mMainPresenter);
             navigationView.setCheckedItem(R.id.nav_home);
-            Menu menu = navigationView.getMenu();
-            LinearLayout linearLayout = (LinearLayout) menu.findItem(R.id.nav_new_release).getActionView();
-            final SwitchCompat switchView = (SwitchCompat) linearLayout.findViewById(R.id.notification_switch);
-            switchView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    NotificationPref.with(LupolupoAPIApplication.get()).save(b);
-                }
-            });
+//            Menu menu = navigationView.getMenu();
+//            LinearLayout linearLayout = (LinearLayout) menu.findItem(R.id.nav_new_release).getActionView();
+//            final SwitchCompat switchView = (SwitchCompat) linearLayout.findViewById(R.id.notification_switch);
+//            switchView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//                @Override
+//                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+//                    NotificationPref.with(LupolupoAPIApplication.get()).save(b);
+//                }
+//            });
         }
     }
 

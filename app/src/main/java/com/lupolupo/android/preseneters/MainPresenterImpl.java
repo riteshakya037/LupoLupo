@@ -48,14 +48,16 @@ public class MainPresenterImpl implements MainPresenter {
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        if (id != R.id.nav_new_release)
-            mMainView.closeDrawerLayout();
+//        if (id != R.id.nav_new_release)
+//            mMainView.closeDrawerLayout();
         switch (id) {
             case R.id.nav_home:
                 EventBus.getDefault().post(new FragmentEvent(DashFragment.newInstance(), false));
                 break;
-            case R.id.nav_new_release:
-                break;
+//
+//
+// case R.id.nav_new_release:
+//                break;
             case R.id.nav_about_us:
                 EventBus.getDefault().post(new FragmentEvent(AboutUsFragment.newInstance(), false));
                 break;

@@ -2,6 +2,7 @@ package com.lupolupo.android.views;
 
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.lupolupo.android.views.bases.BaseContextView;
 import com.lupolupo.android.views.bases.BaseEmptyDialogView;

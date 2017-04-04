@@ -6,19 +6,19 @@
             android:id="@+id/nav_home"
             android:title="@string/home" />
     </group>
-    <group>
-        <item android:title="@string/notifications">
-            <menu>
-                <group android:checkableBehavior="none">
-                    <item
-                        android:id="@+id/nav_new_release"
-                        android:checkable="false"
-                        android:title="@string/new_releases"
-                        app:actionLayout="@layout/layout_switch" />
-                </group>
-            </menu>
-        </item>
-    </group>
+    <!--<group>-->
+        <!--<item android:title="@string/notifications">-->
+            <!--<menu>-->
+                <!--<group android:checkableBehavior="none">-->
+                    <!--<item-->
+                        <!--android:id="@+id/nav_new_release"-->
+                        <!--android:checkable="false"-->
+                        <!--android:title="@string/new_releases"-->
+                        <!--app:actionLayout="@layout/layout_switch" />-->
+                <!--</group>-->
+            <!--</menu>-->
+        <!--</item>-->
+    <!--</group>-->
     <group>
 
         <item

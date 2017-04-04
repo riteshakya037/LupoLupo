@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
@@ -57,14 +58,14 @@ public class EpisodePresenterImpl implements EpisodePresenter {
 
             GestureDetector gestureDetector = new GestureDetector(mView.getActivity(), new GestureDetector.SimpleOnGestureListener() {
                 @Override
-                public boolean onDoubleTap(MotionEvent e) {
+                public boolean onDown(MotionEvent e) {
                     if (StringUtils.isNotNull(episodeData.link)) {
                         Intent intent = new Intent(mView.getActivity(), WebActivity.class);
                         intent.putExtra(WebActivity.URL, episodeData.link);
                         intent.putExtra(WebActivity.EPISODE_NAME, episodeData.episode_name);
                         mView.getActivity().startActivity(intent);
                     }
-                    return super.onDoubleTap(e);
+                    return super.onDown(e);
                 }
             });
 
