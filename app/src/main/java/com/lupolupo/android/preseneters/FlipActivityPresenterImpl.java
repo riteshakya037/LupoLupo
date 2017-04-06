@@ -112,10 +112,11 @@ public class FlipActivityPresenterImpl implements FlipActivityPresenter {
             intent.putExtra(WebActivity.URL, episodeData.link);
             intent.putExtra(WebActivity.EPISODE_NAME, episodeData.episode_name);
             mView.getActivity().startActivity(intent);
-        } else {
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(PROD_ENDPOINT + "panels.php?epid=" + episodeData.id + "&cid=" + episodeData.comic_id));
-            mView.getActivity().startActivity(browserIntent);
         }
+//        else {
+//            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(PROD_ENDPOINT + "panels.php?epid=" + episodeData.id + "&cid=" + episodeData.comic_id));
+//            mView.getActivity().startActivity(browserIntent);
+//        }
     }
 
     @Override
