@@ -11,6 +11,7 @@ import android.view.MotionEvent;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.identifier.AdvertisingIdClient;
 import com.lupolupo.android.R;
 import com.lupolupo.android.common.LupolupoAPIApplication;
 import com.lupolupo.android.common.StringUtils;
@@ -27,11 +28,10 @@ import com.lupolupo.android.views.adaptors.EpisodeAdapter;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.concurrent.Callable;
 
 import bolts.Continuation;
 import bolts.Task;
-
-import static com.lupolupo.android.controllers.retrofit.LupolupoHTTPManager.PROD_ENDPOINT;
 
 /**
  * @author Ritesh Shakya
@@ -95,15 +95,22 @@ public class EpisodePresenterImpl implements EpisodePresenter {
     @Override
     public void showWeb() {
         if (StringUtils.isNotNull(episodeData.link)) {
-            Intent intent = new Intent(mView.getActivity(), WebActivity.class);
-            intent.putExtra(WebActivity.URL, episodeData.link);
-            intent.putExtra(WebActivity.EPISODE_NAME, episodeData.episode_name);
-            mView.getActivity().startActivity(intent);
+            String adId = Task.callInBackground(new Callable<String>() {
+                @Override
+                public String call() throws Exception {
+                    AdvertisingIdClient.Info idInfo;
+                    try {
+                        return AdvertisingIdClient.getAdvertisingIdInfo(LupolupoAPIApplication.get()).getId();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    return null;
+                }
+            }).getResult();
+
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(episodeData.link + "?app=LupoLupo" + "&deviceid=" + adId + "&episode=" + episodeData.episode_name));
+            mView.getActivity().startActivity(browserIntent);
         }
-//        else {
-//            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(PROD_ENDPOINT + "panels.php?epid=" + episodeData.id + "&cid=" + episodeData.comic_id));
-//            mView.getActivity().startActivity(browserIntent);
-//        }
     }
 
     @Override
