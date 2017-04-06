@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.lupolupo.android.R;
 import com.lupolupo.android.common.LupolupoAPIApplication;
+import com.lupolupo.android.common.StringUtils;
 import com.lupolupo.android.controllers.retrofit.LupolupoHTTPManager;
 import com.lupolupo.android.model.Episode;
 import com.lupolupo.android.model.Panel;
@@ -18,6 +19,7 @@ import com.lupolupo.android.preseneters.mappers.FlipActivityMapper;
 import com.lupolupo.android.views.FlipActivityView;
 import com.lupolupo.android.views.activities.ComicActivity;
 import com.lupolupo.android.views.activities.SplashActivity;
+import com.lupolupo.android.views.activities.WebActivity;
 import com.lupolupo.android.views.adaptors.FlipPagerAdapter;
 
 import java.io.File;
@@ -105,8 +107,15 @@ public class FlipActivityPresenterImpl implements FlipActivityPresenter {
 
     @Override
     public void showWeb() {
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(PROD_ENDPOINT + "panels.php?epid=" + episodeData.id + "&cid=" + episodeData.comic_id));
-        mView.getActivity().startActivity(browserIntent);
+        if (StringUtils.isNotNull(episodeData.link)) {
+            Intent intent = new Intent(mView.getActivity(), WebActivity.class);
+            intent.putExtra(WebActivity.URL, episodeData.link);
+            intent.putExtra(WebActivity.EPISODE_NAME, episodeData.episode_name);
+            mView.getActivity().startActivity(intent);
+        } else {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(PROD_ENDPOINT + "panels.php?epid=" + episodeData.id + "&cid=" + episodeData.comic_id));
+            mView.getActivity().startActivity(browserIntent);
+        }
     }
 
     @Override

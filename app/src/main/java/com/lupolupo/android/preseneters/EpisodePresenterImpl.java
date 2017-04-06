@@ -8,7 +8,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
@@ -95,8 +94,15 @@ public class EpisodePresenterImpl implements EpisodePresenter {
 
     @Override
     public void showWeb() {
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(PROD_ENDPOINT + "panels.php?epid=" + episodeData.id + "&cid=" + episodeData.comic_id));
-        mView.getActivity().startActivity(browserIntent);
+        if (StringUtils.isNotNull(episodeData.link)) {
+            Intent intent = new Intent(mView.getActivity(), WebActivity.class);
+            intent.putExtra(WebActivity.URL, episodeData.link);
+            intent.putExtra(WebActivity.EPISODE_NAME, episodeData.episode_name);
+            mView.getActivity().startActivity(intent);
+        } else {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(PROD_ENDPOINT + "panels.php?epid=" + episodeData.id + "&cid=" + episodeData.comic_id));
+            mView.getActivity().startActivity(browserIntent);
+        }
     }
 
     @Override
