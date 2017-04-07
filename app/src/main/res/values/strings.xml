@@ -13,7 +13,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
 
-    <string name="subscribe"> Follow </string>
+    <string name="subscribe"> + Follow </string>
     <string name="episode_no">#%1$d</string>
 
     <string name="empty">Empty</string>
