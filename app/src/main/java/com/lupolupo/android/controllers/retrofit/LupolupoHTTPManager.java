@@ -34,10 +34,10 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
  */
 
 public class LupolupoHTTPManager {
-    private static LupolupoHTTPManager __instance;
     @SuppressWarnings("FieldCanBeLocal")
     public final static String PROD_ENDPOINT = "http://lupolupo.com/test/";
     public final static String APP_NAME = "LupoLupo";
+    private static LupolupoHTTPManager __instance;
 
     public static LupolupoHTTPManager getInstance() {
         if (__instance == null) {
@@ -190,6 +190,22 @@ public class LupolupoHTTPManager {
             @Override
             public void onFailure(Call<GetEpisodeDto> call, Throwable t) {
                 source.setError(null);
+            }
+        });
+        return source.getTask();
+    }
+
+    public Task<String> notificationResponse(UserInfo info) {
+        final TaskCompletionSource<String> source = new TaskCompletionSource<>();
+        getHttpAdaptor().notificationResponse(info.deviceID, info.adsID, info.deviceType, APP_NAME).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                source.setResult(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
             }
         });
         return source.getTask();

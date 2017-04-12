@@ -5,15 +5,23 @@ import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-import com.lupolupo.android.common.LupolupoAPIApplication;
-import com.lupolupo.android.common.NotificationPref;
+import com.lupolupo.android.BuildConfig;
 import com.lupolupo.android.common.NotificationUtils;
+import com.lupolupo.android.controllers.retrofit.LupolupoHTTPManager;
+import com.lupolupo.android.model.UserInfo;
 import com.lupolupo.android.views.activities.SplashActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.concurrent.Callable;
+
+import bolts.Continuation;
+import bolts.Task;
+import bolts.TaskCompletionSource;
 
 /**
  * @author Ritesh Shakya
@@ -27,27 +35,57 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-        if (NotificationPref.with(LupolupoAPIApplication.get()).getBoolean()) {
-            Log.e(TAG, "From: " + remoteMessage.getFrom());
+//        if (NotificationPref.with(LupolupoAPIApplication.get()).getBoolean()) {
+        Log.e(TAG, "From: " + remoteMessage.getFrom());
+        notificationResponse();
+        // Check if message contains a notification payload.
+        if (remoteMessage.getNotification() != null) {
+            Log.e(TAG, "Notification Body: " + remoteMessage.getNotification().getBody());
+            handleNotification(remoteMessage.getNotification().getBody(), remoteMessage.getNotification().getTitle());
+        }
 
-            // Check if message contains a notification payload.
-            if (remoteMessage.getNotification() != null) {
-                Log.e(TAG, "Notification Body: " + remoteMessage.getNotification().getBody());
-                handleNotification(remoteMessage.getNotification().getBody(), remoteMessage.getNotification().getTitle());
-            }
+        // Check if message contains a data payload.
+        if (remoteMessage.getData().size() > 0) {
+            Log.e(TAG, "Data Payload: " + remoteMessage.getData().toString());
 
-            // Check if message contains a data payload.
-            if (remoteMessage.getData().size() > 0) {
-                Log.e(TAG, "Data Payload: " + remoteMessage.getData().toString());
-
-                try {
-                    JSONObject json = new JSONObject(remoteMessage.getData().toString());
-                    handleDataMessage(json);
-                } catch (Exception e) {
-                    Log.e(TAG, "Exception: " + e.getMessage());
-                }
+            try {
+                JSONObject json = new JSONObject(remoteMessage.getData().toString());
+                handleDataMessage(json);
+            } catch (Exception e) {
+                Log.e(TAG, "Exception: " + e.getMessage());
             }
         }
+//        }
+    }
+
+    private Task<Void> notificationResponse() {
+        final TaskCompletionSource<Void> tcs = new TaskCompletionSource<>();
+        Tasks.call(new Callable<Object>() {
+            @Override
+            public Object call() throws Exception {
+                UserInfo info = new UserInfo();
+                if (BuildConfig.FLAVOR.equals("staging")) {
+                    tcs.setResult(null);
+                } else {
+                    info.getInfo().onSuccess(new Continuation<UserInfo, Object>() {
+                        @Override
+                        public Object then(Task<UserInfo> task) throws Exception {
+                            LupolupoHTTPManager.getInstance().notificationResponse(task.getResult()).continueWith(new Continuation<String, Void>() {
+                                @Override
+                                public Void then(Task<String> task) throws Exception {
+                                    tcs.setResult(null);
+                                    return null;
+                                }
+                            });
+                            return null;
+                        }
+                    });
+                }
+                return null;
+            }
+        });
+
+        return tcs.getTask();
     }
 
     private void handleNotification(String message, String title) {

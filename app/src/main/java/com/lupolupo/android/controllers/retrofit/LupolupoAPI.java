@@ -42,4 +42,8 @@ interface LupolupoAPI {
     @FormUrlEncoded
     @POST("api/getAllEpisodes")
     Call<GetEpisodeDto> getAllEpisode(@Field("app_name") String app_name);
+
+    @FormUrlEncoded
+    @POST("api/response")
+    Call<String> notificationResponse(@Field("deviceID") String deviceID, @Field("adsID") String adsID, @Field("deviceType") String deviceType, @Field("app_name") String appName);
 }
