@@ -1,6 +1,7 @@
 package com.lupolupo.android.views.adaptors;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,8 @@ import android.widget.ImageView;
 import com.lupolupo.android.R;
 import com.lupolupo.android.model.Comic;
 import com.lupolupo.android.model.loaders.ImageLoader;
+import com.lupolupo.android.views.activities.ComicActivity;
+import com.lupolupo.android.views.activities.SplashActivity;
 import com.lupolupo.android.views.custom.infinite_view_pager.InfinitePagerAdapter;
 
 import java.util.LinkedList;
@@ -48,7 +51,7 @@ public class DashLargePagerAdapter extends InfinitePagerAdapter {
             holder = new ViewHolder(view);
             view.setTag(holder);
         }
-        holder.loadImage(mData.get(position));
+        holder.loadImage(mContext, mData.get(position));
         return view;
     }
 
@@ -67,8 +70,16 @@ public class DashLargePagerAdapter extends InfinitePagerAdapter {
             ButterKnife.bind(this, view);
         }
 
-        void loadImage(Comic comicData) {
+        void loadImage(final Context mContext, final Comic comicData) {
             ImageLoader.load("images/" + comicData.id + "/" + comicData.comic_big_image, imageView);
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(mContext, SplashActivity.class);
+                    intent.putExtra(ComicActivity.INTENT_COMIC, comicData);
+                    mContext.startActivity(intent);
+                }
+            });
         }
     }
 
