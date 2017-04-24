@@ -3,7 +3,6 @@ package com.lupolupo.android.views.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -21,6 +20,8 @@ import com.lupolupo.android.preseneters.GridActivityPresenterImpl;
 import com.lupolupo.android.preseneters.events.SpinnerVisibilityEvent;
 import com.lupolupo.android.preseneters.mappers.GridMapper;
 import com.lupolupo.android.views.GridView;
+import com.lupolupo.android.views.custom.infinite_view_pager.InfinitePagerAdapter;
+import com.lupolupo.android.views.custom.infinite_view_pager.ViewPagerCustomDuration;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -34,7 +35,9 @@ public class DashFragment extends Fragment implements GridView, GridMapper, View
     private static final String TAG = DashFragment.class.getSimpleName();
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.coverPager)
-    ViewPager mViewPager;
+    ViewPagerCustomDuration mViewPager;
+    @BindView(R.id.coverInvisiblePager)
+    ViewPager mInvisibleViewPager;
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.tabDots)
     TabLayout mTabLayout;
@@ -51,23 +54,6 @@ public class DashFragment extends Fragment implements GridView, GridMapper, View
 
     private GridActivityPresenter dashPresenter;
 
-    private int currentPage = 0;
-    private Handler handler;
-    private int delay = 5000;
-
-    Runnable runnable = new Runnable() {
-        public void run() {
-            if (mViewPager.getAdapter() != null) {
-                if (mViewPager.getAdapter().getCount() == currentPage) {
-                    currentPage = 0;
-                } else {
-                    currentPage++;
-                }
-                mViewPager.setCurrentItem(currentPage);
-            }
-            handler.postDelayed(this, delay);
-        }
-    };
 
     public DashFragment() {
         // Required empty public constructor
@@ -98,7 +84,6 @@ public class DashFragment extends Fragment implements GridView, GridMapper, View
         dashPresenter.initializeViews();
         dashPresenter.initializeAdaptor();
         dashPresenter.initializeData();
-        handler = new Handler();
     }
 
     @Override
@@ -116,10 +101,19 @@ public class DashFragment extends Fragment implements GridView, GridMapper, View
     }
 
     @Override
-    public void registerAdapter(FragmentStatePagerAdapter adapter) {
+    public void registerAdapter(InfinitePagerAdapter adapter) {
         if (mViewPager != null) {
             mViewPager.setAdapter(adapter);
+            mViewPager.setAutoScrollTime(5000);
+            mViewPager.startAutoScroll();
             mViewPager.addOnPageChangeListener(this);
+        }
+    }
+
+    @Override
+    public void registerInvisibleAdapter(FragmentStatePagerAdapter adapter) {
+        if (mViewPager != null) {
+            mInvisibleViewPager.setAdapter(adapter);
         }
     }
 
@@ -139,32 +133,15 @@ public class DashFragment extends Fragment implements GridView, GridMapper, View
     @Override
     public void initializeBasePageView() {
         if (mTabLayout != null && mViewPager != null) {
-            mTabLayout.setupWithViewPager(mViewPager, true);
+            mTabLayout.setupWithViewPager(mInvisibleViewPager, true);
         }
     }
 
     @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-    }
-
-    @Override
-    public void onPageSelected(int position) {
-        dashPresenter.setPage(position);
-        currentPage = position;
-        // Reset delay
-        handler.removeCallbacks(runnable);
-        handler.postDelayed(runnable, delay);
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int state) {
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        handler.postDelayed(runnable, delay);
+    public void onStart() {
+        super.onStart();
+        if (mViewPager != null)
+            mViewPager.startAutoScroll();
     }
 
     @Override
@@ -174,8 +151,24 @@ public class DashFragment extends Fragment implements GridView, GridMapper, View
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-        handler.removeCallbacks(runnable);
+    public void onStop() {
+        if (mViewPager != null)
+            mViewPager.stopAutoScroll();
+        super.onStop();
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        dashPresenter.setPage(mViewPager.getCurrentItem());
+        mInvisibleViewPager.setCurrentItem(mViewPager.getCurrentItem());
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
     }
 }

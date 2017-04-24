@@ -6,9 +6,6 @@ import com.lupolupo.android.controllers.retrofit.LupolupoHTTPManager;
 import com.lupolupo.android.model.Comic;
 import com.lupolupo.android.model.enums.AppMode;
 import com.lupolupo.android.model.loaders.bases.LoaderBase;
-import com.lupolupo.android.preseneters.events.DownloadProgressEvent;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,7 +22,8 @@ public class AppLoader implements LoaderBase {
     private static AppLoader _instance;
     private List<Comic> comicList;
     private AppMode mAppMode = AppMode.RECENT;
-    private List<Comic> tempList = new ArrayList<>();
+    private List<Comic> checkedList = new ArrayList<>();
+    private List<Comic> uncheckedList = new ArrayList<>();
     private final HashMap<String, ProgressCount> fileProgressMap = new HashMap<>();
     private int taskSize = 0;
     private boolean startLoading = false;
@@ -53,7 +51,9 @@ public class AppLoader implements LoaderBase {
                     }
                     for (Comic comic : comicList) {
                         if (comic.getChecked())
-                            tempList.add(comic);
+                            checkedList.add(comic);
+                        else
+                            uncheckedList.add(comic);
                     }
                 }
                 startLoading = true;
@@ -70,12 +70,12 @@ public class AppLoader implements LoaderBase {
 
 
     public List<Comic> getComics() {
-        return comicList;
+        return uncheckedList;
     }
 
 
     public List<Comic> getLargeComics() {
-        return tempList;
+        return checkedList;
     }
 
     public AppMode getMode() {
