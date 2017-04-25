@@ -115,16 +115,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             Log.e(TAG, "timestamp: " + timestamp);
 
 
-            if (!NotificationUtils.isAppIsInBackground(getApplicationContext())) {
-                // app is in foreground, broadcast the push message
-                if (TextUtils.isEmpty(imageUrl)) {
-                    showNotificationMessage(getApplicationContext(), title, message, timestamp, new Intent());
-                } else {
-                    // image is present, show notification with image
-                    showNotificationMessageWithBigImage(getApplicationContext(), title, message, timestamp, new Intent(), imageUrl);
-                }
-
-            } else {
+            if (NotificationUtils.isAppIsInBackground(getApplicationContext())) {
                 // app is in background, show the notification in notification tray
                 Intent resultIntent = new Intent(getApplicationContext(), SplashActivity.class);
                 resultIntent.putExtra("message", message);
@@ -149,7 +140,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      */
     private void showNotificationMessage(Context context, String title, String message, String timeStamp, Intent intent) {
         notificationUtils = new NotificationUtils(context);
-        context.startActivity(new Intent(context, SplashActivity.class));
+        Intent activityLaunch = new Intent(context, SplashActivity.class);
+        activityLaunch.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        context.startActivity(activityLaunch);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         notificationUtils.showNotificationMessage(title, message, timeStamp, intent);
     }
@@ -159,7 +152,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      */
     private void showNotificationMessageWithBigImage(Context context, String title, String message, String timeStamp, Intent intent, String imageUrl) {
         notificationUtils = new NotificationUtils(context);
-        context.startActivity(new Intent(context, SplashActivity.class));
+        Intent activityLaunch = new Intent(context, SplashActivity.class);
+        activityLaunch.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        context.startActivity(activityLaunch);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         notificationUtils.showNotificationMessage(title, message, timeStamp, intent, imageUrl);
     }
