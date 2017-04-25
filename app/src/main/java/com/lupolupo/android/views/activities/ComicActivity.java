@@ -52,6 +52,9 @@ public class ComicActivity extends PortraitActivity implements ComicView, ComicM
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.button_subscribe)
     FancyButton buttonSubscribe;
+    @BindView(R.id.mode_spinner)
+    NDSpinner mSpinner;
+    private ComicPresenter mPresenter;
 
     @OnClick(R.id.button_subscribe)
     void onSubscribe() {
@@ -63,12 +66,6 @@ public class ComicActivity extends PortraitActivity implements ComicView, ComicM
     void onShare() {
         mPresenter.share();
     }
-
-    @BindView(R.id.mode_spinner)
-    NDSpinner mSpinner;
-
-    private ComicPresenter mPresenter;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

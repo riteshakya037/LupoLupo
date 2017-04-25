@@ -20,11 +20,11 @@ import bolts.Task;
  */
 public class AppLoader implements LoaderBase {
     private static AppLoader _instance;
+    private final HashMap<String, ProgressCount> fileProgressMap = new HashMap<>();
     private List<Comic> comicList;
     private AppMode mAppMode = AppMode.RECENT;
-    private List<Comic> checkedList = new ArrayList<>();
-    private List<Comic> uncheckedList = new ArrayList<>();
-    private final HashMap<String, ProgressCount> fileProgressMap = new HashMap<>();
+    private List<Comic> checkedList = new LinkedList<>();
+    private List<Comic> uncheckedList = new LinkedList<>();
     private int taskSize = 0;
     private boolean startLoading = false;
 
@@ -50,10 +50,13 @@ public class AppLoader implements LoaderBase {
                         tasks.add(ImageLoader.getImage("images/" + comic.id + "/", comic.comic_image, AppLoader.this));
                     }
                     for (Comic comic : comicList) {
-                        if (comic.getChecked())
-                            checkedList.add(comic);
-                        else
-                            uncheckedList.add(comic);
+                        if (comic.getChecked()) {
+                            if (!checkedList.contains(comic))
+                                checkedList.add(comic);
+                        } else {
+                            if (!uncheckedList.contains(comic))
+                                uncheckedList.add(comic);
+                        }
                     }
                 }
                 startLoading = true;

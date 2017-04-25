@@ -57,6 +57,22 @@ public class Comic implements Parcelable {
         parcel.writeString(checked);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Comic comic = (Comic) o;
+
+        return id != null ? id.equals(comic.id) : comic.id == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
+    }
+
     public boolean getChecked() {
         return checked.equals("1");
     }

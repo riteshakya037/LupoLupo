@@ -7,9 +7,9 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <!--<View-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="4dp"-->
-        <!--android:background="@drawable/toolbar_drop_shadow" />-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="4dp"-->
+    <!--android:background="@drawable/toolbar_drop_shadow" />-->
 
     <com.lupolupo.android.views.custom.RatioRelativeLayout
         android:layout_width="match_parent"
@@ -36,7 +36,8 @@
             android:layout_alignParentRight="true"
             android:padding="8dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textColor="?colorPrimary" />
+            android:textColor="?colorPrimary"
+            android:visibility="gone" />
     </com.lupolupo.android.views.custom.RatioRelativeLayout>
 
     <android.support.v7.widget.RecyclerView
