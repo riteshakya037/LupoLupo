@@ -73,7 +73,8 @@ public class AppLoader implements LoaderBase {
 
 
     public List<Comic> getComics() {
-        return uncheckedList;
+        //return uncheckedList;
+        return comicList;
     }
 
 
